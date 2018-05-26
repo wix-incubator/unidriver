@@ -62,17 +62,15 @@ Checkout [the code](src/test-suite/spec.ts) for more details
 
 ## Roadmap
 - Add more users to validate idea and API
-√ Choose name + rename (runner up - "UniDriver")
-
-√ Add standard test suite for the base driver
-
-√ add tests to current adapters
-
+- ~Choose name + rename (runner up - "UniDriver")~
+- ~Add standard test suite for the base driver~
+- ~add tests to current adapters~
 - add driver examples to complex ui components, such as Google material date picker
+- add enzyme adapter
 - popover/modal example
 - drag and drop support
 - add some FAQ (modals, popovers, enzyme?)
-- experiment with this for mobile as solutions
+- experiment mobile testing
 - branding, documentation, more examples
 - move to github.com/wix
 

@@ -46,6 +46,19 @@ export const runTestSuite = (params: TestSuiteParams) => {
 						assert.equal(await driver.$('.todo-item').$('.label').text(), 'Buy milk');
 					});
 				});
+
+				it('is lazy', async () => {
+					await runTest({items: []}, async (driver) => {
+
+						// we predefine the locator.
+						const item = driver.$('.todo-item').$('.label');
+
+						await driver.$('header input').enterValue('Some value');
+						await driver.$('.add').click();
+
+						assert.equal(await item.text(), 'Some value');
+					});
+				});
 			});
 
 			describe('value()', () => {
@@ -144,7 +157,6 @@ export const runTestSuite = (params: TestSuiteParams) => {
 				});
 
 				it('passes index', async () => {
-
 					const items = [itemCreator('Bob'), itemCreator('David'), itemCreator('Jacob')];
 					await runTest({items}, async (driver) => {
 						const idx = await driver.$$('.todo-item').map((_, i) => Promise.resolve(i));
