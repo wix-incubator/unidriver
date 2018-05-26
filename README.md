@@ -1,6 +1,7 @@
-# UniDriver - New Generation of Drivers
+# UniDriver
 
 Universal component drivers that can be reused in all test levels, from component to e2e.
+
 [![NPM Version](https://img.shields.io/npm/v/unidriver.svg?style=flat)](https://www.npmjs.com/package/unidriver)
 [![Build Status](https://travis-ci.org/wix-incubator/unidriver.svg?branch=master)](https://travis-ci.org/wix-incubator/unidriver)
 
@@ -50,9 +51,9 @@ Writing an adapter is easy - you just need to implement the UniDriver API.
 An standard test suite to ensure the properties of the base drivers are kept through the adapters is in the roadmap.
 
 ## Examples
-1. Simple counter, includes jsdom tests and pupeteer tests - [examples/counter](examples/counter)
-2. Multi counter, includes jsdom tests and pupeteer tests. Reuses the driver from #2 - [examples/multi-counter](examples/multi-counter)
-3. Todo app - includes jsdom tests, pupeteer and selenium tests.[examples/todo-app](examples/todo-app)
+1. Simple counter, includes jsdom tests and pupeteer tests - [src/examples/counter](examples/counter)
+2. Multi counter, includes jsdom tests and pupeteer tests. Reuses the driver from #2 - [src/examples/multi-counter](examples/multi-counter)
+3. Todo app - includes jsdom tests, pupeteer and selenium tests.[src/examples/todo-app](examples/todo-app)
 
 ## Roadmap
 - Add more users to validate idea and API
