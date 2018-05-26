@@ -1,4 +1,4 @@
-# Dryver - New Generation of Drivers
+# UniDriver - New Generation of Drivers
 
 Drivers have singificantly improved the quaility of our ui tests, by helping focusing on the feature and not implementation.
 However, all implementations I encountered rely deeply on the platform the ui is running on (node, browser), each with it's own quirks.
