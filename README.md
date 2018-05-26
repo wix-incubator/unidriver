@@ -5,6 +5,7 @@ Universal component drivers that can be reused in all test levels, from componen
 [![NPM Version](https://img.shields.io/npm/v/unidriver.svg?style=flat)](https://www.npmjs.com/package/unidriver)
 [![Build Status](https://travis-ci.org/wix-incubator/unidriver.svg?branch=master)](https://travis-ci.org/wix-incubator/unidriver)
 
+## Motivation
 
 Drivers have singificantly improved the quaility of our ui tests, by helping focusing on the feature and not implementation.
 However, all implementations I encountered rely deeply on the platform the ui is running on (node, browser), each with it's own quirks.
@@ -54,6 +55,10 @@ An standard test suite to ensure the properties of the base drivers are kept thr
 1. Simple counter, includes jsdom tests and pupeteer tests - [src/examples/counter](examples/counter)
 2. Multi counter, includes jsdom tests and pupeteer tests. Reuses the driver from #2 - [src/examples/multi-counter](examples/multi-counter)
 3. Todo app - includes jsdom tests, pupeteer and selenium tests.[src/examples/todo-app](examples/todo-app)
+
+## Test Suite
+A standard testsuite on each adapter to ensure proper behaviour of the API on each adapter. It is given a working todo-app, and by testing it's features and assuming that it is working well, we can test the adapters functionality. 
+Checkout [the code](src/test-suite/spec.ts) for more details
 
 ## Roadmap
 - Add more users to validate idea and API

@@ -4,8 +4,6 @@ import { TestSuiteParams, TodoAppData } from '.';
 
 const itemCreator = (label: string, completed = false) => ({label, completed});
 
-// const delay = (ms: any) => new Promise((r) => setTimeout(r, ms));
-
 export const runTestSuite = (params: TestSuiteParams) => {
 
 	const {setup} = params;
