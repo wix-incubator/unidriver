@@ -63,8 +63,11 @@ Checkout [the code](src/test-suite/spec.ts) for more details
 ## Roadmap
 - Add more users to validate idea and API
 √ Choose name + rename (runner up - "UniDriver")
+
 √ Add standard test suite for the base driver
+
 √ add tests to current adapters
+
 - add driver examples to complex ui components, such as Google material date picker
 - popover/modal example
 - drag and drop support
