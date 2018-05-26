@@ -8,7 +8,7 @@ Universal component drivers that can be reused in all test levels, from componen
 ## Motivation
 
 Drivers have singificantly improved the quaility of our ui tests, by helping focusing on the feature and not implementation.
-However, all implementations I encountered rely deeply on the platform the ui is running on (node, browser), each with it's own quirks.
+However, all implementations of drivers I encountered rely deeply on the platform the ui is running on (node, browser), each with it's own quirks, making it hard to share drivers between platforms.
 
 The core idea is to make sure all drivers are *lazy* and *async*, just like real testers, unlink most tests now which are *eager* and mostly *sync*.
 
