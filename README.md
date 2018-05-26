@@ -1,5 +1,10 @@
 # UniDriver - New Generation of Drivers
 
+Universal component drivers that can be reused in all test levels, from component to e2e.
+[![NPM Version](https://img.shields.io/npm/v/unidriver.svg?style=flat)](https://www.npmjs.com/package/unidriver)
+[![Build Status](https://travis-ci.org/wix-incubator/unidriver.svg?branch=master)](https://travis-ci.org/wix-incubator/unidriver)
+
+
 Drivers have singificantly improved the quaility of our ui tests, by helping focusing on the feature and not implementation.
 However, all implementations I encountered rely deeply on the platform the ui is running on (node, browser), each with it's own quirks.
 
@@ -50,7 +55,7 @@ An standard test suite to ensure the properties of the base drivers are kept thr
 3. Todo app - includes jsdom tests, pupeteer and selenium tests.[examples/todo-app](examples/todo-app)
 
 ## Roadmap
-- Add more alpha testers to validate idea and API
+- Add more users to validate idea and API
 √ Choose name + rename (runner up - "UniDriver")
 √ Add standard test suite for the base driver
 √ add tests to current adapters
@@ -58,8 +63,9 @@ An standard test suite to ensure the properties of the base drivers are kept thr
 - popover/modal example
 - drag and drop support
 - add some FAQ (modals, popovers, enzyme?)
-- experiment with this for react native and other mobile solutions
+- experiment with this for mobile as solutions
 - branding, documentation, more examples
+- move to github.com/wix
 
 
 ### FAQ
