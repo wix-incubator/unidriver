@@ -1,0 +1,171 @@
+import { UniDriver } from '../lib';
+import { assert } from 'chai';
+import { TestSuiteParams, TodoAppData } from '.';
+
+const itemCreator = (label: string, completed = false) => ({label, completed});
+
+// const delay = (ms: any) => new Promise((r) => setTimeout(r, ms));
+
+export const runTestSuite = (params: TestSuiteParams) => {
+
+	const {setup} = params;
+
+
+	const runTest = async (init: TodoAppData, test: (driver: UniDriver) => Promise<any>) => {
+		const {driver, tearDown} = await setup(init);
+
+		return test(driver).then(async () => await tearDown(),
+		async (e) => {
+			await tearDown();
+			throw e;
+		});
+	};
+
+	describe('Unidriver test suite', () => {
+		before(async () => {
+			if (params.before) {
+				await params.before();
+			}
+		});
+
+		after(async () => {
+			if (params.after) {
+				await params.after();
+			}
+		});
+
+		describe('$', () => {
+			describe('text()', () => {
+				it('returns text of a element', async () => {
+					await runTest({items: [itemCreator('Bob')]}, async (driver) => {
+						assert.equal(await driver.$('.label').text(), 'Bob');
+						assert.equal(await driver.$('.count').text(), '1');
+					});
+				});
+
+				it('returns text of a element with nested selector', async () => {
+					await runTest({items: [itemCreator('Buy milk')]}, async (driver) => {
+						assert.equal(await driver.$('.todo-item').$('.label').text(), 'Buy milk');
+					});
+				});
+			});
+
+			describe('value()', () => {
+				it('returns value of given input', async () => {
+					await runTest({items: [], initialText: 'Bob'}, async (driver) => {
+						assert.equal(await driver.$('header input').value(), 'Bob');
+					});
+				});
+			});
+
+			describe('enterValue()', () => {
+				it('works', async () => {
+					await runTest({items: [], initialText: ''}, async (driver) => {
+						await driver.$('header input').enterValue('hey there');
+						assert.equal(await driver.$('header input').value(), 'hey there');
+					});
+				});
+			});
+
+			describe('click()', () => {
+				it('works', async () => {
+					await runTest({items: [], initialText: ''}, async (driver) => {
+						await driver.$('input').enterValue('bob');
+						await driver.$('.add').click();
+
+						assert.equal(await driver.$('.count').text(), '1');
+						assert.equal(await driver.$('.label').text(), 'bob');
+					});
+				});
+			});
+
+
+			describe('exists()', () => {
+
+				it('returns true when an element exists', async () => {
+					await runTest({items: []}, async (driver) => {
+						assert.equal(await driver.$('.count').exists(), true);
+						assert.equal(await driver.$('.add').exists(), true);
+					});
+				});
+
+				it('returns false when an element does not exist', async () => {
+					await runTest({items: []}, async (driver) => {
+						assert.equal(await driver.$('.tootim').exists(), false);
+						assert.equal(await driver.$('#arnold-schwarzenegger').exists(), false);
+					});
+				});
+
+			});
+
+			describe('getNative()', () => {
+				it('returns a native element for advanced usages', async () => {
+					await runTest({}, async (driver) => {
+						const native = await driver.getNative();
+						assert.isDefined(native);
+					});
+				});
+			});
+		});
+
+		describe('$$', () => {
+			describe('get()', () => {
+				it('returns single driver in the required position', async () => {
+					const items = [itemCreator('Bob'), itemCreator('David')];
+					await runTest({items}, async (driver) => {
+						assert.equal(await driver.$$('.label').get(0).text(), 'Bob');
+						assert.equal(await driver.$$('.label').get(1).text(), 'David');
+					});
+				});
+			});
+
+			describe('text()', () => {
+				it('returns the text of all given drivers in the list', async () => {
+					const items = [itemCreator('Bob'), itemCreator('David')];
+					await runTest({items}, async (driver) => {
+						assert.deepEqual(await driver.$$('.label').text(), ['Bob', 'David']);
+					});
+				});
+			});
+
+			describe('count()', () => {
+				it('returns the text of all given drivers in the list', async () => {
+					const items = [itemCreator('Bob'), itemCreator('David'), itemCreator('Jacob')];
+					await runTest({items}, async (driver) => {
+						assert.deepEqual(await driver.$$('.todo-item').count(), 3);
+					});
+				});
+			});
+
+			describe('map()', () => {
+				it('works for text', async () => {
+					const items = [itemCreator('Bob'), itemCreator('David'), itemCreator('Jacob')];
+					await runTest({items}, async (driver) => {
+						assert.deepEqual(await driver.$$('.todo-item .label').map((bd) => bd.text()), ['Bob', 'David', 'Jacob']);
+					});
+				});
+
+				it('passes index', async () => {
+
+					const items = [itemCreator('Bob'), itemCreator('David'), itemCreator('Jacob')];
+					await runTest({items}, async (driver) => {
+						const idx = await driver.$$('.todo-item').map((_, i) => Promise.resolve(i));
+						assert.deepEqual(idx, [0, 1, 2]);
+					});
+				});
+			});
+
+			describe('filter()', () => {
+				it('works', async () => {
+					const items = [itemCreator('Bob', true), itemCreator('David'), itemCreator('Jacob', true)];
+					await runTest({items}, async (driver) => {
+						const completed = await driver.$$('.todo-item').filter((item) => item.$('.completed').exists());
+						assert.deepEqual(await completed.count(), 2);
+					});
+				});
+			});
+
+		});
+
+	});
+};
