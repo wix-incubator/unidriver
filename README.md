@@ -22,7 +22,7 @@ The idea is that a component driver is a function of the driver of it's containe
 For example, a driver for a todo App might look like this:
 
 ```
-const todoAppDriver = (container: UniDriver) => {
+const todoAppDriver = (base: UniDriver) => {
 	return {
 		getItems: async () => base.$$('.title').text(),
 		addItem: async (text: string) => {
@@ -44,17 +44,17 @@ This pattern can be nested as one see fit, enabling users to create a cross-plat
 
 ## Available Adapters
 
-- [React (DOM + React testutils)](lib/react)
-- [Puppeteer](lib/puppeteer)
-- [Selenium](lib/selenium)
+- [React (DOM + React testutils)](src/lib/react)
+- [Puppeteer](src/lib/puppeteer)
+- [Selenium](src/lib/selenium)
 
 Writing an adapter is easy - you just need to implement the UniDriver API.
 An standard test suite to ensure the properties of the base drivers are kept through the adapters is in the roadmap.
 
 ## Examples
-1. Simple counter, includes jsdom tests and pupeteer tests - [src/examples/counter](examples/counter)
-2. Multi counter, includes jsdom tests and pupeteer tests. Reuses the driver from #2 - [src/examples/multi-counter](examples/multi-counter)
-3. Todo app - includes jsdom tests, pupeteer and selenium tests.[src/examples/todo-app](examples/todo-app)
+1. Simple counter, includes jsdom tests and pupeteer tests - [src/examples/counter](src/examples/counter)
+2. Multi counter, includes jsdom tests and pupeteer tests. Reuses the driver from #2 - [src/examples/multi-counter](src/examples/multi-counter)
+3. Todo app - includes jsdom tests, pupeteer and selenium tests.[src/examples/todo-app](src/examples/todo-app)
 
 ## Test Suite
 A standard testsuite on each adapter to ensure proper behaviour of the API on each adapter. It is given a working todo-app, and by testing it's features and assuming that it is working well, we can test the adapters functionality. 
