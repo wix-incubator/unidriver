@@ -82,11 +82,11 @@ export const protractorUniDriver = (
     // done
     $$: (selector: Locator) =>
       protractorUniDriverList(async () => {
-        const elem = await el();
-        if (!elem) {
+        const elemement = await el();
+        if (!elemement) {
           throw new Error(`Cannot find element`);
         }
-        return elem.$$(selector);
+        return elemement.$$(selector);
       }),
     text: async () => {
       const text = await (await elem()).getAttribute('textContent');
