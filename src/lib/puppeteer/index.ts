@@ -1,11 +1,11 @@
 import { Locator, UniDriverList, UniDriver, MapFn } from '..';
-import { ElementHandle } from 'puppeteer';
+import { ElementHandle, Page } from 'puppeteer';
 import { waitFor } from '../../utils';
 
 type ElementGetter = () => Promise<ElementHandle | null>;
 type ElementsGetter = () => Promise<ElementHandle[]>;
 
-export const pupUniDriverList = (elems: ElementsGetter): UniDriverList<ElementHandle> => {
+export const pupUniDriverList = (elems: ElementsGetter, page?: Page): UniDriverList<ElementHandle> => {
 
 	const map = async <T>(fn: MapFn<T>) => {
 		const els = await elems();
@@ -49,7 +49,7 @@ export const pupUniDriverList = (elems: ElementsGetter): UniDriverList<ElementHa
 	};
 };
 
-export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
+export const pupUniDriver = (el: ElementGetter, page?: Page): UniDriver<ElementHandle> => {
 
 
 	const elem = async () => {
