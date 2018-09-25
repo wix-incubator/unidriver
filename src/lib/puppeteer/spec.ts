@@ -39,7 +39,7 @@ const setup: TodoAppSetupFn = async (data) => {
 }
 
 
-describe.skip('puppeteer', () => {
+describe('puppeteer', () => {
 	runTestSuite({setup, before, after});
 });
 
