@@ -13,11 +13,9 @@ let server: Server;
 let browser: Browser;
 
 const before = async () => {
+	const args = process.env.CI ? ['--no-sandbox'] : [];
 	server = await startServer(port);
-	browser = await puppeteer.launch({
-		args: ['--no-sandbox'], 
-		headless: false
-	});
+	browser = await puppeteer.launch({args});
 };
 
 const after = async () => {
