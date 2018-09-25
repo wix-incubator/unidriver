@@ -13,11 +13,10 @@ let server: Server;
 let browser: Browser;
 
 const before = async () => {
-	const args = process.env.CI ? ['--no-sandbox'] : [];
 	server = await startServer(port);
 	browser = await puppeteer.launch({
-		headless: false,
-		args
+		args: ['--no-sandbox'], 
+		headless: false
 	});
 };
 
