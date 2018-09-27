@@ -10,6 +10,7 @@ script:
 - npm run build
 - npm run test
 deploy:
+  skip_cleanup: true
   provider: npm
   email: gabi.grinberg@gmail.com
   api_key:
