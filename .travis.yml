@@ -1,21 +1,19 @@
 language: node_js
 node_js:
-  - 9
-
+- 9
 sudo: required
-
 addons:
   chrome: stable
-
 install:
-  - npm install
-
+- npm install
 script:
-  - npm run build
-  - npm run test
-
-#after_success:
-#    - npm run coveralls
-
-#after_success:
-#  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+- npm run build
+- npm run test
+deploy:
+  provider: npm
+  email: gabi.grinberg@gmail.com
+  api_key:
+    secure: k2AsJV1hxT9epsoa2xQIbey5Nqv2Si7STj+eds0jtybQ4uxHiVjCxwFlTdoBD7PjnixrgDtStVRn4xGAur19+m5phtPqz7sTrhrpqeGSYNgGPMIs46DGXPIFs3RZhOP7cJQecSePvjQeXU7KKaP4Uw14H+G+oMQC9N4Nhn8m6jCzCZ+ywJe9VD/JkiTtjQchm3HBfqmzDrnzSeLR8OUeWyr/FKMnD689lyYydfEg9MvIoV5PgSeLc4MsSTANqiFb+InVRUd6J9fB0W8ElMdndSYzzh7sJmseLjfypHaOGdwsgzRSKe5Xh366dlgYGmN543Z09XFvq81TramQ9HGPcCCB1g+db0yf88vtyok3FRc/RDuMtVm9PaTtpzqbl5huqH7IQJy7VlPNQPJomPEZ64iDoxyTd/gAqKy2cjj/sfTJuad/w9q8GVGx0vdQphRkznJw5qg4n7xJVcafVkf7NtbLDfVerSHUVOkh1bUQ/MIi4eEt3niRLIXWWAJt66DZuW0O2JylQTEYhF5Mykj4Br5/1TPkYV/eRdPg08x13hJhF6ncTSoWADRN+KBy0/V0orKgzJgU9SH8PyxVIzdawOIUZWm62eJmJSHAt07JVkf0sGy3miJj0U4ZmHPlgGD8HPnVr6V1zmujQ1hvsdpHueu+UkAOPKFeWtOv3oBdPwo=
+  on:
+    tags: true
+    repo: wix-incubator/unidriver
