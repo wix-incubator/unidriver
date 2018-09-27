@@ -1,6 +1,6 @@
 {
   "name": "unidriver",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -14,7 +14,9 @@
   "author": "Wix.com",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "src",
+    "*.js"
   ],
   "devDependencies": {
     "@types/chai": "^4.0.10",
