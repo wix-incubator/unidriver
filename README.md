@@ -1,6 +1,6 @@
 # UniDriver
 
-Universal component drivers that can be reused in all test levels, from component to e2e.
+Universal component drivers that can be reused in all test levels, from component test level to e2e.
 
 [![NPM Version](https://img.shields.io/npm/v/unidriver.svg?style=flat)](https://www.npmjs.com/package/unidriver)
 [![Build Status](https://travis-ci.org/wix-incubator/unidriver.svg?branch=master)](https://travis-ci.org/wix-incubator/unidriver)
@@ -56,6 +56,103 @@ An standard test suite to ensure the properties of the base drivers are kept thr
 2. Multi counter, includes jsdom tests and pupeteer tests. Reuses the driver from #2 - [src/examples/multi-counter](src/examples/multi-counter)
 3. Todo app - includes jsdom tests, pupeteer and selenium tests.[src/examples/todo-app](src/examples/todo-app)
 
+
+## FAQ
+
+### How do I use it with a portaled elements (i.e. popovers, modals)?
+
+*Short answer:*  
+Pass a second UniDriver, representing the "global" popover, and use that to find your popover / modal.
+
+*Longer answer:*  
+Some components are composed of portaled components (I'm not referring to React portals, but the concept behind it).  
+Portaled elements are magical (just like real-life portals), meaning that while conceptually they are part of their parent, implementation wise they are not (at least in the DOM, who knows what native mobile will bring us).  
+This means that if you want to reference them in your component's driver, you should also give the driver a unidriver wrapper for the whole "body".
+
+Example:  
+You have a to-do app, and each row has some actions (rename, delete). The actions menu is inside a popover.
+
+A naive attempt of a driver might look like this:
+
+```
+export const createTodoAppDriver = (wrapper: UniDriver) => {
+
+	return {
+		addItem: (name: string) => { /*type input, click button.. */}
+		removeItem: (idx: number) => { 
+			const item = wrapper.$$('.item').get(idx);
+			item.click('.open-actions');
+			item.$('.popover).$('.delete).click(); // This won't work!! the ".popover" element is not a direct child of the component
+		}
+	}
+}
+```
+
+With passing a second argument representing the "outer world":
+```
+export const createTodoAppDriver = (wrapper: UniDriver, theOuterWorld: UniDriver) => {
+
+	return {
+		addItem: (name: string) => { /*type input, click button.. */}
+		removeItem: (idx: number) => { 
+			const item = wrapper.$$('.item').get(idx);
+			item.click('.open-actions');
+
+			const popover = theOuterWorld.$('.popover);
+			popover.$('.delete).click(); // this will work
+		}
+	}
+}
+```
+
+Because UniDrivers are *lazy*, you can even do this: 
+
+```
+export const createPopoverDriver = (wrapper: UniDriver) => wrapper.$('.popover');
+
+export const createTodoAppDriver = (wrapper: UniDriver, theOuterWorld: UniDriver) => {
+
+	const popover = createPopoverDriver(theOuterWorld);
+	return {
+		addItem: (name: string) => { /*type input, click button.. */}
+		removeItem: (idx: number) => { 
+			const item = wrapper.$$('.item').get(idx);
+			item.click('.open-actions');
+
+			popover.$('.delete).click(); //  this will still work, as the popover will be resolved only here
+		}
+	}
+}
+```
+
+### How do I click outside MyComponent?
+
+Clicking outside means clicking on any other element that is not MyComponent.
+This will work nicely in real browsers, but JSDOM might not create the right events, so you can add your own simulation to them if you'd like.
+
+Example:
+
+```
+export const createMyCoolDriver = (wrapper: UniDriver, theOuterWorld: UniDriver) => {
+
+	dismissModal: () => {
+
+		wrapper.$('.some-element-that-is-not-a-modal').click();
+
+		// option 1
+		if (wrapper.type === 'react') {
+			const domElement = wrapper.getNative();
+			clickOnParentUsingDomApi(domElement);
+		}
+
+		// option 2 - might work..
+		theOuterWorld.$('.some-other-element').click();
+	}	
+}
+```
+
+
+
 ## Test Suite
 A standard testsuite on each adapter to ensure proper behaviour of the API on each adapter. It is given a working todo-app, and by testing it's features and assuming that it is working well, we can test the adapters functionality. 
 Checkout [the code](src/test-suite/spec.ts) for more details
@@ -67,7 +164,6 @@ Checkout [the code](src/test-suite/spec.ts) for more details
 - ~add tests to current adapters~
 - add driver examples to complex ui components, such as Google material date picker
 - add enzyme adapter
-- popover/modal example
 - drag and drop support
 - add some FAQ (modals, popovers, enzyme?)
 - experiment mobile testing
