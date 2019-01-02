@@ -110,7 +110,7 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 			if (document.body.contains(el)) {
 				const event: any = document.createEvent('HTMLEvents');
 
-				event.initEvent('mouseover', true, false);
+ 				event.initEvent('mouseenter', true, false);
 				el.dispatchEvent(event);
 			} else {
 				Simulate.mouseEnter(el);
