@@ -87,7 +87,7 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 		hover: async() => {
 			const el = await elem();
 			const driver = await el.getDriver();
-			const actions = await driver.actions({bridge: true});
+			const actions = await (driver as any).actions({bridge: true});
 
 			return await actions.move({x:1, y:1, origin: el}).perform();
 		},
