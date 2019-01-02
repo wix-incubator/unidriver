@@ -91,6 +91,9 @@ export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
 		click: async () => {
 			return (await elem()).click();
 		},
+		hover: async () => {
+			return (await elem()).hover();
+		},
 		hasClass: async (className: string) => {
 			const el = await elem();
 			const cm: any = await el.getProperty('classList');

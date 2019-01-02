@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { reactUniDriver } from './index';
 import { TodoApp } from '../../test-suite/react-todoapp';
-import { TodoAppSetupFn } from '../../test-suite/index';
+import { TodoAppSetupFn } from '../../test-suite/';
 import { runTestSuite } from '../../test-suite/spec';
 
 const setup: TodoAppSetupFn = (data) => {

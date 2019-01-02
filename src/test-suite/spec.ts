@@ -90,6 +90,15 @@ export const runTestSuite = (params: TestSuiteParams) => {
 				});
 			});
 
+			describe('hover()', () => {
+				it('works', async () => {
+					await runTest({items: [], initialText: ''}, async (driver) => {
+						await driver.$('.add').hover();
+
+						assert.equal(await driver.$('.event').text(), 'mouseenter');
+					});
+				});
+			});
 
 			describe('exists()', () => {
 

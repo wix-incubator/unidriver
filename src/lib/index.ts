@@ -20,6 +20,7 @@ export type UniDriver<T = any> = {
 	$$: (selector: Locator) => UniDriverList;
 	text: () => Promise<string>;
 	click: () => Promise<void>;
+	hover: () => Promise<void>;
 	value: () => Promise<string>;
 	enterValue: (value: string) => Promise<void>;
 	attr: (name: string) => Promise<string>;

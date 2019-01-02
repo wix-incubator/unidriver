@@ -37,7 +37,7 @@ const setup: TodoAppSetupFn = async (data) => {
 	return {driver, tearDown};
 }
 
-describe.skip('selenium', () => {
+describe('selenium', () => {
 	runTestSuite({setup, before, after});
 });
 

@@ -82,11 +82,11 @@ export const protractorUniDriver = (
     // done
     $$: (selector: Locator) =>
       protractorUniDriverList(async () => {
-        const elemement = await el();
-        if (!elemement) {
+        const element = await el();
+        if (!element) {
           throw new Error(`Cannot find element`);
         }
-        return elemement.$$(selector);
+        return element.$$(selector);
       }),
     text: async () => {
       const text = await (await elem()).getAttribute('textContent');
@@ -94,6 +94,11 @@ export const protractorUniDriver = (
     },
     click: async () => {
       return (await elem()).click();
+    },
+    hover: async () => {
+      const e = await elem();
+
+      return (await e.browser_.actions().mouseMove(e).perform());
     },
     hasClass: async (className: string) => {
       const cm: any = await (await elem()).getAttribute('classList');

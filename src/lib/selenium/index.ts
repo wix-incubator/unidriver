@@ -1,7 +1,6 @@
 import { Locator, UniDriverList, UniDriver, MapFn } from '..';
-import { By, WebElement} from 'selenium-webdriver';
-import { waitFor } from '../../utils';
-
+import { By, WebElement}                            from 'selenium-webdriver';
+import { waitFor }                                  from '../../utils';
 
 export type WebElementGetter = () => Promise<WebElement>;
 export type WebElementsGetter = () => Promise<WebElement[]>;
@@ -85,6 +84,13 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 			return el.getAttribute('value');
 		},
 		click: async () => (await elem()).click(),
+		hover: async() => {
+			const el = await elem();
+			const driver = await el.getDriver();
+			const actions = await driver.actions({bridge: true});
+
+			return await actions.move({x:1, y:1, origin: el}).perform();
+		},
 		hasClass: async (className: string) => {
 			const el = await elem();
 			const cl = await el.getAttribute('class');

@@ -42,7 +42,7 @@ describe('puppeteer', () => {
 });
 
 
-describe('pupeeter specific tests', () => {
+describe('puppeteer specific tests', () => {
 
 
 

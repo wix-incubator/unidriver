@@ -32,7 +32,8 @@ export type TodoAppProps = {
 export class TodoApp extends React.Component<TodoAppProps, any> {
 	state = {
 		newItem: this.props.initialText || '',
-		items: this.props.items
+		items: this.props.items,
+		event: null
 	};
 
 	onToggle = (idx: number) => () => {
@@ -53,7 +54,8 @@ export class TodoApp extends React.Component<TodoAppProps, any> {
 		<div>
 				<header>
 					<input value={this.state.newItem} onChange={(e) => this.setState({newItem: e.target.value})}/>
-					<button className='add' onClick={this.onAdd}>Add</button>
+					<button className='add' onClick={this.onAdd} onMouseEnter={(e) => this.setState({event: e.type})}>Add</button>
+					{this.state.event && <label className='event'>{this.state.event}</label>}
 				</header>
 				<main>
 					{items.map((item, idx) => <TodoAppItem key={idx} item={item} onToggle={this.onToggle(idx)}/>)}

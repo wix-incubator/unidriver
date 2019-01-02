@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": {
-	  "type": "git",
-	  "url": "https://github.com/wix-incubator/unidriver"
+    "type": "git",
+    "url": "https://github.com/wix-incubator/unidriver"
   },
   "scripts": {
     "build": "rm -rf dist && (tsc -p . || true) && npm run build-testsuite && npm run expose-adapters",
@@ -32,7 +32,6 @@
     "@types/puppeteer": "^0.13.9",
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
-    "@types/selenium-webdriver": "^3.0.8",
     "browserify": "^15.2.0",
     "chai": "^4.1.2",
     "chromedriver": "^2.38.3",
@@ -52,8 +51,7 @@
   },
   "peerDependencies": {
     "@types/puppeteer": "^0.13.9",
-    "@types/selenium-webdriver": "^3.0.8",
-    "selenium-webdriver": "^3.6.0",
+    "selenium-webdriver": "^4.0.0-alpha.1",
     "puppeteer": "^0.13.0",
     "protractor": "^5.4.1",
     "react": "^15.2.0",
