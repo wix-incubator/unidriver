@@ -108,12 +108,17 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 			const el = await elem();
 
 			if (document.body.contains(el)) {
-				const event: any = document.createEvent('HTMLEvents');
+				const mouseenter: any = document.createEvent('HTMLEvents');
+				const mouseover: any = document.createEvent('HTMLEvents');
 
- 				event.initEvent('mouseover', true, false);
-				el.dispatchEvent(event);
+ 				mouseover.initEvent('mouseover', true, false);
+ 				mouseenter.initEvent('mouseenter', true, false);
+
+ 				el.dispatchEvent(mouseenter);
+ 				el.dispatchEvent(mouseover)
 			} else {
 				Simulate.mouseOver(el);
+				Simulate.mouseEnter(el);
 			}
 		},
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
