@@ -14,7 +14,7 @@ let browser: Browser;
 
 const before = async () => {
 	const args = process.env.CI ? ['--no-sandbox'] : [];
-	const headless = process.env.CI ? true : false;
+	const headless = !!process.env.CI;
 	server = await startServer(port);
 	browser = await puppeteer.launch({headless,args});
 };
