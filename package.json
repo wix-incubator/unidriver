@@ -11,7 +11,7 @@
   "scripts": {
     "build": "rm -rf dist && (tsc -p . || true) && npm run build-testsuite && npm run expose-adapters",
     "build-testsuite": "cp src/test-suite/index.ejs dist/test-suite/index.ejs && browserify dist/test-suite/app.js > dist/test-suite/bundle.js",
-    "testsuite-server": "node dist/test-suite/server.js",
+    "testsuite-server": "node -e 'require(\"./dist/test-suite/server.js\").startServer(3000)'",
     "test": "bash support/test.sh",
     "expose-adapters": "import-path --path lib --dts"
   },
