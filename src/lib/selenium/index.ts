@@ -89,7 +89,7 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 			const driver = await el.getDriver();
 			const actions = await (driver as any).actions({bridge: true});
 
-			return await actions.move({x:1, y:1, origin: el}).perform();
+			return await actions.mouseMove({x:1, y:1, origin: el}).perform();
 		},
 		hasClass: async (className: string) => {
 			const el = await elem();
@@ -111,9 +111,6 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 		type: 'selenium',
 		scrollIntoView: async () => {
 			const el = await elem();
-
-			const location = await el.getLocation();
-
 
 			//return el.getDriver().executeScript(`window.scrollTo(${location.x}, ${location.y});`);
 			return el.getDriver().executeScript('arguments[0].scrollIntoView();', el);
