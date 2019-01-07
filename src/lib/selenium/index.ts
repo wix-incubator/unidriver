@@ -103,7 +103,19 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 		isDisplayed: async () => {
 			const el = await elem();
 
-			return el.isDisplayed();
+			const retValue: boolean =
+				await el.getDriver().executeScript(
+					'const elem = arguments[0], ' +
+					'			box = elem.getBoundingClientRect(), ' +
+					'			cx = box.left + box.width / 2, ' +
+					'			cy = box.top + box.height / 2, ' +
+					'			e = document.elementFromPoint(cx, cy); ' +
+					'		for (; e; e = e.parentElement) { ' +
+					'			if ( e === elem) return true; ' +
+					'		} ' +
+					'' +
+					'		return false;', el);
+			return retValue;
 		},
 		wait: async () => {
 			return waitFor(exists);

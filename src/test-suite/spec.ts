@@ -189,11 +189,11 @@ export const runTestSuite = (params: TestSuiteParams) => {
 					const items = Array.from(Array(150).keys()).map(value => itemCreator(value.toString()));
 					await runTest({items}, async (driver) => {
 						if (driver.type !== 'react') {
-							const item: UniDriver = await driver.$$('.todo-item').get(140);
+							const footer: UniDriver = await driver.$('footer');
 
-							assert.equal(await item.isDisplayed(), false, 'Displayed, unfortunately');
-							await item.scrollIntoView();
-							assert.equal(await item.isDisplayed(), true, 'Not displayed');
+							assert.isNotTrue(await footer.isDisplayed(), 'Footer is displayed :(');
+							await footer.scrollIntoView();
+							assert.isTrue(await footer.isDisplayed(), 'Displayed, unfortunately');
 						}
 
 						assert.isTrue(true);
