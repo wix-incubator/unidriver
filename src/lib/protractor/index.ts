@@ -1,6 +1,6 @@
 import {Locator, UniDriverList, UniDriver, MapFn} from '../';
-import {ElementFinder} from 'protractor';
-import {waitFor} from '../../utils';
+import {browser, ElementFinder}                   from 'protractor';
+import {waitFor}                                  from '../../utils';
 
 type ElementGetter = () => Promise<ElementFinder | null>;
 type ElementsGetter = () => Promise<ElementFinder[]>;
@@ -110,6 +110,10 @@ export const protractorUniDriver = (
       await e.type(value);
     },
     exists,
+    isDisplayed: async () => {
+      const e = await elem();
+      return e.isDisplayed();
+    },
     value: async () => {
       const value = await (await elem()).getAttribute('value');
       return value || '';
@@ -122,6 +126,11 @@ export const protractorUniDriver = (
       return waitFor(exists);
     },
     type: 'protractor',
+    scrollIntoView: async () => {
+      const el = await elem();
+
+      return browser.controlFlow().execute(() => browser.executeScript('arguments[0].scrollIntoView(true)', el.getWebElement()));
+    },
     getNative: elem
   };
 };

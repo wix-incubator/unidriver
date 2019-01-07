@@ -1,6 +1,6 @@
 import { UniDriverList, Locator, UniDriver } from '..';
-import { Simulate } from 'react-dom/test-utils';
-import { waitFor } from '../../utils';
+import { Simulate }                          from 'react-dom/test-utils';
+import { waitFor }                           from '../../utils';
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -132,10 +132,14 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 			return (await elem()).getAttribute(name) || '';
 		},
 		exists,
+		isDisplayed: async () => {
+			return true;
+		},
 		wait: async () => {
 			return waitFor(exists);
 		},
 		type: 'react',
+		scrollIntoView: async () => { return {} },
 		getNative: () => elem()
 	};
 };

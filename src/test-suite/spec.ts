@@ -184,6 +184,20 @@ export const runTestSuite = (params: TestSuiteParams) => {
 				});
 			});
 
+			describe('scrollIntoView()', () => {
+				it('works', async () => {
+					const items = Array.from(Array(80).keys()).map(value => itemCreator(value.toString()));
+					await runTest({items}, async (driver) => {
+						const item = await driver.$$('.todo-item').get(70);
+
+						assert.equal(await item.exists(), true);
+						assert.equal(await item.isDisplayed(), false);
+						await item.scrollIntoView();
+						assert.equal(await item.isDisplayed(), true);
+					});
+				});
+			});
+
 		});
 
 	});

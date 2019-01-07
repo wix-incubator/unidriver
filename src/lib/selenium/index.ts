@@ -100,10 +100,24 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 			(await elem()).sendKeys(value);
 		},
 		exists,
+		isDisplayed: async () => {
+			const el = await elem();
+
+			return el.isDisplayed();
+		},
 		wait: async () => {
 			return waitFor(exists);
 		},
 		type: 'selenium',
+		scrollIntoView: async () => {
+			const el = await elem();
+
+			const location = await el.getLocation();
+
+
+			//return el.getDriver().executeScript(`window.scrollTo(${location.x}, ${location.y});`);
+			return el.getDriver().executeScript('arguments[0].scrollIntoView();', el);
+		},
 		getNative: elem
 	};
 };

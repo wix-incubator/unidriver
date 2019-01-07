@@ -26,7 +26,9 @@ export type UniDriver<T = any> = {
 	attr: (name: string) => Promise<string>;
 	hasClass: (name: string) => Promise<boolean>;
 	exists: () => Promise<boolean>;
+	isDisplayed: () => Promise<boolean>;
 	wait: (timeout?: number) => Promise<void>;
 	type: string;
+	scrollIntoView: () => Promise<{}>;
 	getNative: () => Promise<T>;
 };
