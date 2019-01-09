@@ -1,6 +1,6 @@
 import {Locator, UniDriverList, UniDriver, MapFn} from '../';
-import {ElementFinder} from 'protractor';
-import {waitFor} from '../../utils';
+import {browser, ElementFinder}                   from 'protractor';
+import {waitFor}                                  from '../../utils';
 
 type ElementGetter = () => Promise<ElementFinder | null>;
 type ElementsGetter = () => Promise<ElementFinder[]>;
@@ -82,11 +82,11 @@ export const protractorUniDriver = (
     // done
     $$: (selector: Locator) =>
       protractorUniDriverList(async () => {
-        const elemement = await el();
-        if (!elemement) {
+        const element = await el();
+        if (!element) {
           throw new Error(`Cannot find element`);
         }
-        return elemement.$$(selector);
+        return element.$$(selector);
       }),
     text: async () => {
       const text = await (await elem()).getAttribute('textContent');
@@ -94,6 +94,11 @@ export const protractorUniDriver = (
     },
     click: async () => {
       return (await elem()).click();
+    },
+    hover: async () => {
+      const e = await elem();
+
+      return (await e.browser_.actions().mouseMove(e).perform());
     },
     hasClass: async (className: string) => {
       const cm: any = await (await elem()).getAttribute('classList');
@@ -105,6 +110,10 @@ export const protractorUniDriver = (
       await e.type(value);
     },
     exists,
+    isDisplayed: async () => {
+      const e = await elem();
+      return e.isDisplayed();
+    },
     value: async () => {
       const value = await (await elem()).getAttribute('value');
       return value || '';
@@ -117,6 +126,11 @@ export const protractorUniDriver = (
       return waitFor(exists);
     },
     type: 'protractor',
+    scrollIntoView: async () => {
+      const el = await elem();
+
+      return browser.controlFlow().execute(() => browser.executeScript('arguments[0].scrollIntoView(true)', el.getWebElement()));
+    },
     getNative: elem
   };
 };

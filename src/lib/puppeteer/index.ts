@@ -91,6 +91,9 @@ export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
 		click: async () => {
 			return (await elem()).click();
 		},
+		hover: async () => {
+			return (await elem()).hover();
+		},
 		hasClass: async (className: string) => {
 			const el = await elem();
 			const cm: any = await el.getProperty('classList');
@@ -98,10 +101,14 @@ export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
 		},
 		enterValue: async (value: string) => {
 			const e = await elem();
-			await e.focus()
+			await e.focus();
 			await e.type(value);
 		},
 		exists,
+		isDisplayed: async () => {
+			const e = await elem();
+			return e.isIntersectingViewport();
+		},
 		value: async () => {
 			const el = await elem();
 			const valueHandle = await el.getProperty('value');
@@ -118,6 +125,12 @@ export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
 			return waitFor(exists);
 		},
 		type: 'puppeteer',
+		scrollIntoView: async () => {
+			const el = await elem();
+			await el.hover();
+
+			return {};
+		},
 		getNative: elem
 	};
 };

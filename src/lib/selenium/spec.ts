@@ -4,6 +4,7 @@ import { seleniumUniDriver } from './index';
 import { TodoAppSetupFn } from '../../test-suite';
 import { Server } from 'http';
 import { ThenableWebDriver, Builder, WebElement, By } from 'selenium-webdriver';
+import * as chrome from 'selenium-webdriver/chrome';
 
 const port = 8082;
 
@@ -11,10 +12,18 @@ let server: Server;
 let wd: ThenableWebDriver;
 
 const before = async () => {
+	const headless = !!process.env.CI;
+	const chromeOptions = new chrome.Options();
+
+	if (headless) {
+		chromeOptions.headless();
+	}
+
 	server = await startServer(port);
 	wd = new Builder()
-	.forBrowser('chrome')
-	.build();
+		.forBrowser('chrome')
+		.setChromeOptions(chromeOptions)
+		.build();
 };
 
 const after = async () => {
@@ -37,7 +46,7 @@ const setup: TodoAppSetupFn = async (data) => {
 	return {driver, tearDown};
 }
 
-describe.skip('selenium', () => {
+describe('selenium', () => {
 	runTestSuite({setup, before, after});
 });
 

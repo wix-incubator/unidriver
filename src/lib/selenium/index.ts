@@ -1,7 +1,6 @@
 import { Locator, UniDriverList, UniDriver, MapFn } from '..';
-import { By, WebElement} from 'selenium-webdriver';
-import { waitFor } from '../../utils';
-
+import { By, WebElement}                            from 'selenium-webdriver';
+import { waitFor }                                  from '../../utils';
 
 export type WebElementGetter = () => Promise<WebElement>;
 export type WebElementsGetter = () => Promise<WebElement[]>;
@@ -85,6 +84,13 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 			return el.getAttribute('value');
 		},
 		click: async () => (await elem()).click(),
+		hover: async() => {
+			const el = await elem();
+			const driver = await el.getDriver();
+			const actions = await (driver as any).actions({bridge: true});
+
+			return await actions.mouseMove({x:1, y:1, origin: el}).perform();
+		},
 		hasClass: async (className: string) => {
 			const el = await elem();
 			const cl = await el.getAttribute('class');
@@ -94,10 +100,33 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 			(await elem()).sendKeys(value);
 		},
 		exists,
+		isDisplayed: async () => {
+			const el = await elem();
+
+			const retValue: boolean =
+				await el.getDriver().executeScript(
+					'const elem = arguments[0], ' +
+					'			box = elem.getBoundingClientRect(), ' +
+					'			cx = box.left + box.width / 2, ' +
+					'			cy = box.top + box.height / 2, ' +
+					'			e = document.elementFromPoint(cx, cy); ' +
+					'		for (; e; e = e.parentElement) { ' +
+					'			if ( e === elem) return true; ' +
+					'		} ' +
+					'' +
+					'		return false;', el);
+			return retValue;
+		},
 		wait: async () => {
 			return waitFor(exists);
 		},
 		type: 'selenium',
+		scrollIntoView: async () => {
+			const el = await elem();
+
+			//return el.getDriver().executeScript(`window.scrollTo(${location.x}, ${location.y});`);
+			return el.getDriver().executeScript('arguments[0].scrollIntoView();', el);
+		},
 		getNative: elem
 	};
 };

@@ -6,3 +6,4 @@ package-lock.json
 /*.d.ts
 !wallaby.js
 !protractor.conf.js
+.idea

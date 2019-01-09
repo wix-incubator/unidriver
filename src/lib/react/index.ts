@@ -1,6 +1,6 @@
 import { UniDriverList, Locator, UniDriver } from '..';
-import { Simulate } from 'react-dom/test-utils';
-import { waitFor } from '../../utils';
+import { Simulate }                          from 'react-dom/test-utils';
+import { waitFor }                           from '../../utils';
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -93,7 +93,7 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 			// setting button 0 is now needed in React 16+ as it's not set by react anymore
 			// 15 - https://github.com/facebook/react/blob/v15.6.1/src/renderers/dom/client/syntheticEvents/SyntheticMouseEvent.js#L45
 			// 16 - https://github.com/facebook/react/blob/master/packages/react-dom/src/events/SyntheticMouseEvent.js#L33
-			
+
 			// native events are preferred, but they will only work in React if the element is part of the DOM
 			if (document.body.contains(el)) {
 				const event: any  = document.createEvent('HTMLEvents');
@@ -102,6 +102,23 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 				el.dispatchEvent(event);
 			} else {
 				Simulate.click(el, {button: 0});
+			}
+		},
+		hover: async () => {
+			const el = await elem();
+
+			if (document.body.contains(el)) {
+				const mouseenter: any = document.createEvent('HTMLEvents');
+				const mouseover: any = document.createEvent('HTMLEvents');
+
+ 				mouseover.initEvent('mouseover', true, false);
+ 				mouseenter.initEvent('mouseenter', true, false);
+
+ 				el.dispatchEvent(mouseenter);
+ 				el.dispatchEvent(mouseover)
+			} else {
+				Simulate.mouseOver(el);
+				Simulate.mouseEnter(el);
 			}
 		},
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
@@ -115,10 +132,14 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 			return (await elem()).getAttribute(name) || '';
 		},
 		exists,
+		isDisplayed: async () => {
+			return true;
+		},
 		wait: async () => {
 			return waitFor(exists);
 		},
 		type: 'react',
+		scrollIntoView: async () => { return {} },
 		getNative: () => elem()
 	};
 };

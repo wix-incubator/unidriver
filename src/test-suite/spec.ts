@@ -90,6 +90,15 @@ export const runTestSuite = (params: TestSuiteParams) => {
 				});
 			});
 
+			describe('hover()', () => {
+				it('works', async () => {
+					await runTest({items: [], initialText: ''}, async (driver) => {
+						await driver.$('.add').hover();
+
+						assert.equal(await driver.$('.event').text(), 'mouseenter');
+					});
+				});
+			});
 
 			describe('exists()', () => {
 
@@ -171,6 +180,23 @@ export const runTestSuite = (params: TestSuiteParams) => {
 					await runTest({items}, async (driver) => {
 						const completed = await driver.$$('.todo-item').filter((item) => item.$('.completed').exists());
 						assert.deepEqual(await completed.count(), 2);
+					});
+				});
+			});
+
+			describe('scrollIntoView()', () => {
+				it('works', async () => {
+					const items = Array.from(Array(150).keys()).map(value => itemCreator(value.toString()));
+					await runTest({items}, async (driver) => {
+						if (driver.type !== 'react') {
+							const footer: UniDriver = await driver.$('footer');
+
+							assert.isNotTrue(await footer.isDisplayed(), 'Footer is displayed :(');
+							await footer.scrollIntoView();
+							assert.isTrue(await footer.isDisplayed(), 'Displayed, unfortunately');
+						}
+
+						assert.isTrue(true);
 					});
 				});
 			});
