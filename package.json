@@ -1,6 +1,6 @@
 {
   "name": "unidriver",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -46,19 +46,16 @@
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
     "selenium-webdriver": "^3.6.0",
-    "typescript": "^2.6.2"
+	"typescript": "^2.6.2",
+	"react-test-utils": "0.0.1"
   },
   "peerDependencies": {
     "@types/puppeteer": "^1.11.1",
     "selenium-webdriver": "^3.6.0",
     "puppeteer": "^1.11.0",
-    "protractor": "^5.4.1",
     "react": "^15.2.0",
-    "react-test-utils": "0.0.1",
-    "react-dom": "^15.2.0"
-  },
-  "dependencies": {
-    "protractor": "^5.4.2",
-    "react-test-utils": "0.0.1"
+    "react-dom": "^15.2.0",
+	"protractor": "^5.4.2",
+	"react-test-utils": "0.0.1"
   }
 }

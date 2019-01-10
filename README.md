@@ -171,9 +171,6 @@ Checkout [the code](src/test-suite/spec.ts) for more details
 - move to github.com/wix
 
 
-### FAQ
-TBD
-
 
 
 
