@@ -104,7 +104,7 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 			const el = await elem();
 
 			const retValue: boolean =
-				await el.getDriver().executeScript(
+				await el.getDriver().executeScript<boolean>(
 					'const elem = arguments[0], ' +
 					'			box = elem.getBoundingClientRect(), ' +
 					'			cx = box.left + box.width / 2, ' +

@@ -13,7 +13,14 @@ describe('todo app', () => {
 	afterEach(() => page.close());
 
 	const begin = async () => {
-		const base = pupUniDriver(() => page.$('body'));
+		const base = pupUniDriver(async() => {
+			const selector = 'body'
+			return{
+				element: await page.$(selector),
+				page,
+				selector
+			}
+		});
 		return todoAppDriver(base);
 	};
 
