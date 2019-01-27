@@ -30,7 +30,14 @@ const after = async () => {
 const setup: TodoAppSetupFn = async (data) => {
 
 	await page.goto(`http://localhost:${port}${getUrl(data)}`);
-	const driver = pupUniDriver(() => page.$('body'));
+	const driver = pupUniDriver(async() => {
+		const selector = 'body'
+		return{
+			element: await page.$(selector),
+			page,
+			selector
+		}
+	});
 
 	const tearDown = async () => { };
 
