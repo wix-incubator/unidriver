@@ -6,6 +6,8 @@ import { getModifiedKey } from '../key-types';
 type ElementContainer = {element: ElementHandle | null, page: Page, selector: string}
 type ElementsContainer = {elements: ElementHandle[], page: Page, selector: string}
 
+type PageAndSelector = {page: Page, selector: string};
+
 type ElementGetter = () => Promise<ElementContainer>;
 type ElementsGetter = () => Promise<ElementsContainer>;
 
@@ -58,17 +60,34 @@ export const pupUniDriverList = (elems: ElementsGetter): UniDriverList<ElementCo
 	};
 };
 
-export const pupUniDriver = (el: ElementGetter): UniDriver<ElementContainer> => {
+const isPageAndSelector = (obj: ElementGetter | PageAndSelector): obj is PageAndSelector => {
+	return !!(obj as any).page;
+}
+
+export const pupUniDriver = (el: (ElementGetter | PageAndSelector)): UniDriver<ElementContainer> => {
 
 	const elem = async() => {
-		const {element, ...rest} = await el();
-		if (!element) {
-			throw new Error(`Cannot find element`);
+		if (isPageAndSelector(el)) {
+			const {page, selector} = el;
+			const element = await page.$(selector);
+			if (!element) {
+				throw new Error(`Cannot find element`);
+			}
+			return {
+				page,
+				element,
+				selector
+			};
+		} else {
+			const {element, ...rest} = await el();
+			if (!element) {
+				throw new Error(`Cannot find element`);
+			}
+			return {
+				...rest,
+				element
+			};
 		}
-		return {
-			...rest,
-			element
-		};
 	}
 
   const exists = async () => {
