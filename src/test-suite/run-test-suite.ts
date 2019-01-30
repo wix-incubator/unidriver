@@ -143,6 +143,33 @@ export const runTestSuite = (params: TestSuiteParams) => {
 					});
 				});
 			});
+
+			describe('attr()', () => {
+				it('returns null if attr does not exist', async () => {
+					const items = [itemCreator({ label: 'Bob', completed: false })];
+					await runTest({ items }, async driver => {
+						assert.deepEqual(await driver.$('.todo-item').attr('data-value'), null);
+					});
+				});
+
+				it('returns attribute value', async () => {
+					const items = [
+						itemCreator({ label: 'Bob', completed: false, id: 'bob' })
+					];
+					await runTest({ items }, async driver => {
+						assert.deepEqual(await driver.$('.todo-item').attr('data-value'), 'bob');
+					});
+				});
+
+				it('returns empty string', async () => {
+					const items = [
+						itemCreator({ label: 'Bob', completed: false, id: '' })
+					];
+					await runTest({ items }, async driver => {
+						assert.deepEqual(await driver.$('.todo-item').attr('data-value'), '');
+					});
+				});
+			});
 		});
 
 		describe('$$', () => {
@@ -219,28 +246,5 @@ export const runTestSuite = (params: TestSuiteParams) => {
 			});
 
 		});
-
-		describe('attr', () => {
-			it('returns null if attr does not exist', async() => {
-				const items = [itemCreator({label:'Bob', completed: false})];
-					await runTest({items}, async (driver) => {
-						assert.deepEqual(await driver.$(".todo-item").attr('data-value'), null);
-					});
-			})
-
-			it('returns attribute value', async() => {
-				const items = [itemCreator({label:'Bob', completed: false, id: 'bob'})];
-					await runTest({items}, async (driver) => {
-						assert.deepEqual(await driver.$(".todo-item").attr('data-value'), 'bob');
-					});
-			})
-			
-			it('returns empty string', async() => {
-				const items = [itemCreator({label:'Bob', completed: false, id: ''})];
-					await runTest({items}, async (driver) => {
-						assert.deepEqual(await driver.$(".todo-item").attr('data-value'), '');
-					});
-			})
 	});
-	})
 };
