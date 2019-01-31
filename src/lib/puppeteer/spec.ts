@@ -18,6 +18,7 @@ const before = async () => {
 	server = await startServer(port);
 	browser = await puppeteer.launch({headless,args});
 	page = await browser.newPage();
+	// page.on('console', msg => console.log('PAGE LOG:', msg.text()));
 };
 
 const after = async () => {

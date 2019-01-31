@@ -1,6 +1,7 @@
 import { UniDriver } from '../lib';
 import { assert } from 'chai';
 import { TestSuiteParams, TodoAppData } from '.';
+import {Key} from '../lib/key-types';
 
 const itemCreator = (label: string, completed = false) => ({label, completed});
 
@@ -83,7 +84,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 					await runTest({items: [], initialText: ''}, async (driver) => {
 						await driver.$('input').enterValue('bob');
 						await driver.$('.add').click();
-
+					
 						assert.equal(await driver.$('.count').text(), '1');
 						assert.equal(await driver.$('.label').text(), 'bob');
 					});
@@ -123,6 +124,17 @@ export const runTestSuite = (params: TestSuiteParams) => {
 					await runTest({}, async (driver) => {
 						const native = await driver.getNative();
 						assert.isDefined(native);
+					});
+				});
+			});
+
+			describe('press()', () => {
+				it('works', async () => {
+					await runTest({items: [], initialText: ''}, async (driver) => {
+						await driver.$('input').enterValue('bob');
+						await driver.$('.add').press(Key.ENTER);
+						assert.equal(await driver.$('.count').text(), '1');
+						assert.equal(await driver.$('.label').text(), 'bob');
 					});
 				});
 			});
