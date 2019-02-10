@@ -93,10 +93,14 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 			describe('hover()', () => {
 				it('works', async () => {
-					await runTest({items: [], initialText: ''}, async (driver) => {
-						await driver.$('.add').hover();
+					await runTest({items: [itemCreator('Bob'), itemCreator('David')]}, async (driver) => {
+						const bd = await driver.$$('.todo-item').get(1);
+						await bd.hover();
 
-						assert.equal(await driver.$('.event').text(), 'mouseenter');
+						// const classLists = await (await (await bd.getNative()).getProperty('classList')).jsonValue();
+						// console.log('THIS IS CLASS', classLists);
+
+						assert.equal(await bd.hasClass('active'), true);
 					});
 				});
 			});
@@ -128,11 +132,11 @@ export const runTestSuite = (params: TestSuiteParams) => {
 				});
 			});
 
-			describe('press()', () => {
-				it('works', async () => {
+			describe('pressKey()', () => {
+				it('single key works', async () => {
 					await runTest({items: [], initialText: ''}, async (driver) => {
 						await driver.$('input').enterValue('bob');
-						await driver.$('.add').press(Key.ENTER);
+						await driver.$('.add').pressKey(Key.ENTER);
 						assert.equal(await driver.$('.count').text(), '1');
 						assert.equal(await driver.$('.label').text(), 'bob');
 					});

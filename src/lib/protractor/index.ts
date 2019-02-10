@@ -100,7 +100,7 @@ export const protractorUniDriver = (
 
       return (await e.browser_.actions().mouseMove(e).perform());
     },
-		press: async(key: string) => {
+		pressKey: async(key: string) => {
       const e = await elem();
       await e.sendKeys(key)
     },

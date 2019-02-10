@@ -1,7 +1,7 @@
 import { UniDriverList, Locator, UniDriver } from '..';
 import { Simulate }                          from 'react-dom/test-utils';
 import { waitFor }                           from '../../utils';
-import {Key, getModifiedKey} from '../key-types';
+import {getModifiedKey} from '../key-types';
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -66,13 +66,6 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 		}
 	};
 
-  function press(key: Key): Promise<void>;
-  function press(key: string): Promise<void>;
-  async function press(key: string | Key): Promise<void> {
-    const el = await elem();
-		Simulate.keyPress(el, { key: getModifiedKey(key) });
-  }
-
 	return {
 		$: (loc: Locator) => {
 			const getElement = async () => {
@@ -129,7 +122,10 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 				Simulate.mouseEnter(el);
 			}
 		},
-		press,
+		pressKey: async (key) => {
+			const el = await elem();
+			Simulate.keyPress(el, { key: getModifiedKey(key) });
+		},
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
 		enterValue: async (value: string) => {
 			await wait(0);

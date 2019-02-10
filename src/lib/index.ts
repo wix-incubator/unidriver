@@ -1,4 +1,4 @@
-import {Key} from "../lib/key-types";
+import {Key} from '../lib/key-types';
 
 export type Locator = string;
 
@@ -22,8 +22,7 @@ export type UniDriver<T = any> = {
 	text: () => Promise<string>;
 	click: () => Promise<void>;
 	hover: () => Promise<void>;
-	press(key: Key): Promise<void>
-	press(key: string): Promise<void>
+	pressKey: (key: Key | string) => Promise<void>
 	value: () => Promise<string>;
 	enterValue: (value: string) => Promise<void>;
 	attr: (name: string) => Promise<string>;

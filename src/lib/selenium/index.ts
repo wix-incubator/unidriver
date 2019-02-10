@@ -1,7 +1,6 @@
 import { Locator, UniDriverList, UniDriver, MapFn } from '..';
-import { By, WebElement, Key as SeleiumKey } from 'selenium-webdriver';
+import { By, WebElement, Key as SeleniumKey } from 'selenium-webdriver';
 import { waitFor } from '../../utils';
-import { Key } from '../key-types';
 
 export type WebElementGetter = () => Promise<WebElement>;
 export type WebElementsGetter = () => Promise<WebElement[]>;
@@ -9,7 +8,6 @@ export type WebElementsGetter = () => Promise<WebElement[]>;
 export const seleniumUniDriverList = (
   wep: WebElementsGetter
 ): UniDriverList<WebElement> => {
-  // const elem = () => Array.from(container.querySelectorAll(loc));
 
   const map = async <T>(fn: MapFn<T>) => {
     const els = await wep();
@@ -66,17 +64,6 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
     return elem().then(() => true, () => false);
   };
 
-  function press(key: Key): Promise<void>;
-  function press(key: string): Promise<void>;
-  async function press(key: string | Key): Promise<void> {
-    const el = await elem();
-    const value = SeleiumKey[key as keyof typeof SeleiumKey] as string;
-    if (value) {
-      return el.sendKeys(value);
-    } 
-    return await el.sendKeys(key); 
-  }
-
   return {
     $: (selector: Locator) => seleniumUniDriver(async () => {
         return (await elem()).findElement(By.css(selector));
@@ -98,14 +85,20 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
       return el.getAttribute('value');
     },
     click: async () => (await elem()).click(),
-    hover: async() => {
+    hover: async () => {
       const el = await elem();
       const driver = await el.getDriver();
-      const actions = await (driver as any).actions({bridge: true});
-
-      return await actions.mouseMove({x:1, y:1, origin: el}).perform();
+      const actions = await driver.actions();
+      return actions.mouseMove(el).perform();
     },
-    press,
+    pressKey: async (key) => {
+      const el = await elem();
+      const value = SeleniumKey[key as keyof typeof SeleniumKey] as string;
+      if (value) {
+        return el.sendKeys(value);
+      } 
+      return await el.sendKeys(key); 
+    },
     hasClass: async (className: string) => {
       const el = await elem();
       const cl = await el.getAttribute('class');

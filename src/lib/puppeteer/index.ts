@@ -1,7 +1,7 @@
 import { Locator, UniDriverList, UniDriver, MapFn } from '..';
 import { ElementHandle } from 'puppeteer';
 import { waitFor } from '../../utils';
-import { Key, getModifiedKey } from '../key-types';
+import { getModifiedKey } from '../key-types';
 
 type ElementGetter = () => Promise<ElementHandle | null>;
 type ElementsGetter = () => Promise<ElementHandle[]>;
@@ -71,13 +71,6 @@ export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
     }
   };
 
-  function press(key: Key): Promise<void>;
-  function press(key: string): Promise<void>;
-  async function press(key: string | Key): Promise<void> {
-    const el = await elem();
-    return el.press(getModifiedKey(key));
-  }
-
   return {
     $: (newLoc: Locator) => {
       return pupUniDriver(async () => {
@@ -100,14 +93,17 @@ export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
     click: async () => {
       return (await elem()).click();
     },
-    press,
+    pressKey: async (key) => {
+      const el = await elem();
+      return el.press(getModifiedKey(key));
+    },
     hover: async () => {
       return (await elem()).hover();
     },
     hasClass: async (className: string) => {
       const el = await elem();
-      const cm: any = await el.getProperty('classList');
-      return cm.indexOf(className) !== -1;
+      const cm = await (await el.getProperty('classList')).jsonValue();
+      return Object.keys(cm).map(key => cm[key]).includes(className);
     },
     enterValue: async (value: string) => {
       const e = await elem();

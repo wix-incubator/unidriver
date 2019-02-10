@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 
 export type TodoItem = {
 	label: string;
@@ -8,19 +9,29 @@ export type TodoItem = {
 
 export type TodoItemProps = {
 	item: TodoItem;
+	isActive: boolean;
 	onToggle: () => void;
+	onHover: () => void;
+	onBlur: () => void;
 };
 
 class TodoAppItem extends React.Component<TodoItemProps, {}> {
 	render () {
-		const {item, onToggle} = this.props;
+		const {item, isActive, onToggle, onHover, onBlur} = this.props;
+		const cn = classNames({
+			active: isActive,
+			done: item.completed
+		});
+
+		const style = {backgroundColor: isActive ? 'red' : ''};
+
 		return (
-		<div className={`todo-item${item.completed ? ' done' : ''}`} data-value={item.id}>
+			<div className={`todo-item ${cn}`} onMouseEnter={onHover} onMouseLeave={onBlur} data-value={item.id} style={style}>
 				<span className='label'>{item.label}</span>
 				{item.completed ? <span className='completed'>Completed!</span> : null}
 				<button className='toggle' onClick={onToggle}>Toggle</button>
 			</div>
-			);
+		);
 	}
 }
 
@@ -33,7 +44,7 @@ export class TodoApp extends React.Component<TodoAppProps, any> {
 	state = {
 		newItem: this.props.initialText || '',
 		items: this.props.items,
-		event: null
+		activeItem: -1
 	};
 
 	onToggle = (idx: number) => () => {
@@ -55,17 +66,29 @@ export class TodoApp extends React.Component<TodoAppProps, any> {
 		}
 	}
 
+	onHover = (idx: number) => () => {
+		this.setState({activeItem: idx});
+	}
+
+	onBlur = () => this.setState({activeItem: -1});
+
 	render () {
-		const {items} = this.state;
+		const {items, activeItem} = this.state;
+		const itemsComp = items.map((item, idx) => {
+			const isActive = idx === activeItem;
+			return (
+				<TodoAppItem key={idx} item={item} isActive={isActive} onToggle={this.onToggle(idx)} onHover={this.onHover(idx)} onBlur={this.onBlur}/>
+			);
+		});
+
 		return (
 		<div>
 				<header>
 					<input value={this.state.newItem} onChange={(e) => this.setState({newItem: e.target.value})}/>
-					<button className='add' onClick={this.onAdd} onMouseEnter={(e) => this.setState({event: e.type})} onKeyPress={this.onKeyPress}>Add</button>
-					{this.state.event && <label className='event'>{this.state.event}</label>}
+					<button className='add' onClick={this.onAdd} onKeyPress={this.onKeyPress}>Add</button>
 				</header>
 				<main>
-					{items.map((item, idx) => <TodoAppItem key={idx} item={item} onToggle={this.onToggle(idx)}/>)}
+					{itemsComp}
 				</main>
 				<footer>
 					Items count: <span className='count'>{items.length}</span>
