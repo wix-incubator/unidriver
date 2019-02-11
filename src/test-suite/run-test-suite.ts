@@ -56,6 +56,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 						await driver.$('header input').enterValue('Some value');
 						await driver.$('.add').click();
+						console.log(await item.text());
 
 						assert.equal(await item.text(), 'Some value');
 					});

@@ -155,7 +155,7 @@ export const createMyCoolDriver = (wrapper: UniDriver, theOuterWorld: UniDriver)
 
 ## Test Suite
 A standard testsuite on each adapter to ensure proper behaviour of the API on each adapter. It is given a working todo-app, and by testing it's features and assuming that it is working well, we can test the adapters functionality. 
-Checkout [the code](src/test-suite/spec.ts) for more details
+Checkout [the code](src/test-suite/run-test-suite.ts) for more details
 
 ## Roadmap
 - Add more users to validate idea and API

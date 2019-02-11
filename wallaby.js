@@ -12,8 +12,7 @@ module.exports = function (wallaby) {
 			{pattern: 'node_modules/**/*', ignore: true}
 		],
 		tests: [
-			'src/base-driver/react/spec.tsx',
-			'src/test-suite/specs.ts',
+			'src/lib/react/spec.ts',
 			'src/spec.ts',
 		],
 		compilers: {

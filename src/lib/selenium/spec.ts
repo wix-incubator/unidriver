@@ -1,4 +1,4 @@
-import { runTestSuite } from '../../test-suite/spec';
+import { runTestSuite } from '../../test-suite/run-test-suite';
 import { startServer, getUrl } from '../../test-suite/server';
 import { seleniumUniDriver } from './index';
 import { TodoAppSetupFn } from '../../test-suite';

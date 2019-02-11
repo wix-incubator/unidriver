@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { reactUniDriver } from './index';
 import { TodoApp } from '../../test-suite/react-todoapp';
 import { TodoAppSetupFn } from '../../test-suite/';
-import { runTestSuite } from '../../test-suite/spec';
+import { runTestSuite } from '../../test-suite/run-test-suite';
 
 const setup: TodoAppSetupFn = (data) => {
 	const cleanup = require('jsdom-global')();

@@ -1,4 +1,4 @@
-import {Key} from '../lib/key-types';
+import {Key} from './key-types';
 
 export type Locator = string;
 
