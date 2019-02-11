@@ -133,9 +133,10 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 			el.value = value;
 			Simulate.change(el);
 		},
-		attr: async (name: string) => {
-			return (await elem()).getAttribute(name) || '';
-		},
+    attr: async (name: string) => {
+      const el = await elem();
+      return el.getAttribute(name);
+    },
 		exists,
 		isDisplayed: async () => {
 			return true;

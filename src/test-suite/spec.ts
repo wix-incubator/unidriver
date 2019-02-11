@@ -2,8 +2,15 @@ import { UniDriver } from '../lib';
 import { assert } from 'chai';
 import { TestSuiteParams, TodoAppData } from '.';
 import {Key} from '../lib/key-types';
+import {TodoItem} from './react-todoapp';
 
-const itemCreator = (label: string, completed = false) => ({label, completed});
+const itemCreator = (partial: Partial<TodoItem>) => {
+	return {
+		label: 'default',
+		completed: false,
+		...partial
+	};
+};
 
 export const runTestSuite = (params: TestSuiteParams) => {
 
@@ -36,14 +43,14 @@ export const runTestSuite = (params: TestSuiteParams) => {
 		describe('$', () => {
 			describe('text()', () => {
 				it('returns text of a element', async () => {
-					await runTest({items: [itemCreator('Bob')]}, async (driver) => {
+					await runTest({items: [itemCreator({label: 'Bob'})]}, async (driver) => {
 						assert.equal(await driver.$('.label').text(), 'Bob');
 						assert.equal(await driver.$('.count').text(), '1');
 					});
 				});
 
 				it('returns text of a element with nested selector', async () => {
-					await runTest({items: [itemCreator('Buy milk')]}, async (driver) => {
+					await runTest({items: [itemCreator({label: 'Buy milk'})]}, async (driver) => {
 						assert.equal(await driver.$('.todo-item').$('.label').text(), 'Buy milk');
 					});
 				});
@@ -56,7 +63,6 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 						await driver.$('header input').enterValue('Some value');
 						await driver.$('.add').click();
-
 						assert.equal(await item.text(), 'Some value');
 					});
 				});
@@ -84,7 +90,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 					await runTest({items: [], initialText: ''}, async (driver) => {
 						await driver.$('input').enterValue('bob');
 						await driver.$('.add').click();
-					
+
 						assert.equal(await driver.$('.count').text(), '1');
 						assert.equal(await driver.$('.label').text(), 'bob');
 					});
@@ -93,13 +99,9 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 			describe('hover()', () => {
 				it('works', async () => {
-					await runTest({items: [itemCreator('Bob'), itemCreator('David')]}, async (driver) => {
+					await runTest({items: [itemCreator({label: 'Bob'}), itemCreator({label: 'David'})]}, async (driver) => {
 						const bd = await driver.$$('.todo-item').get(1);
 						await bd.hover();
-
-						// const classLists = await (await (await bd.getNative()).getProperty('classList')).jsonValue();
-						// console.log('THIS IS CLASS', classLists);
-
 						assert.equal(await bd.hasClass('active'), true);
 					});
 				});
@@ -142,12 +144,39 @@ export const runTestSuite = (params: TestSuiteParams) => {
 					});
 				});
 			});
+			
+			describe('attr()', () => {
+				it('returns null if attr does not exist', async () => {
+					const items = [itemCreator({ label: 'Bob', completed: false })];
+					await runTest({ items }, async driver => {
+						assert.deepEqual(await driver.$('.todo-item').attr('data-value'), null);
+					});
+				});
+
+				it('returns attribute value', async () => {
+					const items = [
+						itemCreator({ label: 'Bob', completed: false, id: 'bob' })
+					];
+					await runTest({ items }, async driver => {
+						assert.deepEqual(await driver.$('.todo-item').attr('data-value'), 'bob');
+					});
+				});
+
+				it('returns empty string', async () => {
+					const items = [
+						itemCreator({ label: 'Bob', completed: false, id: '' })
+					];
+					await runTest({ items }, async driver => {
+						assert.deepEqual(await driver.$('.todo-item').attr('data-value'), '');
+					});
+				});
+			});
 		});
 
 		describe('$$', () => {
 			describe('get()', () => {
 				it('returns single driver in the required position', async () => {
-					const items = [itemCreator('Bob'), itemCreator('David')];
+					const items = [itemCreator({label: 'Bob'}), itemCreator({label: 'David'})];
 					await runTest({items}, async (driver) => {
 						assert.equal(await driver.$$('.label').get(0).text(), 'Bob');
 						assert.equal(await driver.$$('.label').get(1).text(), 'David');
@@ -157,7 +186,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 			describe('text()', () => {
 				it('returns the text of all given drivers in the list', async () => {
-					const items = [itemCreator('Bob'), itemCreator('David')];
+					const items = [itemCreator({label: 'Bob'}), itemCreator({label: 'David'})];
 					await runTest({items}, async (driver) => {
 						assert.deepEqual(await driver.$$('.label').text(), ['Bob', 'David']);
 					});
@@ -166,7 +195,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 			describe('count()', () => {
 				it('returns the text of all given drivers in the list', async () => {
-					const items = [itemCreator('Bob'), itemCreator('David'), itemCreator('Jacob')];
+					const items = [itemCreator({label: 'Bob'}), itemCreator({label: 'David'}), itemCreator({label: 'Jacob'})];
 					await runTest({items}, async (driver) => {
 						assert.deepEqual(await driver.$$('.todo-item').count(), 3);
 					});
@@ -175,14 +204,14 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 			describe('map()', () => {
 				it('works for text', async () => {
-					const items = [itemCreator('Bob'), itemCreator('David'), itemCreator('Jacob')];
+					const items = [itemCreator({label: 'Bob'}), itemCreator({label: 'David'}), itemCreator({label: 'Jacob'})];
 					await runTest({items}, async (driver) => {
 						assert.deepEqual(await driver.$$('.todo-item .label').map((bd) => bd.text()), ['Bob', 'David', 'Jacob']);
 					});
 				});
 
 				it('passes index', async () => {
-					const items = [itemCreator('Bob'), itemCreator('David'), itemCreator('Jacob')];
+					const items = [itemCreator({label: 'Bob'}), itemCreator({label: 'David'}), itemCreator({label: 'Jacob'})];
 					await runTest({items}, async (driver) => {
 						const idx = await driver.$$('.todo-item').map((_, i) => Promise.resolve(i));
 						assert.deepEqual(idx, [0, 1, 2]);
@@ -192,7 +221,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 			describe('filter()', () => {
 				it('works', async () => {
-					const items = [itemCreator('Bob', true), itemCreator('David'), itemCreator('Jacob', true)];
+					const items = [itemCreator({label: 'Bob', completed: true}), itemCreator({label: 'David'}), itemCreator({label: 'Jacob',completed: true})];
 					await runTest({items}, async (driver) => {
 						const completed = await driver.$$('.todo-item').filter((item) => item.$('.completed').exists());
 						assert.deepEqual(await completed.count(), 2);
@@ -202,7 +231,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 			describe('scrollIntoView()', () => {
 				it('works', async () => {
-					const items = Array.from(Array(150).keys()).map(value => itemCreator(value.toString()));
+					const items = Array.from(Array(150).keys()).map(value => itemCreator({label: value.toString()}));
 					await runTest({items}, async (driver) => {
 						if (driver.type !== 'react') {
 							const footer: UniDriver = await driver.$('footer');
@@ -218,6 +247,5 @@ export const runTestSuite = (params: TestSuiteParams) => {
 			});
 
 		});
-
 	});
 };

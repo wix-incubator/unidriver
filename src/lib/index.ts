@@ -25,7 +25,7 @@ export type UniDriver<T = any> = {
 	pressKey: (key: Key | string) => Promise<void>
 	value: () => Promise<string>;
 	enterValue: (value: string) => Promise<void>;
-	attr: (name: string) => Promise<string>;
+	attr: (name: string) => Promise<string | null>;
 	hasClass: (name: string) => Promise<boolean>;
 	exists: () => Promise<boolean>;
 	isDisplayed: () => Promise<boolean>;

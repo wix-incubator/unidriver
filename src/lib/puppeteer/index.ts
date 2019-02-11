@@ -1,18 +1,22 @@
 import { Locator, UniDriverList, UniDriver, MapFn } from '..';
-import { ElementHandle } from 'puppeteer';
+import { ElementHandle, Page } from 'puppeteer';
 import { waitFor } from '../../utils';
 import { getModifiedKey } from '../key-types';
 
-type ElementGetter = () => Promise<ElementHandle | null>;
-type ElementsGetter = () => Promise<ElementHandle[]>;
+type BaseElementContainer = { page: Page; selector: string };
+type ElementContainer = BaseElementContainer & { element: ElementHandle | null };
+type ElementsContainer = BaseElementContainer & { elements: ElementHandle[] };
+
+type ElementGetter = () => Promise<ElementContainer>;
+type ElementsGetter = () => Promise<ElementsContainer>;
 
 export const pupUniDriverList = (
   elems: ElementsGetter
-): UniDriverList<ElementHandle> => {
+): UniDriverList<ElementContainer> => {
   const map = async <T>(fn: MapFn<T>) => {
-    const els = await elems();
-    const promises = els.map((e, i) => {
-      const bd = pupUniDriver(() => Promise.resolve(e));
+    const {elements, ...rest} = await elems();
+    const promises = elements.map((element, i) => {
+      const bd = pupUniDriver(() => Promise.resolve({element, ...rest}));
       return fn(bd, i);
     });
     return Promise.all(promises);
@@ -21,8 +25,11 @@ export const pupUniDriverList = (
   return {
     get: (idx: number) => {
       const elem = async () => {
-        const els = await elems();
-        return els[idx];
+        const {elements, ...rest} = await elems();
+        return {
+          element: elements[idx],
+          ...rest
+        };
       };
       return pupUniDriver(elem);
     },
@@ -30,37 +37,58 @@ export const pupUniDriverList = (
       return map((d) => d.text());
     },
     count: async () => {
-      const els = await elems();
-      return els.length;
+      const {elements} = await elems();
+      return elements.length;
     },
     map,
     filter: (fn) => {
       return pupUniDriverList(async () => {
-        const els = await elems();
-
-        const results = await Promise.all(els.map((e, i) => {
-            const bd = pupUniDriver(() => Promise.resolve(e));
-            return fn(bd, i);
-          }));
-
-        return els.filter((_, i) => {
+        const {elements, ...rest} = await elems();
+        const results = await map(fn);
+        const filteredElements = elements.filter((_, i) => {
           return results[i];
         });
+        return {
+          elements: filteredElements,
+          ...rest
+        };
       });
     }
   };
 };
 
-export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
+const isBaseContainer = (
+  obj: ElementGetter | BaseElementContainer
+): obj is BaseElementContainer => {
+  return !!(obj as any).page;
+};
 
-
+export const pupUniDriver = (
+  el: ElementGetter | BaseElementContainer
+): UniDriver<ElementContainer> => {
   const elem = async () => {
-    const e = await el();
-    if (!e) {
-      throw new Error(`Cannot find element`);
+    if (isBaseContainer(el)) {
+      const {page, selector} = el;
+      const element = await page.$(selector);
+      if (!element) {
+        throw new Error(`Cannot find element`);
+      }
+      return {
+        page,
+        element,
+        selector
+      };
+    } else {
+      const {element, ...rest} = await el();
+      if (!element) {
+        throw new Error(`Cannot find element`);
+      }
+      return {
+        ...rest,
+        element
+      };
     }
-    return e;
-  }
+  };
 
   const exists = async () => {
     try {
@@ -74,66 +102,78 @@ export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
   return {
     $: (newLoc: Locator) => {
       return pupUniDriver(async () => {
-        return (await elem()).$(newLoc);
+        const {element, ...rest} = await elem();
+        return {
+          ...rest,
+          element: await element.$(newLoc),
+          selector: newLoc
+        };
       });
     },
-    $$: (selector: Locator) => pupUniDriverList(async () => {
-        const elem = await el();
-        if (!elem) {
-          throw new Error(`Cannot find element`);
-        }
-        return elem.$$(selector);
+    $$: (newLoc: Locator) =>
+      pupUniDriverList(async () => {
+        const {element, selector, ...rest} = await elem();
+        return {
+          ...rest,
+          elements: await element.$$(newLoc),
+          selector: newLoc
+        };
       }),
     text: async () => {
-      const el = await elem();
-      const textHandle = await el.getProperty('textContent');
+      const {element} = await elem();
+      const textHandle = await element.getProperty('textContent');
       const text = await textHandle.jsonValue();
       return text || '';
     },
     click: async () => {
-      return (await elem()).click();
-    },
-    pressKey: async (key) => {
-      const el = await elem();
-      return el.press(getModifiedKey(key));
+      return (await elem()).element.click();
     },
     hover: async () => {
-      return (await elem()).hover();
+      return (await elem()).element.hover();
     },
     hasClass: async (className: string) => {
-      const el = await elem();
-      const cm = await (await el.getProperty('classList')).jsonValue();
+      const {element} = await elem();
+      const cm = await (await element.getProperty('classList')).jsonValue();
       return Object.keys(cm).map(key => cm[key]).includes(className);
     },
     enterValue: async (value: string) => {
-      const e = await elem();
-      await e.focus();
-      await e.type(value);
+      const {element} = await elem();
+      await element.focus();
+      await element.type(value);
+		},
+		pressKey: async (key) => {
+      const {element} = await elem();
+      return element.press(getModifiedKey(key));
     },
     exists,
     isDisplayed: async () => {
-      const e = await elem();
-      return e.isIntersectingViewport();
+      const {element} = await elem();
+      return element.isIntersectingViewport();
     },
     value: async () => {
-      const el = await elem();
-      const valueHandle = await el.getProperty('value');
+      const {element} = await elem();
+
+      const valueHandle = await element.getProperty('value');
       const value = await valueHandle.jsonValue();
       return value || '';
     },
-    attr: async (name) => {
-      const el = await elem();
-      const attrsHandle = await el.getProperty('attributes');
-      const attrs = await attrsHandle.jsonValue();
-      return attrs[name] || '';
+    attr: async name => {
+      const {page, selector} = await elem();
+      return page.$eval(
+        selector,
+        (elem, name) => {
+          return elem.getAttribute(name);
+        },
+        name
+      );
     },
     wait: async () => {
       return waitFor(exists);
     },
     type: 'puppeteer',
     scrollIntoView: async () => {
-      const el = await elem();
-      await el.hover();
+      const {element} = await elem();
+      await element.hover();
 
       return {};
     },
