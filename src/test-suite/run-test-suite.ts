@@ -144,7 +144,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 					});
 				});
 			});
-			
+
 			describe('attr()', () => {
 				it('returns null if attr does not exist', async () => {
 					const items = [itemCreator({ label: 'Bob', completed: false })];
