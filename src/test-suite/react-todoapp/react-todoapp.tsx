@@ -40,7 +40,13 @@ export type TodoAppProps = {
 	initialText?: string;
 };
 
-export class TodoApp extends React.Component<TodoAppProps, any> {
+type TodoAppState = {
+	newItem: string;
+	items: TodoItem[];
+	activeItem: number;
+};
+
+export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 	state = {
 		newItem: this.props.initialText || '',
 		items: this.props.items,

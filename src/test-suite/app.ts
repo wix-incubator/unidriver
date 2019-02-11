@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { TodoApp } from './react-todoapp';
+import { TodoApp } from './react-todoapp/react-todoapp';
+import {KeyboardEventsApp} from './react-keyboard-events-app/react-keyboard-events-app';
 
 const w: any = window;
 
@@ -15,7 +16,12 @@ try {
 	console.error('error parsing data, falling back to default');
 }
 
-const element = React.createElement(TodoApp, data);
+const appNameToAppClass: {[idx: string]: React.ComponentClass<any>} = {
+	'todo-app': TodoApp,
+	'events-app': KeyboardEventsApp
+};
+
+const element = React.createElement(appNameToAppClass[location.pathname.replace('/', '')], data);
 ReactDOM.render(element, document.getElementById('root'));
 
 

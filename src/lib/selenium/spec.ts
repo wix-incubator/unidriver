@@ -1,10 +1,10 @@
-import { runTestSuite } from '../../test-suite/run-test-suite';
 import { startServer, getUrl } from '../../test-suite/server';
 import { seleniumUniDriver } from './index';
 import { TodoAppSetupFn } from '../../test-suite';
 import { Server } from 'http';
 import { ThenableWebDriver, Builder, WebElement, By } from 'selenium-webdriver';
 import * as chrome from 'selenium-webdriver/chrome';
+import {runAllTestSuites} from '../../test-suite/run-all-test-suites';
 
 const port = 8082;
 
@@ -33,7 +33,7 @@ const after = async () => {
 
 const setup: TodoAppSetupFn = async (data) => {
 
-	await wd.get(`http://localhost:${port}${getUrl(data)}`);
+	await wd.get(`http://localhost:${port}${getUrl('todo-app', data)}`);
 	const driver = seleniumUniDriver(() => {
 		const el: any = wd.findElement(By.css('body'));
 		return el as Promise<WebElement>
@@ -47,7 +47,7 @@ const setup: TodoAppSetupFn = async (data) => {
 }
 
 describe('selenium', () => {
-	runTestSuite({setup, before, after});
+	runAllTestSuites({todoAppParams: {setup, before, after}});
 });
 
 
