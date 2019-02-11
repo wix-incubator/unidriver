@@ -60,7 +60,7 @@ export const pupUniDriver = (el: ElementGetter): UniDriver<ElementHandle> => {
       throw new Error(`Cannot find element`);
     }
     return e;
-  }
+  };
 
   const exists = async () => {
     try {

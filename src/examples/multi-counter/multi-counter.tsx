@@ -13,13 +13,13 @@ export class MultiCounter extends React.PureComponent<{}, State> {
 	add = () => {
 		const newKey = Math.floor(Math.random() * 99999).toString(32);
 		this.setState({counters: [...this.state.counters, newKey]});
-	}
+	};
 
 	remove = (idx: number) => () => {
 		const {counters} = this.state;
 		const filtered = counters.filter((_, i) => i !== idx);
 		this.setState({counters: filtered});
-	}
+	};
 
 	renderSingle = (key: string, idx: number) => {
 		return (
@@ -27,7 +27,7 @@ export class MultiCounter extends React.PureComponent<{}, State> {
 			<Counter init={0}/>
 			<button className='remove' onClick={this.remove(idx)}>X</button>
 		</div>);
-	}
+	};
 
 	render () {
 		return (

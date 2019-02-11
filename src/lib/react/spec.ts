@@ -23,7 +23,7 @@ const setup: TodoAppSetupFn = (data) => {
 	};
 
 	return Promise.resolve({driver, tearDown});
-}
+};
 
 describe('react base driver - test suite', () => {
 	runTestSuite({setup});

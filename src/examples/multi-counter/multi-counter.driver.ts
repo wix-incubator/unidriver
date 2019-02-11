@@ -22,4 +22,4 @@ export const multiCounterDriver = (base: UniDriver): CounterDriver => {
 		remove: (idx: number) => base.$$('.counter-wrapper').get(idx).$('.remove').click(),
 		count: () => base.$$('.counter-wrapper').count()
 	};
-}
+};

@@ -32,10 +32,10 @@ const setup: TodoAppSetupFn = async (data) => {
 	await page.goto(`http://localhost:${port}${getUrl(data)}`);
 	const driver = pupUniDriver(() => page.$('body'));
 
-	const tearDown = async () => { }
+	const tearDown = async () => { };
 
 	return {driver, tearDown};
-}
+};
 
 
 describe('puppeteer', () => {

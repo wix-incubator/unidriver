@@ -48,12 +48,12 @@ export class TodoApp extends React.Component<TodoAppProps, any> {
 		const item = items[idx];
 		const newItems = items.map((i, itemIdx) => idx === itemIdx ? {...i, done: !item.done} : i);
 		this.setState({items: newItems});
-	}
+	};
 
 	onAdd = () => {
 		const items = this.state.items;
 		this.setState({items: [...items, {title: this.state.newItem, done: false}], newItem: ''});
-	}
+	};
 
 	render () {
 		return (
@@ -82,7 +82,7 @@ export class MultiTodoApp extends React.Component<MultiTodoAppProps, any> {
 			<TodoApp items={items}/>
 		</div>
 		);
-	}
+	};
 
 	render () {
 		return (

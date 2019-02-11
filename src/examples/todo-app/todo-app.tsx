@@ -21,7 +21,7 @@ export class TodoItemView extends React.PureComponent<TodoItemViewProps, {}> {
 	onToggle = () => {
 		const {val, onChange} = this.props;
 		onChange({...val, done: !val.done}, val);
-	}
+	};
 
 	onDelete = () => this.props.onDelete(this.props.val);
 
@@ -44,7 +44,7 @@ export class TodoApp extends React.PureComponent<{}, State> {
 			done: false
 		}],
 		newItemTitle: ''
-	}
+	};
 
 	onChangeNewTitle = (e: any) => this.setState({newItemTitle: e.target.value});
 
@@ -54,7 +54,7 @@ export class TodoApp extends React.PureComponent<{}, State> {
 			items: [{title: newItemTitle, done: false}, ...items, ],
 			newItemTitle: ''
 		});
-	}
+	};
 
 	change = (newVal: TodoItem, oldVal: TodoItem) => {
 		const {items} = this.state;
@@ -62,20 +62,20 @@ export class TodoApp extends React.PureComponent<{}, State> {
 		this.setState({items: items.map((item) => {
 			return item === oldVal ? newVal : item;
 		})});
-	}
+	};
 
 	remove = (itemToRemove: TodoItem) => {
 		const {items} = this.state;
 		this.setState({items: items.filter((item) => {
 			return item !== itemToRemove;
 		})});
-	}
+	};
 
 	handleKeyDown = (e: any) => {
 		if (e.keyCode === 13) {
 			this.add();
 		}
-	}
+	};
 
 	render() {
 		const {state} = this;
