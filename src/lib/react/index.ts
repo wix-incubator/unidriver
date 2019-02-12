@@ -125,8 +125,20 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 		pressKey: async (key: KeyType) => {
 			const el = await elem();
 			const def = getDefinitionForKeyType(key);
-			Simulate.keyDown(el, def);
-			Simulate.keyUp(el, def);
+
+			if (document.body.contains(el)) {
+				const keydown = new KeyboardEvent('keydown', {...def});
+				const keyup = new KeyboardEvent('keyup', {...def});
+
+ 				keydown.initEvent(keydown.type, true, false);
+ 				keyup.initEvent(keyup.type, true, false);
+
+ 				el.dispatchEvent(keydown);
+ 				el.dispatchEvent(keyup)
+			} else {
+				Simulate.keyDown(el, def);
+				Simulate.keyUp(el, def);
+			}
 		},
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
 		enterValue: async (value: string) => {
