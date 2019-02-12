@@ -168,6 +168,45 @@ export const pupUniDriver = (
         name
       );
     },
+    mouse: {
+			press: async() => {
+        const {page, selector} = await elem();
+
+        return page.$eval(
+          selector,
+          (elem) => {
+            const mousedown: any = document.createEvent('HTMLEvents');
+            mousedown.initEvent('mousedown', true, false);
+            elem.dispatchEvent(mousedown);
+          }
+        );
+			},
+			release: async () => {
+        const {page, selector} = await elem();
+
+        return page.$eval(
+          selector,
+          (elem) => {
+            const mouseup: any = document.createEvent('HTMLEvents');
+            mouseup.initEvent('mouseup', true, false);
+            elem.dispatchEvent(mouseup);
+          }
+        );
+      },
+      move: async (to) => {
+        const {page, selector} = await elem();
+
+        return page.$eval(
+          selector,
+          (elem, to) => {
+            const mousemove = document.createEvent('MouseEvents');
+            mousemove.initMouseEvent('mousemove', true, false, window, 0, 0, 0, to.x, to.y, false, false, false, false, 0, null)
+            elem.dispatchEvent(mousemove);
+          },
+          to
+        );
+      }
+		},
     wait: async () => {
       return waitFor(exists);
     },

@@ -21,7 +21,7 @@ export const runAllTestSuites = ({todoAppParams, keyboardEventsAppParams}: Parti
 
     if (keyboardEventsAppParams) {
         runTestSuite<KeyboardEventsAppProps>({
-            appName: 'Keyboard Events App',
+            appName: 'Events App',
             params: keyboardEventsAppParams,
             tests: (runTest) => runKeyboardEventsAppTestSuite(runTest)
         });
