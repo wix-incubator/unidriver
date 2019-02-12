@@ -124,7 +124,8 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 		},
 		pressKey: async (key) => {
 			const el = await elem();
-			Simulate.keyPress(el, { key: getModifiedKey(key) });
+			Simulate.keyDown(el, { key: getModifiedKey(key) });
+			Simulate.keyUp(el, { key: getModifiedKey(key) });
 		},
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
 		enterValue: async (value: string) => {

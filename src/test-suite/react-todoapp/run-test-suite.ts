@@ -2,7 +2,7 @@ import {assert} from 'chai';
 import {Key} from '../../lib/key-types';
 import {UniDriver} from '../../lib';
 import {RunTestFn} from '../run-all-test-suites';
-import {TodoAppProps, TodoItem} from './react-todoapp';
+import {TodoAppProps, TodoItem} from './';
 
 const itemCreator = (partial: Partial<TodoItem>) => {
     return {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { TodoApp } from './react-todoapp/react-todoapp';
-import {KeyboardEventsApp} from './react-keyboard-events-app/react-keyboard-events-app';
+import { TodoApp } from './react-todoapp';
+import {EventsApp} from './react-events-app';
 
 const w: any = window;
 
@@ -18,7 +18,7 @@ try {
 
 const appNameToAppClass: {[idx: string]: React.ComponentClass<any>} = {
 	'todo-app': TodoApp,
-	'events-app': KeyboardEventsApp
+	'events-app': EventsApp
 };
 
 const element = React.createElement(appNameToAppClass[location.pathname.replace('/', '')], data);

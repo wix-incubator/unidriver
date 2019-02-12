@@ -5,8 +5,8 @@ import {Browser, Page} from 'puppeteer';
 import {pupUniDriver} from './index';
 import {KeyboardEventsAppSetupFn, SetupFn, TodoAppSetupFn} from '../../test-suite';
 import {Server} from 'http';
-import {TodoAppProps} from '../../test-suite/react-todoapp/react-todoapp';
-import {KeyboardEventsAppProps} from '../../test-suite/react-keyboard-events-app/react-keyboard-events-app';
+import {TodoAppProps} from '../../test-suite/react-todoapp';
+import {KeyboardEventsAppProps} from '../../test-suite/react-events-app';
 
 const port = 8082;
 
@@ -48,4 +48,7 @@ describe('puppeteer', () => {
 		keyboardEventsAppParams: {setup: eventsAppSetup, before, after}});
 });
 
-describe('puppeteer specific tests', () => {});
+describe.only('puppeteer specific tests', () => {
+  const eventsAppSetup: KeyboardEventsAppSetupFn = commonSetup<KeyboardEventsAppProps>('events-app');
+  runAllTestSuites({keyboardEventsAppParams: {setup: eventsAppSetup, before, after}});
+});

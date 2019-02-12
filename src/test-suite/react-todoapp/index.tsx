@@ -65,7 +65,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 		this.setState({items: [...items, {label: this.state.newItem, completed: false}], newItem: ''});
 	}
 	
-	onKeyPress = (e: React.KeyboardEvent) => {
+	onKeyDown = (e: React.KeyboardEvent) => {
 		e.preventDefault()
 		if (e.key === 'Enter') {
 			this.onAdd();
@@ -91,7 +91,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 		<div>
 				<header>
 					<input value={this.state.newItem} onChange={(e) => this.setState({newItem: e.target.value})}/>
-					<button className='add' onClick={this.onAdd} onKeyPress={this.onKeyPress}>Add</button>
+					<button className='add' onClick={this.onAdd} onKeyDown={this.onKeyDown}>Add</button>
 				</header>
 				<main>
 					{itemsComp}

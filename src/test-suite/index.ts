@@ -1,6 +1,6 @@
 import { UniDriver } from '../lib';
-import {TodoAppProps} from './react-todoapp/react-todoapp';
-import {KeyboardEventsAppProps} from './react-keyboard-events-app/react-keyboard-events-app';
+import {TodoAppProps} from './react-todoapp';
+import {KeyboardEventsAppProps} from './react-events-app';
 
 export type SetupFn<P> = (props: P) => Promise<{driver: UniDriver, tearDown: () => Promise<void>}>;
 export type TodoAppSetupFn = SetupFn<TodoAppProps>;

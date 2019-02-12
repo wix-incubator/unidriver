@@ -8,7 +8,7 @@
 export enum Key {
   CANCEL = 'CANCEL',
   HELP = 'HELP',
-  BACK_SPACE = 'BACK_SPACE',
+  BACKSPACE = 'BACKSPACE',
   TAB = 'TAB',
   CLEAR = 'CLEAR',
   ENTER = 'ENTER',
@@ -57,8 +57,7 @@ export enum Key {
   SHIFT = 'SHIFT', // Modifier Keys
   CONTROL = 'CONTROL',
   ALT = 'ALT',
-  COMMAND = 'COMMAND', // Apple command key
-  META = 'META' // alias for Windows key
+  META = 'META' // alias for Windows/Command key
 }
 
 const snakeCaseToCamelCase = (key: string) => {
@@ -90,8 +89,8 @@ const keyMapping: KeyMapping = {
   Add: '+',
   Subtract: '-',
   Decimal: '\u0000',
-  Devide: '/',
-  BackSpace: 'Backspace'
+  Divide: '/',
+  Backspace: 'Backspace'
 };
 
 export const getModifiedKey = (key: string | Key) => {
