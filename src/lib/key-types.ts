@@ -1,4 +1,5 @@
-import {PuppeteerEventDefinition, keyDefinitions } from './puppeteer-us-keyboard-layout';
+import {keyDefinitions, PuppeteerEventDefinition} from './puppeteer-us-keyboard-layout';
+import {KeyType} from './key-types';
 
 const nonTextKeyTypes: KeyType[] = [
     'Cancel', 'Help', 'Backspace', 'Tab', 'Clear', 'Enter', 'Pause', 'Escape', 'Space', 'PageUp', 'PageDown', 'End', 'Home',
@@ -13,6 +14,4 @@ const normalizeEventData = ({key, keyCode}: PuppeteerEventDefinition) => ({ key,
 
 export const getDefinitionForKeyType = (keyType: KeyType) => normalizeEventData(keyDefinitions[keyType] as PuppeteerEventDefinition);
 
-export const getAllKeyTypes = () => Object.keys(keyDefinitions) as KeyType[];
-
-export const getAllNonTextKeyTypes = () => getAllKeyTypes().filter(keyType => nonTextKeyTypes.includes(keyType)) as KeyType[];
+export const getAllNonTextKeyTypes = () => (Object.keys(keyDefinitions) as KeyType[]).filter(keyType => nonTextKeyTypes.includes(keyType)) as KeyType[];
