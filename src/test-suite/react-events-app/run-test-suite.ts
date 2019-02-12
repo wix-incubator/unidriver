@@ -2,24 +2,18 @@ import {assert} from 'chai';
 import {RunTestFn} from '../run-all-test-suites';
 import {KeyboardEventsAppProps} from '.';
 import { Key, getModifiedKey } from '../../lib/key-types';
-import { delay } from 'q';
 
 export const runTestSuite = (runTest: RunTestFn<KeyboardEventsAppProps>) => {
     describe('keyboard events', () => {
-        it('pressKey works for all keys', async () => {
-            await runTest({}, async (driver) => {
-                const keys = Object.keys(Key).map(k => Key[k as any]);
-                const eventsComp = await driver.$('.events-container input')
-                const promises = keys.map(async (k) => {
+        const keys = Object.keys(Key).map(k => Key[k as any]);
+        keys.forEach(async (k) => {
+            it(`pressKey works for ${k}`, async () => {
+                await runTest({}, async (driver) => {
+                    const eventsComp = await driver.$('.events-container input');
                     await eventsComp.pressKey(k);
-                    await delay(400);
+                    assert.equal(await driver.$('.events-container .event-key').text(), getModifiedKey(k));
                 });
-                await Promise.all(promises);
-
-                await delay(1000);
-
-                assert.includeDeepMembers(await driver.$$('.event-key').text(), keys.map(getModifiedKey));
             });
-        }).timeout(15000);
+        });
     });
 };

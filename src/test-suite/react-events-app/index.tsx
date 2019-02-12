@@ -33,7 +33,7 @@ export class EventsApp extends React.Component<KeyboardEventsAppProps, EventsApp
 		return (
 			<div className='events-container'>
 				<input onKeyDown={this.onKeyPress} value='' />
-				{state.keyboardEvents.map(keyboardEventComp)}
+				<div>{state.keyboardEvents.map(keyboardEventComp)}</div>
 			</div>
 		);
 	}
