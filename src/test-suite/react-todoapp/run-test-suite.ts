@@ -1,5 +1,4 @@
 import {assert} from 'chai';
-import {Key} from '../../lib/key-types';
 import {UniDriver} from '../../lib';
 import {RunTestFn} from '../run-all-test-suites';
 import {TodoAppProps, TodoItem} from './';
@@ -111,7 +110,7 @@ export const runTestSuite = (runTest: RunTestFn<TodoAppProps>) => {
             it('single key works', async () => {
                 await runTest({items: [], initialText: ''}, async (driver) => {
                     await driver.$('input').enterValue('bob');
-                    await driver.$('.add').pressKey(Key.ENTER);
+                    await driver.$('.add').pressKey('Enter');
                     assert.equal(await driver.$('.count').text(), '1');
                     assert.equal(await driver.$('.label').text(), 'bob');
                 });
