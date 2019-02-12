@@ -175,8 +175,8 @@ export const pupUniDriver = (
         return page.$eval(
           selector,
           (elem) => {
-            const mousedown: any = document.createEvent('HTMLEvents');
-            mousedown.initEvent('mousedown', true, false);
+            const mousedown = new MouseEvent('mousedown');
+            mousedown.initEvent(mousedown.type, true, false);
             elem.dispatchEvent(mousedown);
           }
         );
@@ -187,8 +187,8 @@ export const pupUniDriver = (
         return page.$eval(
           selector,
           (elem) => {
-            const mouseup: any = document.createEvent('HTMLEvents');
-            mouseup.initEvent('mouseup', true, false);
+            const mouseup = new MouseEvent('mouseup');
+            mouseup.initEvent(mouseup.type, true, false);
             elem.dispatchEvent(mouseup);
           }
         );
@@ -199,8 +199,8 @@ export const pupUniDriver = (
         return page.$eval(
           selector,
           (elem, to) => {
-            const mousemove = document.createEvent('MouseEvents');
-            mousemove.initMouseEvent('mousemove', true, false, window, 0, 0, 0, to.x, to.y, false, false, false, false, 0, null)
+            const mousemove = new MouseEvent('mousemove', {clientX: to.x, clientY: to.y});
+            mousemove.initEvent(mousemove.type, true, false);
             elem.dispatchEvent(mousemove);
           },
           to

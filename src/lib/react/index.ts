@@ -110,9 +110,9 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 				const el = await elem();
 
 				if (document.body.contains(el)) {
-					const mousedown: any = document.createEvent('HTMLEvents');
-					mousedown.initEvent('mousedown', true, false);
-					el.dispatchEvent(mousedown)
+					const mouseup = new MouseEvent('mousedown');
+					mouseup.initEvent(mouseup.type, true, false);
+					el.dispatchEvent(mouseup);
 				} else {
 					Simulate.mouseDown(el);
 				}
@@ -121,9 +121,9 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 				const el = await elem();
 
 				if (document.body.contains(el)) {
-					const mouseup: any = document.createEvent('HTMLEvents');
-					mouseup.initEvent('mouseup', true, false);
-					el.dispatchEvent(mouseup)
+					const mouseup = new MouseEvent('mouseup');
+					mouseup.initEvent(mouseup.type, true, false);
+					el.dispatchEvent(mouseup);
 				} else {
 					Simulate.mouseUp(el);
 				}
@@ -132,8 +132,8 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 				const el = await elem();
 
 				if (document.body.contains(el)) {
-					const mousemove = document.createEvent('MouseEvents');
-					mousemove.initMouseEvent('mousemove', true, false, window, 0, 0, 0, to.x, to.y, false, false, false, false, 0, null)
+					const mousemove = new MouseEvent('mousemove', {clientX: to.x, clientY: to.y});;
+					mousemove.initEvent(mousemove.type, true, false);
 					el.dispatchEvent(mousemove);
 				} else {
 					Simulate.mouseMove(el, {clientX: to.x, clientY: to.y});

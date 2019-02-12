@@ -9,7 +9,7 @@ export type PredicateFn = (e: UniDriver, idx?: number, array?: UniDriver[]) => P
 export type ReducerFn<T> = (acc: T, curr: UniDriver, idx?: number, array?: UniDriver[]) => T;
 
 export type MouseUniDriver = {
-	move?: (to: {x: number, y: number}) => Promise<void>;
+	move?: (toCoordinates: {x: number, y: number}) => Promise<void>;
 	press: () => Promise<void>;
 	release: () => Promise<void>;
 }
