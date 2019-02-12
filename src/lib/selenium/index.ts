@@ -1,6 +1,7 @@
 import { Locator, UniDriverList, UniDriver, MapFn } from '..';
 import { By, WebElement, Key as SeleniumKey } from 'selenium-webdriver';
 import { waitFor } from '../../utils';
+import { getDefinitionForKeyType } from '../key-types';
 
 export type WebElementGetter = () => Promise<WebElement>;
 export type WebElementsGetter = () => Promise<WebElement[]>;
@@ -93,7 +94,8 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
     },
     pressKey: async (key) => {
       const el = await elem();
-      const value = SeleniumKey[key as keyof typeof SeleniumKey] as string;
+      const realKey = getDefinitionForKeyType(key).key.toUpperCase();
+      const value = SeleniumKey[realKey as keyof typeof SeleniumKey] as string;
       if (value) {
         return el.sendKeys(value);
       } 
