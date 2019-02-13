@@ -7,9 +7,10 @@ export type EventsAppState = {
 }
 
 const KeyboardEventComp = ({event}: { event: React.KeyboardEvent }) => {
+     // `whiteSpace: pre` is needed for tests that run in browsers + Space key
     return (
         <div className='event-data'>
-            <span className='event-key'>{event.key}</span>
+            <span className='event-key' style={{whiteSpace: 'pre'}}>{event.key}</span>
             <span className='event-keycode'>{event.keyCode}</span>
         </div>
     );
