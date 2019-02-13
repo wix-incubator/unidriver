@@ -122,9 +122,10 @@ export const protractorUniDriver = (
         const e = await elem();
         return (await e.browser_.actions().mouseUp(e).perform());
       },
-      move: async (to) => {
+      moveTo: async (to) => {
         const e = await elem();
-        await (await e.browser_.actions().mouseMove(to).perform());
+        const nativeElem = await to.getNative();
+        await (await e.browser_.actions().mouseMove(nativeElem).perform());
       }
 		},
     exists,

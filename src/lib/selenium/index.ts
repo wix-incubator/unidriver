@@ -5,6 +5,17 @@ import { waitFor } from '../../utils';
 export type WebElementGetter = () => Promise<WebElement>;
 export type WebElementsGetter = () => Promise<WebElement[]>;
 
+const CamelCaseToHyphen = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1_$2');
+const interpolateSeleniumSpecialKeys = (key: string) => {
+  switch (key) {
+    case 'BACKSPACE':
+      return 'BACK_SPACE';
+
+    default:
+      return key;
+  }
+}
+
 export const seleniumUniDriverList = (
   wep: WebElementsGetter
 ): UniDriverList<WebElement> => {
@@ -93,11 +104,13 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
     },
     pressKey: async (key) => {
       const el = await elem();
-      const value = SeleniumKey[key as keyof typeof SeleniumKey] as string;
+      const realKey = interpolateSeleniumSpecialKeys(CamelCaseToHyphen(key).toUpperCase());
+      const value = SeleniumKey[realKey as keyof typeof SeleniumKey] as string;
       if (value) {
-        return el.sendKeys(value);
-      } 
-      return await el.sendKeys(key); 
+        await el.sendKeys(value);
+      } else {
+        return el.sendKeys(key); 
+      }
     },
     hasClass: async (className: string) => {
       const el = await elem();
@@ -130,19 +143,20 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
         const el = await elem();
         const driver = await el.getDriver();
         const actions = await driver.actions();
-        return actions.mouseDown(el).perform();
+        await actions.mouseDown(el).perform();
 			},
 			release: async () => {
         const el = await elem();
         const driver = await el.getDriver();
         const actions = await driver.actions();
-        return actions.mouseUp(el).perform();
+        await actions.mouseUp(el).perform();
       },
-      move: async (to) => {
+      moveTo: async (to) => {
         const el = await elem();
         const driver = await el.getDriver();
         const actions = await driver.actions();
-        return actions.mouseMove(to).perform();
+        const native = await to.getNative();
+        await actions.mouseMove(native).perform();
 			}
 		},
 		wait: async () => {

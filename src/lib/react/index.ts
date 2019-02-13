@@ -1,7 +1,7 @@
 import { UniDriverList, Locator, UniDriver } from '..';
 import { Simulate }                          from 'react-dom/test-utils';
 import { waitFor }                           from '../../utils';
-import {getModifiedKey} from '../key-types';
+import {getDefinitionForKeyType, KeyType} from '../key-types';
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -128,15 +128,16 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 					Simulate.mouseUp(el);
 				}
 			},
-			move: async (to) => {
+			moveTo: async (to) => {
 				const el = await elem();
+				const {left, top} = (await to.getNative()).getBoundingClientRect();
 
 				if (document.body.contains(el)) {
-					const mousemove = new MouseEvent('mousemove', {clientX: to.x, clientY: to.y});;
+					const mousemove = new MouseEvent('mousemove', {clientX: left, clientY: top});;
 					mousemove.initEvent(mousemove.type, true, false);
 					el.dispatchEvent(mousemove);
 				} else {
-					Simulate.mouseMove(el, {clientX: to.x, clientY: to.y});
+					Simulate.mouseMove(el, {clientX: left, clientY: top});
 				}
 			}
 		},
@@ -157,10 +158,23 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 				Simulate.mouseEnter(el);
 			}
 		},
-		pressKey: async (key) => {
+		pressKey: async (key: KeyType) => {
 			const el = await elem();
-			Simulate.keyDown(el, { key: getModifiedKey(key) });
-			Simulate.keyUp(el, { key: getModifiedKey(key) });
+			const def = getDefinitionForKeyType(key);
+
+			if (document.body.contains(el)) {
+				const keydown = new KeyboardEvent('keydown', {...def});
+				const keyup = new KeyboardEvent('keyup', {...def});
+
+ 				keydown.initEvent(keydown.type, true, false);
+ 				keyup.initEvent(keyup.type, true, false);
+
+ 				el.dispatchEvent(keydown);
+ 				el.dispatchEvent(keyup)
+			} else {
+				Simulate.keyDown(el, def);
+				Simulate.keyUp(el, def);
+			}
 		},
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
 		enterValue: async (value: string) => {

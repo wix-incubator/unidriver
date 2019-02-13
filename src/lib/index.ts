@@ -1,4 +1,4 @@
-import {Key} from './key-types';
+import {KeyType} from './key-types';
 
 export type Locator = string;
 
@@ -8,8 +8,8 @@ export type PredicateFn = (e: UniDriver, idx?: number, array?: UniDriver[]) => P
 
 export type ReducerFn<T> = (acc: T, curr: UniDriver, idx?: number, array?: UniDriver[]) => T;
 
-export type MouseUniDriver = {
-	move: (toCoordinates: {x: number, y: number}) => Promise<void>;
+export type MouseUniDriver<T> = {
+	moveTo: (to: UniDriver<T>) => Promise<void>;
 	press: () => Promise<void>;
 	release: () => Promise<void>;
 }
@@ -28,7 +28,7 @@ export type UniDriver<T = any> = {
 	text: () => Promise<string>;
 	click: () => Promise<void>;
 	hover: () => Promise<void>;
-	pressKey: (key: Key | string) => Promise<void>
+	pressKey: (key: KeyType) => Promise<void>
 	value: () => Promise<string>;
 	enterValue: (value: string) => Promise<void>;
 	attr: (name: string) => Promise<string | null>;
@@ -36,7 +36,7 @@ export type UniDriver<T = any> = {
 	exists: () => Promise<boolean>;
 	isDisplayed: () => Promise<boolean>;
 	wait: (timeout?: number) => Promise<void>;
-	mouse: MouseUniDriver;
+	mouse: MouseUniDriver<T>;
 	type: string;
 	scrollIntoView: () => Promise<{}>;
 	getNative: () => Promise<T>;

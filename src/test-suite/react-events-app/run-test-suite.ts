@@ -1,17 +1,20 @@
 import {assert} from 'chai';
 import {RunTestFn} from '../run-all-test-suites';
 import {KeyboardEventsAppProps} from '.';
-import { Key, getModifiedKey } from '../../lib/key-types';
+import {getAllNonTextKeyTypes, getDefinitionForKeyType} from '../../lib/key-types';
+import { WebElement } from 'protractor';
+import { ElementHandle } from 'puppeteer';
 
 export const runTestSuite = (runTest: RunTestFn<KeyboardEventsAppProps>) => {
     describe('keyboard events', () => {
-        const keys = Object.keys(Key).map(k => Key[k as any]);
-        keys.forEach(async (k) => {
-            it(`pressKey works for ${k}`, async () => {
+        getAllNonTextKeyTypes().forEach(async (keyType) => {
+            it(`pressKey works for ${keyType}`, async () => {
                 await runTest({}, async (driver) => {
                     const eventsComp = await driver.$('.keyboard-events input');
-                    await eventsComp.pressKey(k);
-                    assert.equal(await driver.$('.keyboard-event-data .event-key').text(), getModifiedKey(k));
+                    await eventsComp.pressKey(keyType);
+                    const def = getDefinitionForKeyType(keyType);
+                    assert.equal(await driver.$('.keyboard-event-data .event-key').text(), def.key);
+                    assert.equal(await driver.$('.keyboard-event-data .event-keycode').text(), def.keyCode.toString());
                 });
             });
         });
@@ -22,7 +25,7 @@ export const runTestSuite = (runTest: RunTestFn<KeyboardEventsAppProps>) => {
             await runTest({}, async (driver) => {
                 const eventsComp = await driver.$('.mouse-events button');
                 await eventsComp.mouse.press();
-                assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mousedown');
+                assert.include(await driver.$$('.mouse-event-data .event-type').text(), 'mousedown');
             });
         });
 
@@ -30,19 +33,38 @@ export const runTestSuite = (runTest: RunTestFn<KeyboardEventsAppProps>) => {
             await runTest({}, async (driver) => {
                 const eventsComp = await driver.$('.mouse-events button');
                 await eventsComp.mouse.release();
-                assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mouseup');
+                assert.include(await driver.$$('.mouse-event-data .event-type').text(), 'mouseup');
             });
         });
 
         it('move works', async () => {
             await runTest({}, async (driver) => {
                 const eventsComp = await driver.$('.mouse-events button');
-                const coordinates = {x: 10, y: 15};
-                if (eventsComp.mouse.move) {
-                    await eventsComp.mouse.move(coordinates);
-                }
+                const nativeEventsComp = await eventsComp.getNative();
+                let coordinates: {x: number, y: number};
+                const offset = 50; // 100px is the size of the width/height of the button, so we focus in the middle
 
-                assert.deepEqual(await driver.$('.mouse-event-data .event-type').text(), 'mousemove');
+                await eventsComp.mouse.moveTo(eventsComp);
+
+                switch (driver.type) {
+                    case 'selenium':
+                        const location = await (nativeEventsComp as WebElement).getLocation();
+                        coordinates = {x: location.x + offset, y: location.y + offset};
+                        break;
+                    case 'puppeteer':
+                        const box = await (nativeEventsComp.element as ElementHandle).boundingBox();
+                        if (!!box) {
+                            coordinates = {x: box.x, y: box.y}
+                            break;
+                        } else {
+                            throw new Error('issue with getting boundingBox on target element with puppeteer');
+                        }
+
+                    default:
+                        coordinates = {x: nativeEventsComp.getBoundingClientRect().left, y: nativeEventsComp.getBoundingClientRect().top}
+                }
+                
+                assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mousemove');
                 assert.equal(await driver.$('.mouse-event-data .event-client-x').text(), `${coordinates.x}`);
                 assert.equal(await driver.$('.mouse-event-data .event-client-y').text(), `${coordinates.y}`);
             });
