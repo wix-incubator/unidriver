@@ -105,6 +105,42 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 				Simulate.click(el, {button: 0});
 			}
 		},
+		mouse: {
+			press: async() => {
+				const el = await elem();
+
+				if (document.body.contains(el)) {
+					const mouseup = new MouseEvent('mousedown');
+					mouseup.initEvent(mouseup.type, true, false);
+					el.dispatchEvent(mouseup);
+				} else {
+					Simulate.mouseDown(el);
+				}
+			},
+			release: async () => {
+				const el = await elem();
+
+				if (document.body.contains(el)) {
+					const mouseup = new MouseEvent('mouseup');
+					mouseup.initEvent(mouseup.type, true, false);
+					el.dispatchEvent(mouseup);
+				} else {
+					Simulate.mouseUp(el);
+				}
+			},
+			moveTo: async (to) => {
+				const el = await elem();
+				const {left, top} = (await to.getNative()).getBoundingClientRect();
+
+				if (document.body.contains(el)) {
+					const mousemove = new MouseEvent('mousemove', {clientX: left, clientY: top});;
+					mousemove.initEvent(mousemove.type, true, false);
+					el.dispatchEvent(mousemove);
+				} else {
+					Simulate.mouseMove(el, {clientX: left, clientY: top});
+				}
+			}
+		},
 		hover: async () => {
 			const el = await elem();
 

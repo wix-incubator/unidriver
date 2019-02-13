@@ -48,4 +48,7 @@ describe('puppeteer', () => {
 		keyboardEventsAppParams: {setup: eventsAppSetup, before, after}});
 });
 
-describe('puppeteer specific tests', () => {});
+// describe.only('puppeteer specific tests', () => {
+//   const eventsAppSetup: KeyboardEventsAppSetupFn = commonSetup<KeyboardEventsAppProps>('events-app');
+//   runAllTestSuites({keyboardEventsAppParams: {setup: eventsAppSetup, before, after}});
+// });

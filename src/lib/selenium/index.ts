@@ -137,6 +137,27 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 					'' +
 					'		return false;', el);
 			return retValue;
+    },
+    mouse: {
+			press: async() => {
+        const el = await elem();
+        const driver = await el.getDriver();
+        const actions = await driver.actions();
+        await actions.mouseDown(el).perform();
+			},
+			release: async () => {
+        const el = await elem();
+        const driver = await el.getDriver();
+        const actions = await driver.actions();
+        await actions.mouseUp(el).perform();
+      },
+      moveTo: async (to) => {
+        const el = await elem();
+        const driver = await el.getDriver();
+        const actions = await driver.actions();
+        const native = await to.getNative();
+        await actions.mouseMove(native).perform();
+			}
 		},
 		wait: async () => {
 			return waitFor(exists);

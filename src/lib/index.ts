@@ -8,6 +8,12 @@ export type PredicateFn = (e: UniDriver, idx?: number, array?: UniDriver[]) => P
 
 export type ReducerFn<T> = (acc: T, curr: UniDriver, idx?: number, array?: UniDriver[]) => T;
 
+export type MouseUniDriver<T> = {
+	moveTo: (to: UniDriver<T>) => Promise<void>;
+	press: () => Promise<void>;
+	release: () => Promise<void>;
+}
+
 export type UniDriverList<T = any> = {
 	get: (idx: number) => UniDriver<T>,
 	text: () => Promise<string[]>,
@@ -30,6 +36,7 @@ export type UniDriver<T = any> = {
 	exists: () => Promise<boolean>;
 	isDisplayed: () => Promise<boolean>;
 	wait: (timeout?: number) => Promise<void>;
+	mouse: MouseUniDriver<T>;
 	type: string;
 	scrollIntoView: () => Promise<{}>;
 	getNative: () => Promise<T>;

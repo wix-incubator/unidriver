@@ -113,6 +113,21 @@ export const protractorUniDriver = (
       await e.focus();
       await e.type(value);
     },
+    mouse: {
+			press: async() => {
+        const e = await elem();
+        return (await e.browser_.actions().mouseDown(e).perform());
+			},
+			release: async () => {
+        const e = await elem();
+        return (await e.browser_.actions().mouseUp(e).perform());
+      },
+      moveTo: async (to) => {
+        const e = await elem();
+        const nativeElem = await to.getNative();
+        await (await e.browser_.actions().mouseMove(nativeElem).perform());
+      }
+		},
     exists,
     isDisplayed: async () => {
       const e = await elem();
