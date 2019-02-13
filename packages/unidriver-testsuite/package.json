@@ -1,0 +1,20 @@
+{
+  "name": "@unidriver/testsuite",
+  "version": "1.0.0",
+  "description": "UniDriver testsute - for internal testing",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "testsuite-server": "node -e 'require(\"./dist/test-suite/server.js\").startServer(3000)'",
+    "test": "bash support/test.sh"
+  },
+  "devDependencies": {
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "@unidriver/core": "^1.0.0"
+  },
+  "author": "Wix.com",
+  "license": "MIT"
+}

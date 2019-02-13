@@ -1,4 +1,7 @@
-import {KeyType} from './key-types';
+import { KeyDefinitionType } from './key-types';
+
+export * from './utils';
+export * from './key-types';
 
 export type Locator = string;
 
@@ -22,20 +25,13 @@ export type UniDriverList<T = any> = {
 	filter: (predicate: PredicateFn) => UniDriverList
 };
 
-@unidriver/core
-@unidriver/protractor-adapter
-
-unidriver-core
-unidriver-protractor-adapter
-
-
 export type UniDriver<T = any> = {
 	$: (selector: Locator) => UniDriver;
 	$$: (selector: Locator) => UniDriverList;
 	text: () => Promise<string>;
 	click: () => Promise<void>;
 	hover: () => Promise<void>;
-	pressKey: (key: KeyType) => Promise<void>
+	pressKey: (key: KeyDefinitionType) => Promise<void>
 	value: () => Promise<string>;
 	enterValue: (value: string) => Promise<void>;
 	attr: (name: string) => Promise<string | null>;

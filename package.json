@@ -42,6 +42,7 @@
     "import-path": "^1.0.3",
     "jsdom": "^11.10.0",
     "jsdom-global": "^3.0.2",
+    "lerna": "^3.11.1",
     "mocha": "^4.1.0",
     "mocha-teamcity-reporter": "^2.4.0",
     "protractor": "^5.4.2",
@@ -53,10 +54,8 @@
   },
   "peerDependencies": {
     "@types/puppeteer": "^1.11.1",
-    "selenium-webdriver": "^3.6.0",
+    "protractor": "^5.4.2",
     "puppeteer": "^1.11.0",
-    "react": "^15.2.0",
-    "react-dom": "^15.2.0",
-    "protractor": "^5.4.2"
+    "selenium-webdriver": "^3.6.0"
   }
 }

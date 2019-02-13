@@ -1,0 +1,19 @@
+{
+  "name": "@unidriver/react-adapter",
+  "version": "1.0.0",
+  "description": "React adapter for UniDriver",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^3.3.3"
+  },
+  "author": "Wix.com",
+  "license": "MIT",
+  "dependencies": {
+    "@unidriver/core": "^1.0.0"
+  }
+}

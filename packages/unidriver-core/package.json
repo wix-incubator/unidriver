@@ -1,0 +1,16 @@
+{
+  "name": "@unidriver/core",
+  "version": "1.0.0",
+  "description": "UniDriver core",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^3.3.3"
+  },
+  "author": "Wix.com",
+  "license": "MIT"
+}
