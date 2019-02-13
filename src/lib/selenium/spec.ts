@@ -45,7 +45,7 @@ const commonSetup = <P>(path: string): SetupFn<P> => async (data) => {
 	};
 
 	return {driver, tearDown};
-}
+};
 
 describe('selenium', () => {
 	const todoAppSetup: TodoAppSetupFn = commonSetup<TodoAppProps>('todo-app');

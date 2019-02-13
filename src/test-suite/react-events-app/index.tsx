@@ -7,7 +7,6 @@ export type EventsAppState = {
 	mouseEvents: React.MouseEvent[];
 }
 
-
 const keyboardEventComp = (event: React.KeyboardEvent, idx: number) => {
     return (
         <div key={idx} className='keyboard-event-data'>

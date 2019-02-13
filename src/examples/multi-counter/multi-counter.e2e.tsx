@@ -14,7 +14,7 @@ describe('multi counter', () => {
 
 	const begin = async () => {
 		const base = pupUniDriver(async() => {
-			const selector = 'body'
+			const selector = 'body';
 			return{
 				element: await page.$(selector),
 				page,

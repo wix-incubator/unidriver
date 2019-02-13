@@ -58,23 +58,23 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 		const item = items[idx];
 		const newItems = items.map((i, itemIdx) => idx === itemIdx ? {...i, completed: !item.completed} : i);
 		this.setState({items: newItems});
-	}
+	};
 
 	onAdd = () => {
 		const items = this.state.items;
 		this.setState({items: [...items, {label: this.state.newItem, completed: false}], newItem: ''});
-	}
+	};
 	
 	onKeyDown = (e: React.KeyboardEvent) => {
-		e.preventDefault()
+		e.preventDefault();
 		if (e.key === 'Enter') {
 			this.onAdd();
 		}
-	}
+	};
 
 	onHover = (idx: number) => () => {
 		this.setState({activeItem: idx});
-	}
+	};
 
 	onBlur = () => this.setState({activeItem: -1});
 
