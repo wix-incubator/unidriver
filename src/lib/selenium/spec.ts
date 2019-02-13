@@ -1,10 +1,12 @@
 import { startServer, getUrl } from '../../test-suite/server';
 import { seleniumUniDriver } from './index';
-import { TodoAppSetupFn } from '../../test-suite';
+import { TodoAppSetupFn, KeyboardEventsAppSetupFn, SetupFn } from '../../test-suite';
 import { Server } from 'http';
 import { ThenableWebDriver, Builder, WebElement, By } from 'selenium-webdriver';
 import * as chrome from 'selenium-webdriver/chrome';
 import {runAllTestSuites} from '../../test-suite/run-all-test-suites';
+import { TodoAppProps } from '../../test-suite/react-todoapp';
+import { KeyboardEventsAppProps } from '../../test-suite/react-events-app';
 
 const port = 8082;
 
@@ -31,9 +33,8 @@ const after = async () => {
 	await wd.quit();
 };
 
-const setup: TodoAppSetupFn = async (data) => {
-
-	await wd.get(`http://localhost:${port}${getUrl('todo-app', data)}`);
+const commonSetup = <P>(path: string): SetupFn<P> => async (data) => {
+	await wd.get(`http://localhost:${port}${getUrl(path, data)}`);
 	const driver = seleniumUniDriver(() => {
 		const el: any = wd.findElement(By.css('body'));
 		return el as Promise<WebElement>
@@ -47,7 +48,11 @@ const setup: TodoAppSetupFn = async (data) => {
 }
 
 describe('selenium', () => {
-	runAllTestSuites({todoAppParams: {setup, before, after}});
+	const todoAppSetup: TodoAppSetupFn = commonSetup<TodoAppProps>('todo-app');
+	const eventsAppSetup: KeyboardEventsAppSetupFn = commonSetup<KeyboardEventsAppProps>('events-app');
+
+	runAllTestSuites({todoAppParams: {setup: todoAppSetup, before, after},
+		keyboardEventsAppParams: {setup: eventsAppSetup, before, after}});
 });
 
 

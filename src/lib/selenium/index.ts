@@ -1,10 +1,20 @@
 import { Locator, UniDriverList, UniDriver, MapFn } from '..';
 import { By, WebElement, Key as SeleniumKey } from 'selenium-webdriver';
 import { waitFor } from '../../utils';
-import { getDefinitionForKeyType } from '../key-types';
 
 export type WebElementGetter = () => Promise<WebElement>;
 export type WebElementsGetter = () => Promise<WebElement[]>;
+
+const CamelCaseToHyphen = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1_$2');
+const interpolateSeleniumSpecialKeys = (key: string) => {
+  switch (key) {
+    case 'BACKSPACE':
+      return 'BACK_SPACE';
+
+    default:
+      return key;
+  }
+}
 
 export const seleniumUniDriverList = (
   wep: WebElementsGetter
@@ -94,12 +104,13 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
     },
     pressKey: async (key) => {
       const el = await elem();
-      const realKey = getDefinitionForKeyType(key).key.toUpperCase();
+      const realKey = interpolateSeleniumSpecialKeys(CamelCaseToHyphen(key).toUpperCase());
       const value = SeleniumKey[realKey as keyof typeof SeleniumKey] as string;
       if (value) {
-        return el.sendKeys(value);
-      } 
-      return await el.sendKeys(key); 
+        await el.sendKeys(value);
+      } else {
+        return el.sendKeys(key); 
+      }
     },
     hasClass: async (className: string) => {
       const el = await elem();
