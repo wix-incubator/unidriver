@@ -13,6 +13,6 @@ const showCase = (<div>
 
 	<h1>Multi Counter</h1>
 	<MultiCounter/>
-</div>)
+</div>);
 
 ReactDOM.render(showCase, document.querySelector('#root'));

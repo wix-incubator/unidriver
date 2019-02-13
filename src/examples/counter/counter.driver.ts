@@ -12,4 +12,4 @@ export const counterDriver = (base: UniDriver): CounterDriver => {
 		increase: base.$('.inc').click,
 		decrease: base.$('.dec').click
 	}
-}
+};

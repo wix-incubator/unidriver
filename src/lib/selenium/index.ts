@@ -14,7 +14,7 @@ const interpolateSeleniumSpecialKeys = (key: string) => {
     default:
       return key;
   }
-}
+};
 
 export const seleniumUniDriverList = (
   wep: WebElementsGetter
