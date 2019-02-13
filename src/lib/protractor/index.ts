@@ -100,6 +100,10 @@ export const protractorUniDriver = (
 
       return (await e.browser_.actions().mouseMove(e).perform());
     },
+		pressKey: async(key: string) => {
+      const e = await elem();
+      await e.sendKeys(key)
+    },
     hasClass: async (className: string) => {
       const cm: any = await (await elem()).getAttribute('classList');
       return cm.indexOf(className) !== -1;

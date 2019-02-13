@@ -1,10 +1,12 @@
-import { runTestSuite } from '../../test-suite/spec';
-import { startServer, getUrl } from '../../test-suite/server';
+import {runAllTestSuites} from '../../test-suite/run-all-test-suites';
+import {getUrl, startServer} from '../../test-suite/server';
 import * as puppeteer from 'puppeteer';
-import { pupUniDriver } from './index';
-import { TodoAppSetupFn } from '../../test-suite';
-import { Server } from 'http';
-import { Browser, Page } from 'puppeteer';
+import {Browser, Page} from 'puppeteer';
+import {pupUniDriver} from './index';
+import {KeyboardEventsAppSetupFn, SetupFn, TodoAppSetupFn} from '../../test-suite';
+import {Server} from 'http';
+import {TodoAppProps} from '../../test-suite/react-todoapp';
+import {KeyboardEventsAppProps} from '../../test-suite/react-events-app';
 
 const port = 8082;
 
@@ -26,20 +28,24 @@ const after = async () => {
   await browser.close();
 };
 
-const setup: TodoAppSetupFn = async data => {
-  await page.goto(`http://localhost:${port}${getUrl(data)}`);
-  const driver = pupUniDriver({
-    page,
-    selector: 'body'
-  });
+const commonSetup = <P>(path: string): SetupFn<P> => async (data) => {
+    await page.goto(`http://localhost:${port}${getUrl<P>(path, data)}`);
+    const driver = pupUniDriver({
+        page,
+        selector: 'body'
+    });
 
-  const tearDown = async () => {};
+    const tearDown = async () => {};
 
-  return {driver, tearDown};
+    return {driver, tearDown};
 };
 
 describe('puppeteer', () => {
-  runTestSuite({setup, before, after});
+	const todoAppSetup: TodoAppSetupFn = commonSetup<TodoAppProps>('todo-app');
+	const eventsAppSetup: KeyboardEventsAppSetupFn = commonSetup<KeyboardEventsAppProps>('events-app');
+
+	runAllTestSuites({todoAppParams: {setup: todoAppSetup, before, after},
+		keyboardEventsAppParams: {setup: eventsAppSetup, before, after}});
 });
 
 describe('puppeteer specific tests', () => {});
