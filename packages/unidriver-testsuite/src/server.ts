@@ -5,7 +5,6 @@ import * as ejs from 'ejs';
 import * as path from 'path';
 
 export const startServer = (port: number): Promise<Server> => {
-
 	const app = express();
 
 	return new Promise((resolve) => {

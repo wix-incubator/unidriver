@@ -21,8 +21,6 @@ const mouseEventComp = (event: React.MouseEvent, idx: number) => {
 	return (
 		<div key={idx} className='mouse-event-data'>
 			<span className='event-type'>{event.type}</span>
-			<span className='event-client-x'>{event.clientX}</span>
-			<span className='event-client-y'>{event.clientY}</span>
 		</div>
 	)
 }

@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {UniDriver} from '@unidriver/core';
 import {RunTestFn} from '../run-all-test-suites';
-import {TodoAppProps, TodoItem} from './';
+import {TodoAppProps, TodoItem} from '.';
 
 const itemCreator = (partial: Partial<TodoItem>) => {
     return {
@@ -11,7 +11,7 @@ const itemCreator = (partial: Partial<TodoItem>) => {
     };
 };
 
-export const runTestSuite = (runTest: RunTestFn<TodoAppProps>) => {
+export const runTodoAppTestSuite = (runTest: RunTestFn<TodoAppProps>) => {
     describe('$', () => {
         describe('text()', () => {
             it('returns text of a element', async () => {
@@ -57,12 +57,12 @@ export const runTestSuite = (runTest: RunTestFn<TodoAppProps>) => {
             });
         });
 
-        describe('click()', () => {
+        describe.only('click()', () => {
             it('works', async () => {
                 await runTest({items: [], initialText: ''}, async (driver) => {
                     await driver.$('input').enterValue('bob');
                     await driver.$('.add').click();
-
+                    
                     assert.equal(await driver.$('.count').text(), '1');
                     assert.equal(await driver.$('.label').text(), 'bob');
                 });

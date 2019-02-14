@@ -13,7 +13,7 @@
         "outDir": "dist",
         "moduleResolution": "node",
         "lib": ["dom", "es2016"],
-        "types": ["mocha", "node"],
+        "types": ["node"],
         "jsx": "react",
         "declaration": true
     },

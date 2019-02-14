@@ -1,9 +1,9 @@
-import { UniDriver } from '@unidriver/core';
-import {TestSuiteParams} from '.';
-import {runTestSuite as runTodoAppTestSuite} from './react-todoapp/run-test-suite';
-import {runTestSuite as runKeyboardEventsAppTestSuite} from './react-events-app/run-test-suite';
+import {TestSuiteParams} from './';
+import {runTodoAppTestSuite} from './react-todoapp/run-test-suite';
+import {runKeyboardEventsAppTestSuite} from './react-events-app/run-test-suite';
 import {TodoAppProps} from './react-todoapp';
 import {KeyboardEventsAppProps} from './react-events-app';
+import { UniDriver } from '@unidriver/core';
 
 export type RunTestFn<P> = (init: P, test: (driver: UniDriver) => Promise<any>) => Promise<void>;
 

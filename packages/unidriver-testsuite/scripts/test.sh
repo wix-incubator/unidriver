@@ -3,4 +3,4 @@ if [[ ${IS_BUILD_AGENT} == true ]]; then reporter=mocha-teamcity-reporter; else 
 mocha --timeout 20000 \
 --reporter $reporter \
 --exit \
-'dist/**/*/spec.js' 'dist/spec.js'
+'dist/**/*/*.spec.js' 'dist/*.spec.js'

@@ -5,12 +5,11 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && (tsc -p . || true)",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "typescript": "^3.3.3"
+    "build": "rm -rf dist && (tsc -p . || true)"
   },
   "author": "Wix.com",
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "typescript": "^3.3.3"
+  }
 }

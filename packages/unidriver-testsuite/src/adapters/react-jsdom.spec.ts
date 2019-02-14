@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { reactUniDriver } from './index';
-import { TodoApp } from '../../test-suite/react-todoapp';
-import {KeyboardEventsAppSetupFn, TodoAppSetupFn} from '../../test-suite';
-import {runAllTestSuites} from '../../test-suite/run-all-test-suites';
-import {EventsApp} from '../../test-suite/react-events-app';
+import { reactUniDriver } from '@unidriver/react-adapter';
+import { TodoApp } from '../react-todoapp';
+import {KeyboardEventsAppSetupFn, TodoAppSetupFn} from '../';
+import {runAllTestSuites} from '../run-all-test-suites';
+import {EventsApp} from '../react-events-app';
 
 const commonSetup = <P>(CompClass: React.ComponentClass<P>, props: P) => {
 	const cleanup = require('jsdom-global')();
@@ -14,7 +14,6 @@ const commonSetup = <P>(CompClass: React.ComponentClass<P>, props: P) => {
 	ReactDOM.render(comp, div);
 
 	const driver = reactUniDriver(div);
-
 
 	const tearDown = () => {
 		document.body.innerHTML = '';
