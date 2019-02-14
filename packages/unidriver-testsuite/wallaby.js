@@ -12,7 +12,8 @@ module.exports = function (wallaby) {
 			{pattern: 'node_modules/**/*', ignore: true}
 		],
 		tests: [
-			'src/**/*.spec.ts',
+			'src/adapters/react-jsdom.spec.ts',
+			'src/utils.spec.ts',
 		],
 		compilers: {
 			'src/**/*.tsx?': wallaby.compilers.typeScript({

@@ -1,12 +1,12 @@
-import {runAllTestSuites} from '../../test-suite/run-all-test-suites';
-import {getUrl, startServer} from '../../test-suite/server';
 import * as puppeteer from 'puppeteer';
 import {Browser, Page} from 'puppeteer';
-import {pupUniDriver} from './index';
-import {KeyboardEventsAppSetupFn, SetupFn, TodoAppSetupFn} from '../../test-suite';
+import {getUrl, startServer} from '../server';
+import {pupUniDriver} from '@unidriver/puppeteer-adapter';
 import {Server} from 'http';
-import {TodoAppProps} from '../../test-suite/react-todoapp';
-import {KeyboardEventsAppProps} from '../../test-suite/react-events-app';
+import {KeyboardEventsAppSetupFn, TodoAppSetupFn, SetupFn} from '../';
+import {runAllTestSuites} from '../run-all-test-suites';
+import { TodoAppProps } from '../react-todoapp';
+import { KeyboardEventsAppProps } from '../react-events-app';
 
 const port = 8082;
 
@@ -48,7 +48,6 @@ describe('puppeteer', () => {
 		keyboardEventsAppParams: {setup: eventsAppSetup, before, after}});
 });
 
-// describe.only('puppeteer specific tests', () => {
-//   const eventsAppSetup: KeyboardEventsAppSetupFn = commonSetup<KeyboardEventsAppProps>('events-app');
-//   runAllTestSuites({keyboardEventsAppParams: {setup: eventsAppSetup, before, after}});
-// });
+describe('puppeteer specific tests', () => {
+  
+});

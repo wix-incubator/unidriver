@@ -1,4 +1,4 @@
-import { waitFor } from './utils';
+import { waitFor } from '@unidriver/core/dist/utils';
 import {assert} from 'chai';
 
 describe('utils', () => {

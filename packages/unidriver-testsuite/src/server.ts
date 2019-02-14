@@ -10,7 +10,7 @@ export const startServer = (port: number): Promise<Server> => {
 	return new Promise((resolve) => {
 
 		app.use(express.static('node_modules'));
-		app.use(express.static('dist/test-suite'));
+		app.use(express.static('dist'));
 
 		app.get(['/todo-app', '/events-app'], (req, res) => {
 			const template = readFileSync(path.resolve(__dirname, 'index.ejs'), 'utf-8');

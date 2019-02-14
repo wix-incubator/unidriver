@@ -57,7 +57,7 @@ export const runTodoAppTestSuite = (runTest: RunTestFn<TodoAppProps>) => {
             });
         });
 
-        describe.only('click()', () => {
+        describe('click()', () => {
             it('works', async () => {
                 await runTest({items: [], initialText: ''}, async (driver) => {
                     await driver.$('input').enterValue('bob');

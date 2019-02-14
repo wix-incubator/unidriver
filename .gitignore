@@ -7,3 +7,4 @@ package-lock.json
 !wallaby.js
 !protractor.conf.js
 .idea
+lerna-debug.log

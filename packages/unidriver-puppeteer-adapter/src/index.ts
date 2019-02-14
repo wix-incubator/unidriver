@@ -1,7 +1,5 @@
-import { Locator, UniDriverList, UniDriver, MapFn } from '..';
+import { Locator, UniDriverList, UniDriver, MapFn, waitFor } from '@unidriver/core';
 import { ElementHandle, Page } from 'puppeteer';
-import { waitFor } from '../../utils';
-import { KeyType } from '../key-types';
 
 type BaseElementContainer = { page: Page; selector: string };
 type ElementContainer = BaseElementContainer & { element: ElementHandle | null };
@@ -141,7 +139,7 @@ export const pupUniDriver = (
             await element.focus();
             await element.type(value);
         },
-        pressKey: async (key: KeyType) => {
+        pressKey: async (key) => {
             const { element } = await elem();
             return element.press(key);
         },

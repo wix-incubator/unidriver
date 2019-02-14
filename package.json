@@ -2,8 +2,6 @@
   "name": "unidriver",
   "version": "2.0.1",
   "description": "",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/wix-incubator/unidriver"
@@ -27,14 +25,12 @@
     "typescript": "^3.3.3"
   },
   "devDependencies": {
-    "@types/puppeteer": "^1.11.1",
     "chromedriver": "^2.38.3",
     "classnames": "^2.2.6",
     "concurrently": "^3.5.1",
     "import-path": "^1.0.3",
     "lerna": "^3.11.1",
     "protractor": "^5.4.2",
-    "puppeteer": "^1.11.0",
     "selenium-webdriver": "^3.6.0"
   }
 }

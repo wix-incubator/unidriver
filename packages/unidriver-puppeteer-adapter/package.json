@@ -1,0 +1,24 @@
+{
+  "name": "@unidriver/puppeteer-adapter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "test": "echo 'run the testsuite to test the adapter'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@unidriver/core": "^1.0.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^1.11.0",
+    "@types/puppeteer": "^1.11.1"
+  },
+  "peerDependencies": {
+    "typescript": "^3.3.3"
+  }
+}
