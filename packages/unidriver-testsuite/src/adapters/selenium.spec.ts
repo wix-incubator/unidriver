@@ -1,12 +1,12 @@
-import { startServer, getUrl } from '../../test-suite/server';
-import { seleniumUniDriver } from './index';
-import { TodoAppSetupFn, KeyboardEventsAppSetupFn, SetupFn } from '../../test-suite';
+import { startServer, getUrl } from '../server';
+import { seleniumUniDriver } from '@unidriver/selenium-adapter';
 import { Server } from 'http';
 import { ThenableWebDriver, Builder, WebElement, By } from 'selenium-webdriver';
 import * as chrome from 'selenium-webdriver/chrome';
-import {runAllTestSuites} from '../../test-suite/run-all-test-suites';
-import { TodoAppProps } from '../../test-suite/react-todoapp';
-import { KeyboardEventsAppProps } from '../../test-suite/react-events-app';
+import {KeyboardEventsAppSetupFn, TodoAppSetupFn, SetupFn} from '../';
+import {runAllTestSuites} from '../run-all-test-suites';
+import { TodoAppProps } from '../react-todoapp';
+import { KeyboardEventsAppProps } from '../react-events-app';
 
 const port = 8082;
 

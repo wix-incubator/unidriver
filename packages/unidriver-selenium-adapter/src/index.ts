@@ -1,6 +1,5 @@
-import { Locator, UniDriverList, UniDriver, MapFn } from '..';
+import { Locator, UniDriverList, UniDriver, MapFn, waitFor } from '@unidriver/core';
 import { By, WebElement, Key as SeleniumKey } from 'selenium-webdriver';
-import { waitFor } from '../../utils';
 
 export type WebElementGetter = () => Promise<WebElement>;
 export type WebElementsGetter = () => Promise<WebElement[]>;

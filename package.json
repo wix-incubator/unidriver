@@ -25,12 +25,8 @@
     "typescript": "^3.3.3"
   },
   "devDependencies": {
-    "chromedriver": "^2.38.3",
-    "classnames": "^2.2.6",
-    "concurrently": "^3.5.1",
     "import-path": "^1.0.3",
     "lerna": "^3.11.1",
-    "protractor": "^5.4.2",
-    "selenium-webdriver": "^3.6.0"
+    "protractor": "^5.4.2"
   }
 }

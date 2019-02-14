@@ -9,8 +9,8 @@
     "test": "echo 'run the testsuite to test the adapter'"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Wix.com",
+  "license": "MIT",
   "dependencies": {
     "@unidriver/core": "^1.0.0"
   },

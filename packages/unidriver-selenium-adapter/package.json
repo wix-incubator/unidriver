@@ -1,0 +1,18 @@
+{
+  "name": "@unidriver/selenium-adapter",
+  "version": "1.0.0",
+  "description": "",
+  "typings": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "test": "echo 'run the testsuite to test the adapter'"
+  },
+  "dependencies": {
+    "@unidriver/core": "^1.0.0",
+    "selenium-webdriver": "^3.6.0"
+  },
+  "keywords": [],
+  "author": "Wix.com",
+  "license": "MIT"
+}
