@@ -1,5 +1,5 @@
 {
-  "name": "unidriver-testsuite",
+  "name": "@unidriver/testsuite",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -29,18 +29,16 @@
     "@unidriver/react-adapter": "^1.0.0",
     "@unidriver/selenium-adapter": "^1.0.0",
     "browserify": "^15.2.0",
-    "classnames": "^2.2.6",
     "chai": "^4.1.2",
+    "classnames": "^2.2.6",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "mocha": "^4.1.0",
     "mocha-teamcity-reporter": "^2.4.0",
-    "protractor": "^5.4.2",
     "puppeteer": "^1.11.0",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
-    "selenium-webdriver": "^3.6.0",
-    "chromedriver": "^2.38.3"
+    "selenium-webdriver": "^3.6.0"
   },
   "peerDependencies": {
     "typescript": "^3.3.3"

@@ -1,6 +1,5 @@
-import {Locator, UniDriverList, UniDriver, MapFn} from '../';
+import {Locator, UniDriverList, UniDriver, MapFn, waitFor} from '@unidriver/core';
 import {browser, ElementFinder}                   from 'protractor';
-import {waitFor}                                  from '../../utils';
 
 type ElementGetter = () => Promise<ElementFinder | null>;
 type ElementsGetter = () => Promise<ElementFinder[]>;

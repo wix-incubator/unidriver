@@ -10,8 +10,7 @@
     "build": "rm -rf dist && (tsc -p . || true) && npm run build-testsuite && npm run expose-adapters",
     "build-testsuite": "cp src/test-suite/index.ejs dist/test-suite/index.ejs && browserify dist/test-suite/app.js > dist/test-suite/bundle.js",
     "testsuite-server": "node -e 'require(\"./dist/test-suite/server.js\").startServer(3000)'",
-    "test": "bash support/test.sh",
-    "expose-adapters": "import-path --path lib --dts"
+    "test": "bash support/test.sh"
   },
   "author": "Wix.com",
   "license": "MIT",
@@ -25,8 +24,6 @@
     "typescript": "^3.3.3"
   },
   "devDependencies": {
-    "import-path": "^1.0.3",
-    "lerna": "^3.11.1",
-    "protractor": "^5.4.2"
+    "lerna": "^3.11.1"
   }
 }
