@@ -1,3 +1,4 @@
+require('chromedriver');
 import { startServer, getUrl } from '../server';
 import { seleniumUniDriver } from '@unidriver/selenium';
 import { Server } from 'http';

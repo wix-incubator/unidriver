@@ -27,7 +27,8 @@
     "puppeteer": "^1.11.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "selenium-webdriver": "^3.6.0"
+    "selenium-webdriver": "^3.6.0",
+    "chromedriver": "^2.46.0"
   },
   "devDependencies": {
     "@types/chai": "^4.0.10",
