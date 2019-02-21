@@ -19,7 +19,9 @@
 	"@unidriver/testsuite": "^1.0.0",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0",
-    "mocha": "^6.0.0"
+	"mocha": "^6.0.0",
+	"jsdom": "^11.10.0",
+    "jsdom-global": "^3.0.2"
   },
   "peerDependencies": {
     "typescript": "^3.3.3"

@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "echo 'TBD'",
-    "test": "echo 'run the testsuite to test the adapter'"
+    "test": "echo 'TBD'"
   },
   "author": "Wix.com",
   "license": "MIT",

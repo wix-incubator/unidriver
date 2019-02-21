@@ -4,7 +4,7 @@ import {getTestAppUrl, startTestAppServer, SetupFn, runTestSuite} from '@unidriv
 import {pupUniDriver} from './';
 import {Server} from 'http';
 
-const port = 8082;
+const port = require('find-free-port-sync')();
 
 let server: Server;
 let browser: Browser;

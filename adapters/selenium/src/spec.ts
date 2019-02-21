@@ -5,7 +5,7 @@ import { ThenableWebDriver, Builder, WebElement, By } from 'selenium-webdriver';
 import * as chrome from 'selenium-webdriver/chrome';
 import {SetupFn, runTestSuite, startTestAppServer, getTestAppUrl} from '@unidriver/testsuite';
 
-const port = 8082;
+const port = require('find-free-port-sync')();
 
 let server: Server;
 let wd: ThenableWebDriver;
