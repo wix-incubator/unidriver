@@ -5,9 +5,9 @@
     "url": "https://github.com/wix-incubator/unidriver"
   },
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap --hoist",
     "build": "lerna run build",
-    "test": "lerna run test --scope @unidriver/testsuite",
+    "test": "lerna run test",
     "clean": "lerna clean -y",
     "release": "lerna publish"
   },

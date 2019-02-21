@@ -1,0 +1,27 @@
+{
+  "name": "@unidriver/react-jsdom",
+  "version": "1.0.0",
+  "description": "React JSDOM adapter for UniDriver",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "test": "mocha dist/spec.js"
+  },
+  "author": "Wix.com",
+  "license": "MIT",
+  "dependencies": {
+	"@unidriver/core": "^1.0.0",
+    "react-dom": "^16.0.0",
+    "react": "^16.0.0"
+},
+"devDependencies": {
+	"@unidriver/testsuite": "^1.0.0",
+    "@types/react": "^16.0.0",
+    "@types/react-dom": "^16.0.0",
+    "mocha": "^6.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^3.3.3"
+  }
+}
