@@ -1,7 +1,7 @@
 {
-  "name": "@unidriver/react-jsdom",
+  "name": "@unidriver/jsdom-react",
   "version": "1.0.0",
-  "description": "React JSDOM adapter for UniDriver",
+  "description": "JSDom React adapter for UniDriver",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
