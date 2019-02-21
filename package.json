@@ -1,5 +1,5 @@
 {
-  "name": "unidriver",
+  "name": "unidriver-monorepo",
   "repository": {
     "type": "git",
     "url": "https://github.com/wix-incubator/unidriver"
