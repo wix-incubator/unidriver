@@ -179,14 +179,7 @@ export const reactJsdomUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			const el = (await elem()) as HTMLInputElement;
 			await wait(0);
 			el.value = value;
-
-			if (document.body.contains(el)) {
-				const onchange: any = document.createEvent('HTMLEvents');
-				onchange.initEvent('onchange', true, false);
-				el.dispatchEvent(onchange);
-			} else {
-				Simulate.change(el);
-			}
+			Simulate.change(el);
 		},
 		attr: async (name: string) => {
 		const el = await elem();

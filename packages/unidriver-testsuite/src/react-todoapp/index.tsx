@@ -61,7 +61,6 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 	};
 
 	onChange = (e: any) => {
-		console.log('onchange', e.target.value);
 		this.setState({newItem: e.target.value});
 	}
 
