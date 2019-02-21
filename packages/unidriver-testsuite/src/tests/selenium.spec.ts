@@ -1,5 +1,5 @@
 import { startServer, getUrl } from '../server';
-import { seleniumUniDriver } from '@unidriver/selenium-adapter';
+import { seleniumUniDriver } from '@unidriver/selenium';
 import { Server } from 'http';
 import { ThenableWebDriver, Builder, WebElement, By } from 'selenium-webdriver';
 import * as chrome from 'selenium-webdriver/chrome';

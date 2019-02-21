@@ -106,7 +106,7 @@ export const runTodoAppTestSuite = (runTest: RunTestFn<TodoAppProps>) => {
             });
         });
 
-        describe('pressKey()', () => {
+        describe.only('pressKey()', () => {
             it('single key works', async () => {
                 await runTest({items: [], initialText: ''}, async (driver) => {
                     await driver.$('input').enterValue('bob');

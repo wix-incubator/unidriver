@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { reactUniDriver } from '@unidriver/react-adapter';
+import { reactJsdomUniDriver } from '@unidriver/react-jsdom';
 import { TodoApp } from '../react-todoapp';
 import {KeyboardEventsAppSetupFn, TodoAppSetupFn} from '../';
 import {runAllTestSuites} from '../run-all-test-suites';
@@ -13,7 +13,7 @@ const commonSetup = <P>(CompClass: React.ComponentClass<P>, props: P) => {
 	document.body.appendChild(div);
 	ReactDOM.render(comp, div);
 
-	const driver = reactUniDriver(div);
+	const driver = reactJsdomUniDriver(div);
 
 	const tearDown = () => {
 		document.body.innerHTML = '';

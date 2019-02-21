@@ -1,18 +1,23 @@
 {
-  "name": "@unidriver/protractor-adapter",
+  "name": "@unidriver/puppeteer",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "echo 'TBD'",
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "clean": "(rm package-lock.json || true) && rm -rf node_modules",
     "test": "echo 'run the testsuite to test the adapter'"
   },
+  "keywords": [],
   "author": "Wix.com",
   "license": "MIT",
   "dependencies": {
     "@unidriver/core": "^1.0.0",
-    "protractor": "^5.4.2"
+    "puppeteer": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/puppeteer": "^1.11.1"
   },
   "peerDependencies": {
     "typescript": "^3.3.3"

@@ -1,22 +1,19 @@
 {
-  "name": "@unidriver/react-adapter",
+  "name": "@unidriver/protractor",
   "version": "1.0.0",
-  "description": "React adapter for UniDriver",
+  "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && (tsc -p . || true)",
+    "build": "echo 'TBD'",
+    "clean": "(rm package-lock.json || true) && rm -rf node_modules",
     "test": "echo 'run the testsuite to test the adapter'"
   },
   "author": "Wix.com",
   "license": "MIT",
   "dependencies": {
-    "react-dom": "^15.2.0",
-    "@unidriver/core": "^1.0.0"
-  },
-  "devDependencies": {
-    "@types/react-dom": "^15.5.9",
-    "react": "^15.2.0"
+    "@unidriver/core": "^1.0.0",
+    "protractor": "^5.4.2"
   },
   "peerDependencies": {
     "typescript": "^3.3.3"

@@ -1,7 +1,7 @@
 import * as puppeteer from 'puppeteer';
 import {Browser, Page} from 'puppeteer';
 import {getUrl, startServer} from '../server';
-import {pupUniDriver} from '@unidriver/puppeteer-adapter';
+import {pupUniDriver} from '@unidriver/puppeteer';
 import {Server} from 'http';
 import {KeyboardEventsAppSetupFn, TodoAppSetupFn, SetupFn} from '../';
 import {runAllTestSuites} from '../run-all-test-suites';

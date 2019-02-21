@@ -8,12 +8,27 @@
     "build": "rm -rf dist && (tsc -p . || true) && npm run build-testsuite",
     "build-testsuite": "cp src/index.ejs dist/index.ejs && browserify dist/app.js > dist/bundle.js",
     "testsuite-server": "node -e 'require(\"./dist/server.js\").startServer(3000)'",
+    "clean": "(rm package-lock.json || true) && rm -rf node_modules",
     "test": "bash scripts/test.sh"
   },
   "dependencies": {
     "@unidriver/core": "^1.0.0",
+    "@unidriver/puppeteer": "^1.0.0",
+    "@unidriver/react-jsdom": "^1.0.0",
+    "@unidriver/selenium": "^1.0.0",
     "jsdom": "^11.10.0",
-    "jsdom-global": "^3.0.2"
+    "jsdom-global": "^3.0.2",
+    "browserify": "^15.2.0",
+    "chai": "^4.1.2",
+    "classnames": "^2.2.6",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "mocha": "^4.1.0",
+    "mocha-teamcity-reporter": "^2.4.0",
+    "puppeteer": "^1.11.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "selenium-webdriver": "^3.6.0"
   },
   "devDependencies": {
     "@types/chai": "^4.0.10",
@@ -23,22 +38,7 @@
     "@types/mocha": "^2.2.46",
     "@types/puppeteer": "^1.11.1",
     "@types/react": "^16.0.34",
-    "@types/react-dom": "^16.0.3",
-    "@unidriver/core": "^1.0.0",
-    "@unidriver/puppeteer-adapter": "^1.0.0",
-    "@unidriver/react-adapter": "^1.0.0",
-    "@unidriver/selenium-adapter": "^1.0.0",
-    "browserify": "^15.2.0",
-    "chai": "^4.1.2",
-    "classnames": "^2.2.6",
-    "ejs": "^2.5.7",
-    "express": "^4.16.2",
-    "mocha": "^4.1.0",
-    "mocha-teamcity-reporter": "^2.4.0",
-    "puppeteer": "^1.11.0",
-    "react": "^15.2.0",
-    "react-dom": "^15.2.0",
-    "selenium-webdriver": "^3.6.0"
+    "@types/react-dom": "^16.0.3"
   },
   "peerDependencies": {
     "typescript": "^3.3.3"

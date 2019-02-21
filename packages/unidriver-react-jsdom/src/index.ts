@@ -10,14 +10,14 @@ const isPromise = (a: Promise<any> | any ): a is Promise<any> => {
 	return !!((a as any).then);
 };
 
-export const reactUniDriverList = (containerOrFn: ElementsOrElementsFinder): UniDriverList<Element> => {
+export const reactJsdomUniDriverList = (containerOrFn: ElementsOrElementsFinder): UniDriverList<Element> => {
 	const elem = async () => {
 		const elements = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
 		return isPromise(elements) ? await elements : elements;
 	};
 
 	return {
-		get: (idx: number) => reactUniDriver(() => {
+		get: (idx: number) => reactJsdomUniDriver(() => {
 			return elem().then((cont) => cont[idx]);
 		}),
 		text: async () => (await elem()).map((e) => e.textContent || ''),
@@ -25,15 +25,15 @@ export const reactUniDriverList = (containerOrFn: ElementsOrElementsFinder): Uni
 		map: async (fn) => {
 			const children = Array.from(await elem());
 			return Promise.all(children.map((e, idx) => {
-				return fn(reactUniDriver(e), idx);
+				return fn(reactJsdomUniDriver(e), idx);
 			}));
 		},
 		filter: (fn) => {
-			return reactUniDriverList(async () => {
+			return reactJsdomUniDriverList(async () => {
 				const elems = await elem();
 
 				const results = await Promise.all(elems.map((e, i) => {
-					const bd = reactUniDriver(e);
+					const bd = reactJsdomUniDriver(e);
 					return fn(bd, i);
 				}));
 
@@ -45,7 +45,7 @@ export const reactUniDriverList = (containerOrFn: ElementsOrElementsFinder): Uni
 	};
 };
 
-export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver<Element> => {
+export const reactJsdomUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver<Element> => {
 
 	const elem = async () => {
 		const container = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
@@ -76,9 +76,9 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 				}
 				return elements[0];
 			};
-			return reactUniDriver(getElement);
+			return reactJsdomUniDriver(getElement);
 		},
-		$$: (selector: Locator) => reactUniDriverList(async () => {
+		$$: (selector: Locator) => reactJsdomUniDriverList(async () => {
 			const e = await elem();
 			return Array.from(e.querySelectorAll(selector));
 		}),
@@ -176,10 +176,17 @@ export const reactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver
 		},
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
 		enterValue: async (value: string) => {
-			await wait(0);
 			const el = (await elem()) as HTMLInputElement;
+			await wait(0);
 			el.value = value;
-			Simulate.change(el);
+
+			if (document.body.contains(el)) {
+				const onchange: any = document.createEvent('HTMLEvents');
+				onchange.initEvent('onchange', true, false);
+				el.dispatchEvent(onchange);
+			} else {
+				Simulate.change(el);
+			}
 		},
 		attr: async (name: string) => {
 		const el = await elem();

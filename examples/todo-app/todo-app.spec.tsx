@@ -5,7 +5,7 @@ import { TodoApp } from './todo-app';
 
 import { todoAppDriver } from './todo-app.driver';
 import { assert } from 'chai';
-import { reactUniDriver } from '../../lib/react';
+import { reactJsdomUniDriver } from '../../lib/react';
 
 const renderApp = () => {
 	const div = document.createElement('div');
@@ -15,7 +15,7 @@ const renderApp = () => {
 
 const renderAppAndCreateDriver = () => {
 	const app = renderApp();
-	const base = reactUniDriver(app);
+	const base = reactJsdomUniDriver(app);
 	return todoAppDriver(base);
 };
 

@@ -12,7 +12,7 @@ module.exports = function (wallaby) {
 			{pattern: 'node_modules/**/*', ignore: true}
 		],
 		tests: [
-			'src/adapters/react-jsdom.spec.ts',
+			'src/tests/react-jsdom.spec.ts',
 			'src/utils.spec.ts',
 		],
 		compilers: {

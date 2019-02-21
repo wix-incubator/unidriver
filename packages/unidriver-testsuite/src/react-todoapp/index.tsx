@@ -24,7 +24,6 @@ class TodoAppItem extends React.Component<TodoItemProps, {}> {
 		});
 
 		const style = {backgroundColor: isActive ? 'red' : ''};
-		console.log('hello', item);
 
 		return (
 			<div className={`todo-item ${cn}`} onMouseEnter={onHover} onMouseLeave={onBlur} data-value={item.id} style={style}>
@@ -62,13 +61,12 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 	};
 
 	onChange = (e: any) => {
-		console.log('change', e.target.value);
+		console.log('onchange', e.target.value);
 		this.setState({newItem: e.target.value});
 	}
 
 	onAdd = () => {
 		const items = this.state.items;
-		console.log('helsadas', this.state.newItem);
 		this.setState({items: [...items, {label: this.state.newItem, completed: false}], newItem: ''});
 	};
 	

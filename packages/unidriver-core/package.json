@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && (tsc -p . || true)"
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "clean": "(rm package-lock.json || true) && rm -rf node_modules"
   },
   "author": "Wix.com",
   "license": "MIT",
