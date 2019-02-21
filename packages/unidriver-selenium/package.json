@@ -13,6 +13,9 @@
     "@unidriver/core": "^1.0.0",
     "selenium-webdriver": "^3.6.0"
   },
+  "devDependencies": {
+    "@types/selenium-webdriver": "^3.0.15"
+  },
   "keywords": [],
   "author": "Wix.com",
   "license": "MIT"
