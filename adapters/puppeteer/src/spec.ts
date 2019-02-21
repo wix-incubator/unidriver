@@ -1,6 +1,6 @@
 import * as puppeteer from 'puppeteer';
 import {Browser, Page} from 'puppeteer';
-import {getTestAppUrl, startTestAppServer, SetupFn, runTestSuite} from '@unidriver/testsuite';
+import {getTestAppUrl, startTestAppServer, SetupFn, runTestSuite} from '@unidriver/test-suite';
 import {pupUniDriver} from './';
 import {Server} from 'http';
 

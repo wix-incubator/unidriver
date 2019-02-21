@@ -1,19 +1,32 @@
 # UniDriver
-
-Universal component drivers that can be reused in all test levels, from component test level to e2e.
+Universal API to control your UI components that work in all test levels. From component jsdom tests, to browser testing using Puppeteer / Selenium.
+Making BDD fun in the modular UI area.
 
 [![NPM Version](https://img.shields.io/npm/v/unidriver.svg?style=flat)](https://www.npmjs.com/package/unidriver)
 [![Build Status](https://travis-ci.org/wix-incubator/unidriver.svg?branch=master)](https://travis-ci.org/wix-incubator/unidriver)
 
-## Motivation
+UniDriver makes it saner to write UI testing. It enables creating component drivers that will work on all platforms, from jsdom to puppeteer and selenium.
 
-Drivers have significantly improved the quality of our ui tests, by helping focusing on the feature and not implementation.
-However, all implementations of drivers I encountered rely deeply on the platform the ui is running on (node, browser), each with it's own quirks, making it hard to share drivers between platforms.
+## Component Drivers
+Testing UI is hard. There are many reasons for that, but we believe a big one relies in the fact that unlike functions or services, where the API is clearly defined, when dealing with graphical user interfaces, it's up for the developer to transform it into an "API" for testing purposes.
+Back in the days, [PageObjects](https://martinfowler.com/bliki/PageObject.html) helped mitigate this fact, but once the world moved to  modular components, our test code quality degraded and became bloated with repetition and lack of abstraction.  
+Component drivers are just like page objects, but for your components.  Just like page objects, this is merely a pattern, and is not coupled to a specific implementation.
+However, using UniDriver as the basis for your component drivers will help you leverage years of trial and error and be able to fully re-use your drivers across platforms.
+This allows you to confidently write tests that use your actual implementation and keep focusing on the *"what"* and not the *"how"*
 
-The core idea is to make sure all drivers are *lazy* and *async*, just like real testers, unlink most tests now which are *eager* and mostly *sync*.
 
-This library's implementation provides an abstraction over the UI that can be implemented by all current testing solutions; DOM, Selenium, Puppeteer.
+## Philosophy
+UniDriver aims to provide an API for what a manual tester can do. This means that the API will not focus on implementation, but on the actual action a user would take.
+For example, a user doesn't `focus` an input, it clicks on it (and the browser gives it focus as a result). A user doesn't mouseUp, it  clicks. It hovers.
 
+Moreover, just like users, UniDriver is lazy and async:
+- Lazy - all actions are evaluated only when needed. Calling `const comp = $('.bob)` will not do anything until something is requested (like `comp.text()` or `comp.click()`). This allows to create locators for parts of the UI without relying on the element to be visible. This is particularly helpful on JSDOM level tests.
+- Async - all actions returns are async (just like real users), and thus all interactions will return a promise.
+
+## Examples
+In the [examples](/examples) folder you can find 3 small apps; a todo-app, a counter and a multi counter.
+Each app contains a driver that uses UniDriver, component tests and e2e tests (puppeteer, todo app has selenium too).
+As you can see, all test levels use the *same* driver, meaning that if the feature's implementation changes, you'll need to change the driver alone, not the tests.
 
 
 ## Usage
@@ -48,15 +61,10 @@ This pattern can be nested as one see fit, enabling users to create a cross-plat
 - [JSDOM - React (DOM + React test utils)](adapters/jsdom-react)
 - [Puppeteer](adapters/puppeteer)
 - [Selenium](adapters/selenium)
+- [Protractor](adapters/protractor)
 
 Writing an adapter is easy - you just need to implement the UniDriver API.
 An standard test suite to ensure the properties of the base drivers are kept through the adapters is in the road map.
-
-## Examples
-1. Simple counter, includes jsdom tests and puppeteer tests - [src/examples/counter](src/examples/counter)
-2. Multi counter, includes jsdom tests and puppeteer tests. Reuses the driver from #2 - [src/examples/multi-counter](src/examples/multi-counter)
-3. Todo app - includes jsdom tests, puppeteer and selenium tests.[src/examples/todo-app](src/examples/todo-app)
-
 
 ## FAQ
 
@@ -153,10 +161,9 @@ export const createMyCoolDriver = (wrapper: UniDriver, theOuterWorld: UniDriver)
 ```
 
 
-
 ## Test Suite
 A standard test-suite on each adapter to ensure proper behavior of the API on each adapter. It is given a working todo-app, and by testing it's features and assuming that it is working well, we can test the adapters functionality. 
-Check out [the code](src/test-suite/run-all-test-suites.ts) for more details
+Check out [the code](testsuite/run-test-suite.ts) for more details
 
 ## Road map
 - Add more users to validate idea and API

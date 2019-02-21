@@ -1,6 +1,6 @@
 import { jsdomReactUniDriver } from './';
-import { SetupFn, renderTestApp, runTestSuite } from '@unidriver/testsuite';
-// import {KeyboardEventsAppSetupFn, TodoAppSetupFn} from '@unidriver/testsuite';
+import { SetupFn, renderTestApp, runTestSuite } from '@unidriver/test-suite';
+// import {KeyboardEventsAppSetupFn, TodoAppSetupFn} from '@unidriver/test-suite';
 
 const setup: SetupFn = async (params) => {
 	const cleanJsdom = require('jsdom-global')();

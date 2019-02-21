@@ -9,9 +9,9 @@
     "build": "lerna run build",
     "test": "lerna run test",
     "clean": "lerna clean -y",
-	"release": "lerna publish",
-	"start": "npm run bootstrap && npm run build && npm run test",
-	"publish": "lerna publish"
+    "release": "lerna publish",
+    "start": "npm run bootstrap && npm run build && npm run test",
+    "publish": "lerna publish"
   },
   "author": "Wix.com",
   "license": "MIT",

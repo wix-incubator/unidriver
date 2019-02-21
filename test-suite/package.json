@@ -1,23 +1,23 @@
 {
-  "name": "@unidriver/testsuite",
+  "name": "@unidriver/test-suite",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && (tsc -p . || true) && npm run build-testsuite",
-    "build-testsuite": "cp src/server/index.ejs dist/server/index.ejs && browserify dist/server/client.js > dist/bundle.js",
-    "testsuite-server": "node -e 'require(\"./dist/index.js\").startTestAppServer(3000)'",
+    "build": "rm -rf dist && (tsc -p . || true) && npm run build-test-suite",
+    "build-test-suite": "cp src/server/index.ejs dist/server/index.ejs && browserify dist/server/client.js > dist/bundle.js",
+    "test-suite-server": "node -e 'require(\"./dist/index.js\").startTestAppServer(3000)'",
     "test": ":"
   },
   "dependencies": {
     "@unidriver/core": "^1.0.0",
-    "browserify": "^15.2.0",
+    "browserify": "^16.0.0",
     "chai": "^4.1.2",
     "classnames": "^2.2.6",
     "ejs": "^2.5.7",
-    "express": "^4.16.2",
-    "mocha": "^4.1.0",
+    "express": "^4.16.0",
+    "mocha": "^6.0.0",
     "puppeteer": "^1.11.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
@@ -27,8 +27,8 @@
     "@types/classnames": "^2.2.7",
     "@types/ejs": "^2.5.0",
     "@types/express": "^4.11.0",
-    "@types/react": "^16.0.34",
-    "@types/react-dom": "^16.0.3"
+    "@types/react": "^16.0.0",
+    "@types/react-dom": "^16.0.0"
   },
   "peerDependencies": {
     "typescript": "^3.3.3"

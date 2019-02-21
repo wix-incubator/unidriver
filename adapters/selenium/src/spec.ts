@@ -3,7 +3,7 @@ import { seleniumUniDriver } from './';
 import { Server } from 'http';
 import { ThenableWebDriver, Builder, WebElement, By } from 'selenium-webdriver';
 import * as chrome from 'selenium-webdriver/chrome';
-import {SetupFn, runTestSuite, startTestAppServer, getTestAppUrl} from '@unidriver/testsuite';
+import {SetupFn, runTestSuite, startTestAppServer, getTestAppUrl} from '@unidriver/test-suite';
 
 const port = require('find-free-port-sync')();
 

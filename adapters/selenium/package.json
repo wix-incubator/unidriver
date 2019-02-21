@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && (tsc -p . || true)",
-    "test": "mocha --timeout 5000 dist/**/spec.js"
+    "test": "mocha --timeout 10000 dist/**/spec.js"
   },
   "dependencies": {
     "@unidriver/core": "^1.0.0",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@types/selenium-webdriver": "^3.0.15",
-    "@unidriver/testsuite": "^1.0.0",
+    "@unidriver/test-suite": "^1.0.0",
     "find-free-port-sync": "^1.0.0",
     "mocha": "^6.0.0"
   },
