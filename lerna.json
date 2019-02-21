@@ -3,6 +3,7 @@
   "packages": [
 	"core",
 	"testsuite",
+	"examples",
 	"adapters/*"
   ]
 }

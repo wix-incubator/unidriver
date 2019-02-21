@@ -1,4 +1,4 @@
-import { UniDriver } from '../../lib/index';
+import { UniDriver } from '@unidriver/core';
 import { counterDriver } from '../counter/counter.driver';
 
 export type CounterDriver = {
@@ -10,10 +10,12 @@ export type CounterDriver = {
 	count: () => Promise<number>
 };
 
-export const multiCounterDriver = (base: UniDriver): CounterDriver => {
+export const multiCounterDriver = (wrapper: UniDriver): CounterDriver => {
 	const counterDriverByIdx = (idx: number) => {
 		return counterDriver(base.$$('.counter-wrapper').get(idx));
 	};
+
+	const base = wrapper.$('.multi-counter');
 	return {
 		val: (idx: number) => counterDriverByIdx(idx).val(),
 		increase: (idx: number) => counterDriverByIdx(idx).increase(),

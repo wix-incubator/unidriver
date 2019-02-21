@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { pupUniDriver } from '../../lib/puppeteer';
+import { pupUniDriver } from '@unidriver/puppeteer';
 import { multiCounterDriver } from './multi-counter.driver';
 import { getBrowser } from '../shared.e2e';
 import { goAndWait } from '../utils';

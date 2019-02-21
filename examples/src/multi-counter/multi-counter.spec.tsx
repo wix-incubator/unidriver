@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { assert } from 'chai';
-import { reactJsdomUniDriver } from '../../lib/react';
+import { jsdomReactUniDriver } from '@unidriver/jsdom-react';
 import { MultiCounter } from './multi-counter';
 import { multiCounterDriver } from './multi-counter.driver';
 
@@ -14,7 +14,7 @@ const render = () => {
 
 const renderAppAndCreateDriver = () => {
 	const app = render();
-	const base = reactJsdomUniDriver(app);
+	const base = jsdomReactUniDriver(app);
 	return multiCounterDriver(base);
 };
 

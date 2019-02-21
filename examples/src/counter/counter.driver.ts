@@ -1,4 +1,4 @@
-import { UniDriver } from '../../lib/index';
+import { UniDriver } from '@unidriver/core';
 
 export type CounterDriver = {
 	val: () => Promise<number>,

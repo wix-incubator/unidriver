@@ -1,4 +1,4 @@
-import { UniDriver } from '../../lib/index';
+import { UniDriver } from '@unidriver/core';
 
 export type TodoAppDriver = {
 	getItems: () => Promise<string[]>,
@@ -9,12 +9,14 @@ export type TodoAppDriver = {
 	toggleItem: (idx: number) => Promise<void>
 };
 
-export const todoAppDriver = (base: UniDriver): TodoAppDriver => {
+export const todoAppDriver = (wrapper: UniDriver): TodoAppDriver => {
+
+	const base = wrapper.$('.todo-app');
 	return {
 		getItems: async () => base.$$('.title').text(),
 		addItem: async (text: string) => {
 			await base.$('input').enterValue(text);
-			await base.$('button').click();
+			await base.$('.add').click();
 		},
 		deleteItem: async (idx: number)  => base.$$('.item').get(idx).$('.delete').click(),
 		getCount: async () => parseInt(await base.$('.count').text(), 10),

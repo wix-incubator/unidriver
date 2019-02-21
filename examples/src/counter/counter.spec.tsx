@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 
 import { assert } from 'chai';
 import { counterDriver } from './counter.driver';
-import { reactJsdomUniDriver } from '../../lib/react';
+import { jsdomReactUniDriver } from '@unidriver/jsdom-react';
 import { Counter } from './counter';
 
 const render = (val: number) => {
@@ -14,7 +14,7 @@ const render = (val: number) => {
 
 const renderAppAndCreateDriver = (val: number) => {
 	const app = render(val);
-	const base = reactJsdomUniDriver(app);
+	const base = jsdomReactUniDriver(app);
 	return counterDriver(base);
 };
 

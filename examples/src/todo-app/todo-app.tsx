@@ -81,7 +81,7 @@ export class TodoApp extends React.PureComponent<{}, State> {
 		const {state} = this;
 
 		return (<div className='todo-app'>
-			<header><input onKeyDown={this.handleKeyDown} placeholder='new item' value={state.newItemTitle} onChange={this.onChangeNewTitle}/><button onClick={this.add}>Add</button></header>
+			<header><input onKeyDown={this.handleKeyDown} placeholder='new item' value={state.newItemTitle} onChange={this.onChangeNewTitle}/><button onClick={this.add} className='add'>Add</button></header>
 			<main>
 				<h2>Items: <span className='count'>{state.items.length}</span></h2>
 				<ul>{state.items.map((item, idx) => <TodoItemView key={idx} val={item} onChange={this.change} onDelete={this.remove}/>)}</ul>

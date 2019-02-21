@@ -14,7 +14,7 @@ export const startServer = (port: number): Promise<Server> => {
 		app.use(express.static('node_modules'));
 
 		app.get('/', (_, res) => {
-			const template = readFileSync(path.resolve(__dirname, '../index.ejs'), 'utf-8');
+			const template = readFileSync(path.resolve(__dirname, './index.ejs'), 'utf-8');
 			res.send(ejs.render(template, {bundleUrl: 'bundle.js'}));
 		});
 

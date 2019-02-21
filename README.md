@@ -7,12 +7,13 @@ Universal component drivers that can be reused in all test levels, from componen
 
 ## Motivation
 
-Drivers have singificantly improved the quaility of our ui tests, by helping focusing on the feature and not implementation.
+Drivers have significantly improved the quality of our ui tests, by helping focusing on the feature and not implementation.
 However, all implementations of drivers I encountered rely deeply on the platform the ui is running on (node, browser), each with it's own quirks, making it hard to share drivers between platforms.
 
 The core idea is to make sure all drivers are *lazy* and *async*, just like real testers, unlink most tests now which are *eager* and mostly *sync*.
 
 This library's implementation provides an abstraction over the UI that can be implemented by all current testing solutions; DOM, Selenium, Puppeteer.
+
 
 
 ## Usage
@@ -44,17 +45,17 @@ This pattern can be nested as one see fit, enabling users to create a cross-plat
 
 ## Available Adapters
 
-- [React (DOM + React testutils)](src/lib/react)
-- [Puppeteer](src/lib/puppeteer)
-- [Selenium](src/lib/selenium)
+- [JSDOM - React (DOM + React test utils)](adapters/jsdom-react)
+- [Puppeteer](adapters/puppeteer)
+- [Selenium](adapters/selenium)
 
 Writing an adapter is easy - you just need to implement the UniDriver API.
-An standard test suite to ensure the properties of the base drivers are kept through the adapters is in the roadmap.
+An standard test suite to ensure the properties of the base drivers are kept through the adapters is in the road map.
 
 ## Examples
-1. Simple counter, includes jsdom tests and pupeteer tests - [src/examples/counter](src/examples/counter)
-2. Multi counter, includes jsdom tests and pupeteer tests. Reuses the driver from #2 - [src/examples/multi-counter](src/examples/multi-counter)
-3. Todo app - includes jsdom tests, pupeteer and selenium tests.[src/examples/todo-app](src/examples/todo-app)
+1. Simple counter, includes jsdom tests and puppeteer tests - [src/examples/counter](src/examples/counter)
+2. Multi counter, includes jsdom tests and puppeteer tests. Reuses the driver from #2 - [src/examples/multi-counter](src/examples/multi-counter)
+3. Todo app - includes jsdom tests, puppeteer and selenium tests.[src/examples/todo-app](src/examples/todo-app)
 
 
 ## FAQ
@@ -154,10 +155,10 @@ export const createMyCoolDriver = (wrapper: UniDriver, theOuterWorld: UniDriver)
 
 
 ## Test Suite
-A standard testsuite on each adapter to ensure proper behaviour of the API on each adapter. It is given a working todo-app, and by testing it's features and assuming that it is working well, we can test the adapters functionality. 
+A standard test-suite on each adapter to ensure proper behavior of the API on each adapter. It is given a working todo-app, and by testing it's features and assuming that it is working well, we can test the adapters functionality. 
 Check out [the code](src/test-suite/run-all-test-suites.ts) for more details
 
-## Roadmap
+## Road map
 - Add more users to validate idea and API
 - ~Choose name + rename (runner up - "UniDriver")~
 - ~Add standard test suite for the base driver~

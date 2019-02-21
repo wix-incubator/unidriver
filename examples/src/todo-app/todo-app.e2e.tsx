@@ -1,21 +1,25 @@
 import { assert } from 'chai';
+import { pupUniDriver } from '@unidriver/puppeteer';
 import { todoAppDriver } from './todo-app.driver';
-import { getWd } from '../shared.e2e';
-import { defaultUrl } from '../utils';
-import { seleniumUniDriver } from '../../lib/selenium';
-import { WebElement, By } from 'selenium-webdriver';
+import { getBrowser } from '../shared.e2e';
+import { goAndWait } from '../utils';
+import { Page } from 'puppeteer';
 
-describe('todo app', function () {
+describe('todo app', () => {
 
-	// tslint:disable-next-line:no-invalid-this
-	this.timeout(20000);
+	let page: Page;
 
-	beforeEach(async () => getWd().get(defaultUrl));
+	beforeEach(async () => page = await goAndWait(getBrowser()));
+	afterEach(() => page.close());
 
 	const begin = async () => {
-		const base = seleniumUniDriver(async () => {
-			const el: any = getWd().findElement(By.css('body'));
-			return el as Promise<WebElement>;
+		const base = pupUniDriver(async() => {
+			const selector = 'body';
+			return{
+				element: await page.$(selector),
+				page,
+				selector
+			}
 		});
 		return todoAppDriver(base);
 	};

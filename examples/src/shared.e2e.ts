@@ -21,7 +21,7 @@ before(async function () {
 	const cacheWd = async () => wd.get(defaultUrl);
 
 	wd = new Builder()
-		.forBrowser('firefox')
+		.forBrowser('chrome')
 		.build();
 
 	await Promise.all([cachePup(), cacheWd()]);
