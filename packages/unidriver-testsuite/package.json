@@ -8,7 +8,6 @@
     "build": "rm -rf dist && (tsc -p . || true) && npm run build-testsuite",
     "build-testsuite": "cp src/index.ejs dist/index.ejs && browserify dist/app.js > dist/bundle.js",
     "testsuite-server": "node -e 'require(\"./dist/server.js\").startServer(3000)'",
-    "clean": "(rm package-lock.json || true) && rm -rf node_modules",
     "test": "bash scripts/test.sh"
   },
   "dependencies": {

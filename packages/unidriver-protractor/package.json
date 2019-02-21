@@ -6,7 +6,6 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "echo 'TBD'",
-    "clean": "(rm package-lock.json || true) && rm -rf node_modules",
     "test": "echo 'run the testsuite to test the adapter'"
   },
   "author": "Wix.com",

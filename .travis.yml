@@ -6,6 +6,7 @@ addons:
   chrome: stable
 install:
 - npm install
+- npm run bootstrap
 script:
 - npm run build
 - npm run test
