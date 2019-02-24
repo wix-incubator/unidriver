@@ -1,3 +1,4 @@
+require('chromedriver');
 import { startServer } from './server';
 import * as puppeteer from 'puppeteer';
 import { ThenableWebDriver, Builder } from 'selenium-webdriver';
