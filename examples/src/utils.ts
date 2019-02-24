@@ -1,6 +1,7 @@
 import { Browser, Page } from 'puppeteer';
 
-export const defaultUrl = 'http://localhost:8082';
+export const freePort = require('find-free-port-sync')();
+export const defaultUrl = `http://localhost:${freePort}`;
 
 export const goAndWait = async (browser: Browser, url: string = defaultUrl): Promise<Page> => {
 	const page = await browser.newPage();
