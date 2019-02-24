@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@unidriver/core": "^1.0.0",
-    "chromedriver": "^2.38.3",
+    "chromedriver": "^2.46.0",
     "selenium-webdriver": "^3.6.0"
   },
   "devDependencies": {

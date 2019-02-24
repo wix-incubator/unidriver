@@ -1,3 +1,4 @@
+require('chromedriver');
 import { assert } from 'chai';
 import { todoAppDriver } from './todo-app.driver';
 import { getWd } from '../shared.e2e';
