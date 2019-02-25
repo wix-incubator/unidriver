@@ -1,0 +1,15 @@
+{
+  "name": "@unidriver/core",
+  "version": "1.0.0",
+  "description": "UniDriver core",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && (tsc -p . || true)"
+  },
+  "author": "Wix.com",
+  "license": "MIT",
+  "peerDependencies": {
+    "typescript": "^3.3.3"
+  }
+}

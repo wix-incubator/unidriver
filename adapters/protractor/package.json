@@ -1,0 +1,20 @@
+{
+  "name": "@unidriver/protractor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "echo 'TBD'",
+    "test": "echo 'TBD'"
+  },
+  "author": "Wix.com",
+  "license": "MIT",
+  "dependencies": {
+    "@unidriver/core": "^1.0.0",
+    "protractor": "^5.4.2"
+  },
+  "peerDependencies": {
+    "typescript": "^3.3.3"
+  }
+}

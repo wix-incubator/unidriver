@@ -1,0 +1,27 @@
+{
+  "name": "@unidriver/puppeteer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "test": "mocha dist/**/spec.js"
+  },
+  "keywords": [],
+  "author": "Wix.com",
+  "license": "MIT",
+  "dependencies": {
+    "@unidriver/core": "^1.0.0",
+    "puppeteer": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/puppeteer": "^1.11.1",
+    "@unidriver/test-suite": "^1.0.0",
+    "find-free-port-sync": "^1.0.0",
+    "mocha": "^6.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^3.3.3"
+  }
+}

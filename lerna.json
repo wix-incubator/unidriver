@@ -1,0 +1,9 @@
+{
+  "version": "independent",
+  "packages": [
+	"core",
+	"test-suite",
+	"examples",
+	"adapters/*"
+  ]
+}

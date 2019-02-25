@@ -1,19 +1,17 @@
 {
-  "name": "unidriver",
-  "version": "2.0.1",
-  "description": "",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "name": "unidriver-monorepo",
   "repository": {
     "type": "git",
     "url": "https://github.com/wix-incubator/unidriver"
   },
   "scripts": {
-    "build": "rm -rf dist && (tsc -p . || true) && npm run build-testsuite && npm run expose-adapters",
-    "build-testsuite": "cp src/test-suite/index.ejs dist/test-suite/index.ejs && browserify dist/test-suite/app.js > dist/test-suite/bundle.js",
-    "testsuite-server": "node -e 'require(\"./dist/test-suite/server.js\").startServer(3000)'",
-    "test": "bash support/test.sh",
-    "expose-adapters": "import-path --path lib --dts"
+    "bootstrap": "lerna bootstrap --hoist",
+    "build": "lerna run build",
+    "test": "lerna run test",
+    "clean": "lerna clean -y",
+    "release": "lerna publish",
+    "start": "npm run bootstrap && npm run build && npm run test",
+    "publish": "lerna publish"
   },
   "author": "Wix.com",
   "license": "MIT",
@@ -24,39 +22,9 @@
     "*.js"
   ],
   "devDependencies": {
-    "@types/chai": "^4.0.10",
-    "@types/classnames": "^2.2.7",
-    "@types/ejs": "^2.5.0",
-    "@types/express": "^4.11.0",
-    "@types/mocha": "^2.2.46",
-    "@types/puppeteer": "^1.11.1",
-    "@types/react": "^16.0.34",
-    "@types/react-dom": "^16.0.3",
-    "browserify": "^15.2.0",
-    "chai": "^4.1.2",
-    "chromedriver": "^2.38.3",
-    "classnames": "^2.2.6",
-    "concurrently": "^3.5.1",
-    "ejs": "^2.5.7",
-    "express": "^4.16.2",
-    "import-path": "^1.0.3",
-    "jsdom": "^11.10.0",
-    "jsdom-global": "^3.0.2",
-    "mocha": "^4.1.0",
-    "mocha-teamcity-reporter": "^2.4.0",
-    "protractor": "^5.4.2",
-    "puppeteer": "^1.11.0",
-    "react": "^15.2.0",
-    "react-dom": "^15.2.0",
-    "selenium-webdriver": "^3.6.0",
-    "typescript": "^3.3.3"
-  },
-  "peerDependencies": {
-    "@types/puppeteer": "^1.11.1",
-    "selenium-webdriver": "^3.6.0",
-    "puppeteer": "^1.11.0",
-    "react": "^15.2.0",
-    "react-dom": "^15.2.0",
-    "protractor": "^5.4.2"
+    "@types/mocha": "^2.2.37",
+    "@types/node": "^7.0.0",
+    "typescript": "^3.3.3",
+    "lerna": "^3.11.1"
   }
 }

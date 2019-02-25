@@ -13,14 +13,10 @@
         "outDir": "dist",
         "moduleResolution": "node",
         "lib": ["dom", "es2016"],
-        "types": ["mocha", "node"],
         "jsx": "react",
-        "declaration": true
+        "declaration": true,
+		"declarationMap": true
     },
-	 "include": [
-		 "src/**/*.ts",
-		 "src/**/*.tsx"
-	 ],
 	 "exclude": [
 		 "node_modules"
 	 ]
