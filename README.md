@@ -35,7 +35,7 @@ This library provides an API to interact with UI elements - `UniDriver` and `Uni
 The idea is that a component driver is a function of the driver of it's container, and is completely agnostic to how the initial driver was originally generated. 
 For example, a driver for a todo App might look like this:
 
-```
+```typescript
 const todoAppDriver = (base: UniDriver) => {
 	return {
 		getItems: async () => base.$$('.title').text(),
@@ -83,7 +83,7 @@ You have a to-do app, and each row has some actions (rename, delete). The action
 
 A naive attempt of a driver might look like this:
 
-```
+```typescript
 export const createTodoAppDriver = (wrapper: UniDriver) => {
 
 	return {
@@ -98,7 +98,7 @@ export const createTodoAppDriver = (wrapper: UniDriver) => {
 ```
 
 With passing a second argument representing the "outer world":
-```
+```typescript
 export const createTodoAppDriver = (wrapper: UniDriver, theOuterWorld: UniDriver) => {
 
 	return {
@@ -116,7 +116,7 @@ export const createTodoAppDriver = (wrapper: UniDriver, theOuterWorld: UniDriver
 
 Because UniDrivers are *lazy*, you can even do this: 
 
-```
+```typescript
 export const createPopoverDriver = (wrapper: UniDriver) => wrapper.$('.popover');
 
 export const createTodoAppDriver = (wrapper: UniDriver, theOuterWorld: UniDriver) => {
@@ -141,7 +141,7 @@ This will work nicely in real browsers, but JSDOM might not create the right eve
 
 Example:
 
-```
+```typescript
 export const createMyCoolDriver = (wrapper: UniDriver, theOuterWorld: UniDriver) => {
 
 	dismissModal: () => {
