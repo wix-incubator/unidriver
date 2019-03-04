@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/jsdom-react",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "JSDom React adapter for UniDriver",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -14,20 +14,20 @@
 		"@unidriver/core": "^1.0.0"
 	},
 	"devDependencies": {
+		"@types/react": "^16.0.0",
+		"@types/react-dom": "^16.0.0",
 		"@unidriver/test-suite": "^1.0.0",
 		"jsdom": "^13.2.0",
 		"jsdom-global": "^3.0.2",
 		"mocha": "^6.0.0",
 		"react": "^16.0.0",
-		"react-dom": "^16.0.0",
-		"@types/react": "^16.0.0",
-		"@types/react-dom": "^16.0.0"
+		"react-dom": "^16.0.0"
 	},
 	"peerDependencies": {
-		"react": "^16.0.0",
-		"react-dom": "^16.0.0",
 		"@types/react": "^16.0.0",
 		"@types/react-dom": "^16.0.0",
+		"react": "^16.0.0",
+		"react-dom": "^16.0.0",
 		"typescript": "^3.33"
 	}
 }

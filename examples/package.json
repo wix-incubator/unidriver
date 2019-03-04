@@ -1,6 +1,6 @@
 {
   "name": "unidriver-examples",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "private": true,
@@ -16,17 +16,17 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@types/puppeteer": "^1.11.1",
     "@unidriver/core": "^1.0.0",
-    "@unidriver/jsdom-react": "^1.0.0",
-    "puppeteer": "^1.11.0",
-	"@types/puppeteer": "^1.11.1",
-    "@unidriver/selenium": "^1.0.0",
-    "find-free-port-sync": "^1.0.0",
-	"browserify": "^16.0.0",
+    "@unidriver/jsdom-react": "^1.0.1",
+    "@unidriver/selenium": "^1.0.1",
+    "browserify": "^16.0.0",
     "chromedriver": "^2.46.0",
     "express": "^4.16.0",
+    "find-free-port-sync": "^1.0.0",
     "jsdom": "^13.2.0",
     "jsdom-global": "^3.0.2",
-    "mocha": "^6.0.0"
+    "mocha": "^6.0.0",
+    "puppeteer": "^1.11.0"
   }
 }

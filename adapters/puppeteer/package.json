@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/puppeteer",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -15,15 +15,15 @@
 		"@unidriver/core": "^1.0.0"
 	},
 	"devDependencies": {
+		"@types/puppeteer": "^1.11.1",
 		"@unidriver/test-suite": "^1.0.0",
 		"find-free-port-sync": "^1.0.0",
-		"puppeteer": "^1.11.0",
-		"@types/puppeteer": "^1.11.1",
-		"mocha": "^6.0.0"
+		"mocha": "^6.0.0",
+		"puppeteer": "^1.11.0"
 	},
 	"peerDependencies": {
-		"puppeteer": "^1.11.0",
 		"@types/puppeteer": "^1.11.1",
+		"puppeteer": "^1.11.0",
 		"typescript": "^3.3.3"
 	}
 }
