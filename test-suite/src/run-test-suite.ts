@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {UniDriver, getAllNonTextKeyTypes, getDefinitionForKeyType} from '@unidriver/core';
+import {UniDriver, getAllNonTextKeyTypes, getDefinitionForKeyType, isMultipleElementsWithLocatorError, isNoElementWithLocatorError} from '@unidriver/core';
 import { TestSuiteParams } from '.';
 import { TestAppProps } from './test-app';
 import { itemCreator } from './test-app/utils';
@@ -112,6 +112,18 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await driver.$('.tootim').exists(), false);
                     assert.equal(await driver.$('#arnold-schwarzenegger').exists(), false);
                 });
+			});
+			
+			it('rejects the promise with an error when more than 1 element exists', async () => {
+				const items = [
+					itemCreator({label: 'a'}), 
+					itemCreator({label: 'b'})
+				];
+                await runTest({items}, async (driver) => {
+					
+					const error = await (driver.$('.todo-item').exists().catch((e: any) => e));
+					assert.equal(isMultipleElementsWithLocatorError(error), true);
+                });
             });
 
         });
@@ -161,7 +173,25 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.deepEqual(await driver.$('.todo-item').attr('data-value'), '');
                 });
             });
-        });
+		});
+		
+		it('rejects with the right error on action when an element does not exist given locator', async () => {
+			await runTest({items: []}, async (driver) => {
+				const err = await (driver.$('.fdgfdgfdg').text().catch((e: any) => e));
+				assert.equal(isNoElementWithLocatorError(err), true);
+			});
+		});
+
+		it('rejects with the right error on action when an more than 1 element exist given locator', async () => {
+			const items = [
+				itemCreator({label: 'a'}), 
+				itemCreator({label: 'b'})
+			];
+			await runTest({items}, async (driver) => {
+				const err = await (driver.$('.todo-item').text().catch((e: any) => e));
+				assert.equal(isMultipleElementsWithLocatorError(err), true);
+			});
+		});
     });
 
     describe('$$', () => {

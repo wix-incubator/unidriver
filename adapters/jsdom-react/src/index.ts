@@ -1,5 +1,7 @@
 import { UniDriverList, Locator, UniDriver, waitFor, getDefinitionForKeyType } from '@unidriver/core';
 import { Simulate } from 'react-dom/test-utils';
+import { NoElementWithLocatorError } from '@unidriver/core';
+import { isMultipleElementsWithLocatorError, MultipleElementsWithLocatorError } from '@unidriver/core';
 
 type ElementOrElementFinder = (() => Element) | Element | (() => Promise<Element>);
 type ElementsOrElementsFinder = (() => Element[]) | Element[] | (() => Promise<Element[]>);
@@ -65,7 +67,11 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			await elem();
 			return true;
 		} catch (e) {
-			return false;
+			if (isMultipleElementsWithLocatorError(e)) {
+				throw e;
+			} else {
+				return false;
+			}
 		}
 	};
 
@@ -75,9 +81,9 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 				const container = await elem();
 				const elements = container.querySelectorAll(loc);
 				if (!elements.length) {
-					throw new Error(`Cannot find element with locator: ${loc}`);
+					throw new NoElementWithLocatorError(loc);
 				} else if (elements.length > 1) {
-					throw new Error(`Found ${elements.length} elements with ${loc}. Only 1 is expected. This is either a bug or not-specific-enough locator`);
+					throw new MultipleElementsWithLocatorError(elements.length, loc);
 				}
 				return elements[0];
 			};

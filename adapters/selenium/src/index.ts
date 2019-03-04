@@ -1,4 +1,4 @@
-import { Locator, UniDriverList, UniDriver, MapFn, waitFor } from '@unidriver/core';
+import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError } from '@unidriver/core';
 import { By, WebElement, Key as SeleniumKey } from 'selenium-webdriver';
 
 export type WebElementGetter = () => Promise<WebElement>;
@@ -71,12 +71,28 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
   };
 
   const exists = async () => {
-    return elem().then(() => true, () => false);
-  };
+	try {
+		await elem();
+		return true;
+	} catch (e) {
+		if (isMultipleElementsWithLocatorError(e)) {
+			throw e;
+		} else {
+			return false;
+		}
+	}
+};
 
   return {
     $: (selector: Locator) => seleniumUniDriver(async () => {
-        return (await elem()).findElement(By.css(selector));
+		const els = await (await elem()).findElements(By.css(selector));
+		if (els.length === 0) {
+			throw new NoElementWithLocatorError(selector);
+		} else if (els.length > 1) {
+			throw new MultipleElementsWithLocatorError(els.length, selector);
+		} else {
+			return els[0];
+		}
       }),
     $$: (selector: Locator) => seleniumUniDriverList(async () => {
         const el = await elem();

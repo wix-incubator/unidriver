@@ -1,4 +1,4 @@
-import { Locator, UniDriverList, UniDriver, MapFn, waitFor } from '@unidriver/core';
+import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError } from '@unidriver/core';
 import { ElementHandle, Page } from 'puppeteer';
 
 type BaseElementContainer = { page: Page; selector: string };
@@ -89,23 +89,36 @@ export const pupUniDriver = (
     };
 
     const exists = async () => {
-        try {
-            await elem();
-            return true;
-        } catch (e) {
-            return false;
-        }
+		try {
+			await elem();
+			return true;
+		} catch (e) {
+			if (isMultipleElementsWithLocatorError(e)) {
+				throw e;
+			} else {
+				return false;
+			}
+		}
     };
 
     return {
         $: (newLoc: Locator) => {
             return pupUniDriver(async () => {
-                const { element, ...rest } = await elem();
-                return {
-                    ...rest,
-                    element: await element.$(newLoc),
-                    selector: newLoc
-                };
+				const { element, ...rest } = await elem();
+				
+				const elHandles = await element.$$(newLoc);
+
+				if (elHandles.length === 0) {
+					throw new NoElementWithLocatorError(newLoc);
+				} else if (elHandles.length > 1) {
+					throw new MultipleElementsWithLocatorError(elHandles.length, newLoc);
+				} else {
+					return {
+						...rest,
+						element: elHandles[0],
+						selector: newLoc
+					};
+				}
             });
         },
         $$: (newLoc: Locator) =>

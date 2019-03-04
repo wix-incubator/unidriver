@@ -6,8 +6,9 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
-    "build": "lerna run build",
-    "test": "lerna run test",
+    "build": "lerna run --stream build",
+	"test": "lerna run --stream test",
+	"test-no-bail": "lerna run --stream --no-bail test",
     "clean": "lerna clean -y",
     "release": "lerna publish",
     "start": "npm run bootstrap && npm run build && npm run test",

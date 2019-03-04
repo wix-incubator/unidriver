@@ -9,7 +9,9 @@ const showCase = (<div>
 	<TodoApp/>
 
 	<h1>Counter</h1>
-	<Counter init={0}/>
+	<div className='single-counter-wrapper'>
+		<Counter init={0}/>
+	</div>
 
 	<h1>Multi Counter</h1>
 	<MultiCounter/>

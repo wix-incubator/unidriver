@@ -1,4 +1,4 @@
-import {Locator, UniDriverList, UniDriver, MapFn, waitFor} from '@unidriver/core';
+import {Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError} from '@unidriver/core';
 import {browser, ElementFinder}                   from 'protractor';
 
 type ElementGetter = () => Promise<ElementFinder | null>;
@@ -63,19 +63,29 @@ export const protractorUniDriver = (
   };
 
   const exists = async () => {
-    try {
-      await elem();
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
+	try {
+		await elem();
+		return true;
+	} catch (e) {
+		if (isMultipleElementsWithLocatorError(e)) {
+			throw e;
+		} else {
+			return false;
+		}
+	}
+};
 
   return {
     // done
     $: (newLoc: Locator) => {
       return protractorUniDriver(async () => {
-        return (await elem()).$(newLoc);
+		const elGetters = (await elem()).$$(newLoc);
+        if (!elGetters.length) {
+			throw new NoElementWithLocatorError(newLoc);
+		} else if (elGetters.length > 1) {
+			throw new MultipleElementsWithLocatorError(elGetters.length, newLoc);
+		}
+		return elGetters[0];
       });
     },
     // done

@@ -44,3 +44,36 @@ export type UniDriver<T = any> = {
 	scrollIntoView: () => Promise<{}>;
 	getNative: () => Promise<T>;
 };
+
+export enum ErrorTypes {
+	NO_ELEMENTS_WITH_SELECTOR = 'no-elements-with-selector',
+	MULTIPLE_ELEMENTS_WITH_SELECTOR = 'multiple-elements-with-selector'
+}
+
+export class NoElementWithLocatorError extends Error {
+
+	type = ErrorTypes.NO_ELEMENTS_WITH_SELECTOR;
+	
+	constructor(locator: string) {
+		super(`Cannot find element with locator: ${locator}`)
+	}
+}
+
+export class MultipleElementsWithLocatorError extends Error {
+
+	type = ErrorTypes.MULTIPLE_ELEMENTS_WITH_SELECTOR;
+
+	constructor(count: number, locator: string) {
+		super(`Found ${count} elements with locator [${locator}]. Only 1 is expected. This is either a bug or not-specific-enough locator`);
+	}
+}
+
+export const isNoElementWithLocatorError = (e: Error): e is NoElementWithLocatorError => {
+	const type = (e as NoElementWithLocatorError).type || '';
+	return type === ErrorTypes.NO_ELEMENTS_WITH_SELECTOR;
+};
+
+export const isMultipleElementsWithLocatorError = (e: Error): e is MultipleElementsWithLocatorError => {
+	const type = (e as MultipleElementsWithLocatorError).type || '';
+	return type === ErrorTypes.MULTIPLE_ELEMENTS_WITH_SELECTOR;
+};

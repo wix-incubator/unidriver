@@ -5,7 +5,7 @@ import { getBrowser } from '../shared.e2e';
 import { goAndWait } from '../utils';
 import { Page } from 'puppeteer';
 
-describe('counter', () => {
+describe('counter - e2e', () => {
 
 	let page: Page;
 
@@ -21,7 +21,7 @@ describe('counter', () => {
 				selector
 			}
 		});
-		return counterDriver(base);
+		return counterDriver(base.$('.single-counter-wrapper'));
 	};
 
 	it('shows initial value', async () => {
