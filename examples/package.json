@@ -1,6 +1,6 @@
 {
   "name": "unidriver-examples",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "private": true,
@@ -17,9 +17,9 @@
   "license": "MIT",
   "dependencies": {
     "@types/puppeteer": "^1.11.1",
-    "@unidriver/core": "^1.0.0",
-    "@unidriver/jsdom-react": "^1.0.1",
-    "@unidriver/selenium": "^1.0.1",
+    "@unidriver/core": "^1.1.0",
+    "@unidriver/jsdom-react": "^1.1.0",
+    "@unidriver/selenium": "^1.1.0",
     "browserify": "^16.0.0",
     "chromedriver": "^2.46.0",
     "express": "^4.16.0",

@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/protractor",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"description": "",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -11,7 +11,7 @@
 	"author": "Wix.com",
 	"license": "MIT",
 	"dependencies": {
-		"@unidriver/core": "^1.0.0"
+		"@unidriver/core": "^1.1.0"
 	},
 	"peerDependencies": {
 		"protractor": "^5.4.2",
