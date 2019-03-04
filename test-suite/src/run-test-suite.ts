@@ -172,7 +172,14 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await driver.$$('.label').get(0).text(), 'Bob');
                     assert.equal(await driver.$$('.label').get(1).text(), 'David');
                 });
-            });
+			});
+		
+			it('exists() works properly on elements from `.get`', async () => {
+				await runTest({items: []}, async (driver) => {
+					assert.equal(await driver.$$('.some-elem-bla-bla').get(0).exists(), false);
+					assert.equal(await driver.$$('.add').get(0).exists(), true);
+				});
+			});	
         });
 
         describe('text()', () => {
@@ -191,7 +198,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.deepEqual(await driver.$$('.todo-item').count(), 3);
                 });
             });
-        });
+		});
 
         describe('map()', () => {
             it('works for text', async () => {

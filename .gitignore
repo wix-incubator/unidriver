@@ -8,3 +8,4 @@ package-lock.json
 !protractor.conf.js
 .idea
 lerna-debug.log
+.DS_Store

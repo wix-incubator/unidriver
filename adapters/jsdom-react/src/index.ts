@@ -1,8 +1,6 @@
 import { UniDriverList, Locator, UniDriver, waitFor, getDefinitionForKeyType } from '@unidriver/core';
 import { Simulate } from 'react-dom/test-utils';
 
-const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
 type ElementOrElementFinder = (() => Element) | Element | (() => Promise<Element>);
 type ElementsOrElementsFinder = (() => Element[]) | Element[] | (() => Promise<Element[]>);
 
@@ -18,7 +16,14 @@ export const jsdomReactUniDriverList = (containerOrFn: ElementsOrElementsFinder)
 
 	return {
 		get: (idx: number) => jsdomReactUniDriver(() => {
-			return elem().then((cont) => cont[idx]);
+			return elem().then((cont) => {
+				const elem = cont[idx];
+				if (!elem) {
+					throw new Error('React base driver - element was not found');
+				} else {
+					return elem;
+				}
+			});
 		}),
 		text: async () => (await elem()).map((e) => e.textContent || ''),
 		count: async () => (await elem()).length,
