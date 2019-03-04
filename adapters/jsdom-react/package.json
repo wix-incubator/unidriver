@@ -16,14 +16,14 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "@types/react": "^16.0.0",
-    "@types/react-dom": "^16.0.0",
-    "@unidriver/test-suite": "^1.0.0",
-    "jsdom": "^13.2.0",
-    "jsdom-global": "^3.0.2",
-    "mocha": "^6.0.0"
-  },
-  "peerDependencies": {
-    "typescript": "^3.3.3"
-  }
+	  "@unidriver/test-suite": "^1.0.0",
+	  "jsdom": "^13.2.0",
+	  "jsdom-global": "^3.0.2",
+	  "mocha": "^6.0.0"
+	},
+	"peerDependencies": {
+		"@types/react": "^16.0.0",
+		"@types/react-dom": "^16.0.0",
+		"typescript": "^3.3.3"
+	}
 }
