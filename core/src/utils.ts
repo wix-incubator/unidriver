@@ -2,7 +2,7 @@ const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export const waitFor = async (fn: () => Promise<boolean>, timeout = 1200, retryDelay = 30, customError?: string): Promise<void> => {
 	if (timeout < 0) {
-		const err = customError || `[Timeout exceeded while waitinf for value to become true, last value was]`;
+		const err = customError || `[Timeout exceeded while waiting for value to become true]`;
 		throw new Error(err);
 	}
 	const val = await fn();
