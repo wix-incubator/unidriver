@@ -26,8 +26,8 @@ export type UniDriverList<T = any> = {
 };
 
 export type UniDriver<T = any> = {
-	$: (selector: Locator) => UniDriver;
-	$$: (selector: Locator) => UniDriverList;
+	$: (selector: Locator) => UniDriver<T>;
+	$$: (selector: Locator) => UniDriverList<T>;
 	text: () => Promise<string>;
 	click: () => Promise<void>;
 	hover: () => Promise<void>;
