@@ -103,69 +103,31 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			// setting button 0 is now needed in React 16+ as it's not set by react anymore
 			// 15 - https://github.com/facebook/react/blob/v15.6.1/src/renderers/dom/client/syntheticEvents/SyntheticMouseEvent.js#L45
 			// 16 - https://github.com/facebook/react/blob/master/packages/react-dom/src/events/SyntheticMouseEvent.js#L33
-
-			// native events are preferred, but they will only work in React if the element is part of the DOM
-			if (document.body.contains(el)) {
-				const event: any  = document.createEvent('HTMLEvents');
-				event.button = 0;
-				event.initEvent('click', true, false);
-				el.dispatchEvent(event);
-			} else {
-				Simulate.click(el, {button: 0});
-			}
+			Simulate.click(el, {button: 0});
 		},
 		mouse: {
 			press: async() => {
 				const el = await elem();
 
-				if (document.body.contains(el)) {
-					const mouseup = new MouseEvent('mousedown');
-					mouseup.initEvent(mouseup.type, true, false);
-					el.dispatchEvent(mouseup);
-				} else {
-					Simulate.mouseDown(el);
-				}
+				Simulate.mouseDown(el);
 			},
 			release: async () => {
 				const el = await elem();
 
-				if (document.body.contains(el)) {
-					const mouseup = new MouseEvent('mouseup');
-					mouseup.initEvent(mouseup.type, true, false);
-					el.dispatchEvent(mouseup);
-				} else {
-					Simulate.mouseUp(el);
-				}
+				Simulate.mouseUp(el);
 			},
 			moveTo: async (to) => {
 				const el = await elem();
 				const {left, top} = (await to.getNative()).getBoundingClientRect();
 
-				if (document.body.contains(el)) {
-					const mousemove = new MouseEvent('mousemove', {clientX: left, clientY: top});;
-					mousemove.initEvent(mousemove.type, true, false);
-					el.dispatchEvent(mousemove);
-				} else {
-					Simulate.mouseMove(el, {clientX: left, clientY: top});
-				}
+				Simulate.mouseMove(el, {clientX: left, clientY: top});
 			}
 		},
 		hover: async () => {
 			const el = await elem();
 
-			if (document.body.contains(el)) {
-				const mouseenter: any = document.createEvent('HTMLEvents');
-				const mouseover: any = document.createEvent('HTMLEvents');
-
- 				mouseover.initEvent('mouseover', true, false);
- 				mouseenter.initEvent('mouseenter', true, false);
-
- 				el.dispatchEvent(mouseenter);
- 				el.dispatchEvent(mouseover)
-			} else {
-				Simulate.mouseOver(el);
-				Simulate.mouseEnter(el);
-			}
+			Simulate.mouseOver(el);
+			Simulate.mouseEnter(el);
 		},
 		pressKey: async (key) => {
 			const el = await elem();

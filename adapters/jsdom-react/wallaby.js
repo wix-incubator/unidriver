@@ -10,7 +10,7 @@ module.exports = function (wallaby) {
 			{pattern: 'node_modules/**/*', ignore: true}
 		],
 		tests: [
-			'src/spec.ts'
+			'src/spec.tsx'
 		],
 		compilers: {
 			'src/**/*.tsx?': wallaby.compilers.typeScript({
