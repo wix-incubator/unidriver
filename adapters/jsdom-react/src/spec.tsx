@@ -61,4 +61,20 @@ describe('react base driver specific tests', () => {
 
 		assert.equal(s.lastCall.args[0].target.tagName, 'BUTTON');
 	});
+
+	it('sends event data properly on simulated events when element is attached to body', async () => {
+		const cleanJsdom = require('jsdom-global')();
+		const s = spy();
+		const elem = document.createElement('div');
+		document.body.appendChild(elem);
+		const btn = <input onChange={s}/>;
+		ReactDOM.render(btn, elem);
+
+		const driver = jsdomReactUniDriver(elem);
+
+		await driver.$('button').click();
+		cleanJsdom();
+
+		assert.equal(s.lastCall.args[0].target.tagName, 'BUTTON');
+	});
 });
