@@ -5,7 +5,7 @@
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
 	"scripts": {
-		"build": "echo 'TBD'",
+		"build": "rm -rf dist && tsc -p .",
 		"test": "echo 'TBD'"
 	},
 	"author": "Wix.com",
@@ -16,5 +16,8 @@
 	"peerDependencies": {
 		"protractor": "^5.4.2",
 		"typescript": "^3.3.3"
+	},
+	"devDependencies": {
+		"@types/protractor": "^4.0.0"
 	}
 }
