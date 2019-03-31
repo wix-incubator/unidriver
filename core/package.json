@@ -11,5 +11,6 @@
   "license": "MIT",
   "peerDependencies": {
     "typescript": "^3.3.3"
-  }
+  },
+  "gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
 }
