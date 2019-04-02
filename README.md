@@ -7,6 +7,8 @@ Making BDD fun in the modular UI area.
 
 UniDriver makes it saner to write UI testing. It enables creating component drivers that will work on all platforms, from jsdom to puppeteer and selenium.
 
+[Migrating from ~v2.0.1 to latest version](/migrating.md)
+
 ## Component Drivers
 Testing UI is hard. There are many reasons for that, but we believe a big one relies in the fact that unlike functions or services, where the API is clearly defined, when dealing with graphical user interfaces, it's up for the developer to transform it into an "API" for testing purposes.
 Back in the days, [PageObjects](https://martinfowler.com/bliki/PageObject.html) helped mitigate this fact, but once the world moved to  modular components, our test code quality degraded and became bloated with repetition and lack of abstraction.  
