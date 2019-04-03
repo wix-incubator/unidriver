@@ -145,7 +145,7 @@ export const protractorUniDriver = (
     },
     attr: async name => {
       const attr = await (await safeElem()).getAttribute(name);
-      return attr || '';
+      return attr;
     },
     wait: async () => {
       return waitFor(exists);
