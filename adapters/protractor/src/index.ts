@@ -79,13 +79,14 @@ export const protractorUniDriver = (
     // done
     $: (newLoc: Locator) => {
       return protractorUniDriver(async () => {
-		const elGetters = (await elem()).$$(newLoc);
-        if (!elGetters.length) {
-			throw new NoElementWithLocatorError(newLoc);
-		} else if (elGetters.length > 1) {
-			throw new MultipleElementsWithLocatorError(elGetters.length, newLoc);
-		}
-		return elGetters[0];
+        const elmArrFinder = (await elem()).$$(newLoc);
+        const count = await elmArrFinder.count();
+        if (count === 0) {
+          throw new NoElementWithLocatorError(newLoc);
+        } else if (count > 1) {
+          throw new MultipleElementsWithLocatorError(elmArrFinder.length, newLoc);
+        }
+        return elmArrFinder.get(0);
       });
     },
     // done
