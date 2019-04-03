@@ -56,7 +56,7 @@ export const protractorUniDriver = (
 ): UniDriver<ElementFinder> => {
   const elem = async () => {
     const e = await el();
-    if (!e) {
+    if (!e || !(await e.isPresent())) {
       throw new Error(`Cannot find element`);
     }
     return e;
