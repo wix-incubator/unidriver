@@ -4,6 +4,7 @@ If you are migrating from a previous version of `unidriver`, before the seperati
 
 | method | `unidriver@2.0.1` | `@unidriver/* latest` |
 |-----------|-------------------|---------------------| 
-| pupUniDriver |  `(el: ElementGetter): UniDriver<ElementHandle>`     |   `(    el: ElementGetter \| BaseElementContainer): UniDriver<ElementContainer>`   |
-| reactUniDriver  |  `reactUniDriver` | `jsdomReactUniDriver`|
+| `pupUniDriver` |  `(el: ElementGetter): UniDriver<ElementHandle>`     |   `(    el: ElementGetter \| BaseElementContainer): UniDriver<ElementContainer>`   |
+| `reactUniDriver`  |  `reactUniDriver` | `jsdomReactUniDriver`|
 | `attr` | `(name: string) => Promise<string>;` | `(name: string) => Promise<string \| null>` |
+| `$$(selector).get(idx)` - When selector did not yield any element | `get(idx).exists()` returns true | `get(idx).exists()` returns false |
