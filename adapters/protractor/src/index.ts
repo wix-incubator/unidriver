@@ -54,7 +54,7 @@ export const protractorUniDriverList = (
 export const protractorUniDriver = (
   el: ElementGetter
 ): UniDriver<ElementFinder> => {
-  const elem = async () => {
+  const safeElem = async () => {
     const e = await el();
     if (!e || !(await e.isPresent())) {
       throw new Error(`Cannot find element`);
@@ -64,7 +64,7 @@ export const protractorUniDriver = (
 
   const exists = async () => {
 	try {
-		await elem();
+		await safeElem();
 		return true;
 	} catch (e) {
 		if (isMultipleElementsWithLocatorError(e)) {
@@ -79,7 +79,7 @@ export const protractorUniDriver = (
     // done
     $: (newLoc: Locator) => {
       return protractorUniDriver(async () => {
-        const elmArrFinder = (await elem()).$$(newLoc);
+        const elmArrFinder = (await safeElem()).$$(newLoc);
         const count = await elmArrFinder.count();
         if (count === 0) {
           throw new NoElementWithLocatorError(newLoc);
@@ -99,56 +99,56 @@ export const protractorUniDriver = (
         return element.$$(selector);
       }),
     text: async () => {
-      const text = await (await elem()).getAttribute('textContent');
+      const text = await (await safeElem()).getAttribute('textContent');
       return text || '';
     },
     click: async () => {
-      return (await elem()).click();
+      return (await safeElem()).click();
     },
     hover: async () => {
-      const e = await elem();
+      const e = await safeElem();
 
       return (await e.browser_.actions().mouseMove(e).perform());
     },
 		pressKey: async(key: string) => {
-      const e = await elem();
+      const e = await safeElem();
       await e.sendKeys(key)
     },
     hasClass: async (className: string) => {
-      const cm: any = await (await elem()).getAttribute('classList');
+      const cm: any = await (await safeElem()).getAttribute('classList');
       return cm.indexOf(className) !== -1;
     },
     enterValue: async (value: string) => {
-      const e = await elem();
+      const e = await safeElem();
       await e.focus();
       await e.type(value);
     },
     mouse: {
 			press: async() => {
-        const e = await elem();
+        const e = await safeElem();
         return (await e.browser_.actions().mouseDown(e).perform());
 			},
 			release: async () => {
-        const e = await elem();
+        const e = await safeElem();
         return (await e.browser_.actions().mouseUp(e).perform());
       },
       moveTo: async (to) => {
-        const e = await elem();
+        const e = await safeElem();
         const nativeElem = await to.getNative();
         await (await e.browser_.actions().mouseMove(nativeElem).perform());
       }
 		},
     exists,
     isDisplayed: async () => {
-      const e = await elem();
+      const e = await safeElem();
       return e.isDisplayed();
     },
     value: async () => {
-      const value = await (await elem()).getAttribute('value');
+      const value = await (await safeElem()).getAttribute('value');
       return value || '';
     },
     attr: async name => {
-      const attr = await (await elem()).getAttribute(name);
+      const attr = await (await safeElem()).getAttribute(name);
       return attr || '';
     },
     wait: async () => {
@@ -156,10 +156,10 @@ export const protractorUniDriver = (
     },
     type: 'protractor',
     scrollIntoView: async () => {
-      const el = await elem();
+      const el = await safeElem();
 
       return browser.controlFlow().execute(() => browser.executeScript('arguments[0].scrollIntoView(true)', el.getWebElement()));
     },
-    getNative: elem
+    getNative: safeElem
   };
 };
