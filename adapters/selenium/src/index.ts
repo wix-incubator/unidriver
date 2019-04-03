@@ -130,7 +130,7 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
     hasClass: async (className: string) => {
       const el = await elem();
       const cl = await el.getAttribute('class');
-      return cl.indexOf(className) !== -1;
+      return cl.split(' ').filter(c => c === className).length > 0;
     },
     enterValue: async (value: string) => {
       (await elem()).sendKeys(value);
