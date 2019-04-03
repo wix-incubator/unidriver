@@ -117,8 +117,7 @@ export const protractorUniDriver = (
     },
     enterValue: async (value: string) => {
       const e = await safeElem();
-      await e.focus();
-      await e.type(value);
+      await e.sendKeys(value);
     },
     mouse: {
 			press: async() => {
