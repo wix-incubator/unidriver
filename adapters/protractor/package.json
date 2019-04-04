@@ -6,8 +6,7 @@
 	"typings": "dist/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && tsc -p .",
-		"pretest": "webdriver-manager update",
-		"test": "protractor ./dist/protractor.conf.js"
+		"test": "webdriver-manager update && protractor ./dist/protractor.conf.js"
 	},
 	"author": "Wix.com",
 	"license": "MIT",
