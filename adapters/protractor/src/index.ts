@@ -120,7 +120,7 @@ export const protractorUniDriver = (
     },
 		pressKey: async(key: string) => {
       const el = await safeElem();
-      const realKey = interpolateSeleniumSpecialKeys(CamelCaseToHyphen(key).toUpperCase());
+      const realKey = interpolateSeleniumSpecialKeys(camelCaseToHyphen(key).toUpperCase());
       const value = SeleniumKey[realKey as keyof typeof SeleniumKey] as string;
       if (value) {
         await el.sendKeys(value);

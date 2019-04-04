@@ -4,7 +4,7 @@ import { By, WebElement, Key as SeleniumKey } from 'selenium-webdriver';
 export type WebElementGetter = () => Promise<WebElement>;
 export type WebElementsGetter = () => Promise<WebElement[]>;
 
-const CamelCaseToHyphen = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1_$2');
+const camelCaseToHyphen = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1_$2');
 const interpolateSeleniumSpecialKeys = (key: string) => {
   switch (key) {
     case 'BACKSPACE':
@@ -119,7 +119,7 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
     },
     pressKey: async (key) => {
       const el = await elem();
-      const realKey = interpolateSeleniumSpecialKeys(CamelCaseToHyphen(key).toUpperCase());
+      const realKey = interpolateSeleniumSpecialKeys(camelCaseToHyphen(key).toUpperCase());
       const value = SeleniumKey[realKey as keyof typeof SeleniumKey] as string;
       if (value) {
         await el.sendKeys(value);
