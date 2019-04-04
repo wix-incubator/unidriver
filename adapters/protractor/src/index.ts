@@ -4,7 +4,7 @@ import {Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorE
 type ElementGetter = () => Promise<ElementFinder | null>;
 type ElementsGetter = () => Promise<ElementFinder[]>;
 
-const CamelCaseToHyphen = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1_$2');
+const camelCaseToHyphen = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1_$2');
 const interpolateSeleniumSpecialKeys = (key: string) => {
   switch (key) {
     case 'BACKSPACE':
