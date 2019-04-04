@@ -153,8 +153,21 @@ export const protractorUniDriver = (
 		},
     exists,
     isDisplayed: async () => {
-      const e = await safeElem();
-      return e.isDisplayed();
+      const el = await safeElem();
+
+			const retValue: boolean =
+				await browser.executeScript<boolean>(
+					'const elem = arguments[0], ' +
+					'			box = elem.getBoundingClientRect(), ' +
+					'			cx = box.left + box.width / 2, ' +
+					'			cy = box.top + box.height / 2, ' +
+					'			e = document.elementFromPoint(cx, cy); ' +
+					'		for (; e; e = e.parentElement) { ' +
+					'			if ( e === elem) return true; ' +
+					'		} ' +
+					'' +
+					'		return false;', el);
+			return retValue;
     },
     value: async () => {
       const value = await (await safeElem()).getAttribute('value');
@@ -170,8 +183,8 @@ export const protractorUniDriver = (
     type: 'protractor',
     scrollIntoView: async () => {
       const el = await safeElem();
-
-      return browser.controlFlow().execute(() => browser.executeScript('arguments[0].scrollIntoView(true)', el.getWebElement()));
+      return browser.executeScript((el: HTMLElement) => el.scrollIntoView(), el.getWebElement())
+      // return browser.controlFlow().execute(() => browser.executeScript('arguments[0].scrollIntoView(true)', el.getWebElement()));
     },
     getNative: safeElem
   };
