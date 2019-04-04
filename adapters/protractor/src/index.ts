@@ -130,7 +130,7 @@ export const protractorUniDriver = (
     },
     hasClass: async (className: string) => {
       const cm = await (await safeElem()).getAttribute('class');
-      return cm.split(' ').filter(c => c === className).length > 0;
+      return cm.split(' ').includes(className);
     },
     enterValue: async (value: string) => {
       const e = await safeElem();
