@@ -1,8 +1,19 @@
-import {Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError} from '@unidriver/core';
 import {browser, ElementFinder} from 'protractor';
-
+import {Key as SeleniumKey} from 'selenium-webdriver';
+import {Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError} from '@unidriver/core';
 type ElementGetter = () => Promise<ElementFinder | null>;
 type ElementsGetter = () => Promise<ElementFinder[]>;
+
+const CamelCaseToHyphen = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1_$2');
+const interpolateSeleniumSpecialKeys = (key: string) => {
+  switch (key) {
+    case 'BACKSPACE':
+      return 'BACK_SPACE';
+
+    default:
+      return key;
+  }
+};
 
 export const protractorUniDriverList = (
   elems: ElementsGetter
@@ -108,8 +119,14 @@ export const protractorUniDriver = (
       return (await e.browser_.actions().mouseMove(e).perform());
     },
 		pressKey: async(key: string) => {
-      const e = await safeElem();
-      await e.sendKeys(key)
+      const el = await safeElem();
+      const realKey = interpolateSeleniumSpecialKeys(CamelCaseToHyphen(key).toUpperCase());
+      const value = SeleniumKey[realKey as keyof typeof SeleniumKey] as string;
+      if (value) {
+        await el.sendKeys(value);
+      } else {
+        return el.sendKeys(key); 
+      }
     },
     hasClass: async (className: string) => {
       const cm = await (await safeElem()).getAttribute('class');

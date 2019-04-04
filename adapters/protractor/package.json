@@ -12,7 +12,8 @@
 	"author": "Wix.com",
 	"license": "MIT",
 	"dependencies": {
-		"@unidriver/core": "^1.1.2"
+		"@unidriver/core": "^1.1.2",
+		"selenium-webdriver": "^3.6.0"
 	},
 	"peerDependencies": {
 		"protractor": "^5.4.2",
