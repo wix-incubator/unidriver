@@ -6,7 +6,7 @@
 	"typings": "dist/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && tsc -p .",
-		"test": "webdriver-manager update --versions.chrome=2.46 --gecko=false standalone=true && protractor ./dist/protractor.conf.js"
+		"test": "webdriver-manager update --versions.chrome=2.46 --gecko=false --standalone=true && protractor ./dist/protractor.conf.js"
 	},
 	"author": "Wix.com",
 	"license": "MIT",
