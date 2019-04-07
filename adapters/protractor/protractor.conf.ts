@@ -10,6 +10,10 @@ exports.config = {
   onPrepare() {
     browser.ignoreSynchronization = true;
   },
+  capabilities: {
+    'browserName': 'chrome'
+  },
+  directConnect: true,
   specs: ['./**/spec.js'],
   beforeLaunch: function () {
     startTestAppServer( port ).then(srvr => server = srvr);
