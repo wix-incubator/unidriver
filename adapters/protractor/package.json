@@ -6,19 +6,21 @@
 	"typings": "dist/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && tsc -p .",
-		"test": "echo 'TBD'"
+		"test": "webdriver-manager update && protractor ./dist/protractor.conf.js"
 	},
 	"author": "Wix.com",
 	"license": "MIT",
 	"dependencies": {
-		"@unidriver/core": "^1.1.2"
+		"@unidriver/core": "^1.1.2",
+		"selenium-webdriver": "^3.6.0"
 	},
 	"peerDependencies": {
 		"protractor": "^5.4.2",
 		"typescript": "^3.3.3"
 	},
 	"devDependencies": {
-		"@types/protractor": "^4.0.0"
+		"@unidriver/test-suite": "^1.1.2",
+		"protractor": "^5.4.2"
 	},
 	"gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
 }

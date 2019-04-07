@@ -128,6 +128,35 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
         });
 
+        describe('hasClass()', () => {
+            it('has full class name', async () => {
+                await runTest({items: [itemCreator({label: 'Bob'})]}, async (driver) => {
+                    assert.equal(await driver.$('.label').hasClass('label'), true);
+                });
+            });
+
+            it('returns true when there are multiple class names', async () => {
+                await runTest({items: [itemCreator({label: 'Bob'}), itemCreator({label: 'David'})]}, async (driver) => {
+                    const bd = await driver.$$('.todo-item').get(1);
+                    await bd.hover();
+                    assert.equal(await bd.hasClass('todo-item'), true);
+                    assert.equal(await bd.hasClass('active'), true);
+                });
+            });
+
+            it('returns false for partial class name', async () => {
+                await runTest({items: [itemCreator({label: 'Bob'})]}, async (driver) => {
+                    assert.equal(await driver.$('.label').hasClass('lab'), false);
+                });
+            });
+
+            it('returns false when element has no class attribute', async () => {
+                await runTest({items: [itemCreator({label: 'Bob'})]}, async (driver) => {
+                    assert.equal(await driver.$('footer').hasClass('whatever'), false);
+                });
+            });
+        });
+
         describe('getNative()', () => {
             it('returns a native element for advanced usages', async () => {
                 await runTest({items: []}, async (driver) => {
