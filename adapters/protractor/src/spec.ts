@@ -2,7 +2,7 @@ import { browser, $} from 'protractor';
 import { SetupFn, runTestSuite, getTestAppUrl } from '@unidriver/test-suite';
 import { protractorUniDriver } from '.';
 
-import { port } from '../protractor.conf';
+import { port } from './protractor.conf';
 
 const setup: SetupFn = async (data) => {
 	await browser.get(`http://localhost:${port}${getTestAppUrl(data)}`);
