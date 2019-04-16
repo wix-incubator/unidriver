@@ -2,8 +2,8 @@
 	"name": "@unidriver/protractor",
 	"version": "1.1.4",
 	"description": "",
-	"main": "dist/src/index.js",
-	"typings": "dist/src/index.d.ts",
+	"main": "dist/index.js",
+	"typings": "dist/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && tsc -p .",
 		"test": "webdriver-manager update && protractor ./dist/protractor.conf.js"

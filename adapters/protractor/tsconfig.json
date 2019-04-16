@@ -6,7 +6,6 @@
     "include": [
         "src/**/*.ts",
         "src/**/*.tsx",
-        "protractor.conf.ts"
     ],
     "exclude": [
 		"node_modules"
