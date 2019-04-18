@@ -1,7 +1,7 @@
 import { jsdomReactUniDriver } from '.';
 import { SetupFn, renderTestApp, runTestSuite } from '@unidriver/test-suite';
 // import {KeyboardEventsAppSetupFn, TodoAppSetupFn} from '@unidriver/test-suite';
-import {spy} from 'sinon';
+import * as sinon from 'sinon';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
@@ -30,35 +30,67 @@ describe('react base driver - test suite', () => {
 });
 
 describe('react base driver specific tests', () => {
+	const spy = sinon.spy;
 
-	it('sends event data properly on simulated events when element is attached to body', async () => {
-		const cleanJsdom = require('jsdom-global')();
-		const s = spy();
-		const elem = document.createElement('div');
-		const btn = <button onClick={s}>bob</button>;
-		ReactDOM.render(btn, elem);
+	describe('click', () => {
+		it('sends event data properly on simulated events when element is attached to body', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const s = spy();
+			const elem = document.createElement('div');
+			const btn = <button onClick={s}>bob</button>;
+			ReactDOM.render(btn, elem);
 
-		const driver = jsdomReactUniDriver(elem);
+			const driver = jsdomReactUniDriver(elem);
 
-		await driver.$('button').click();
-		cleanJsdom();
+			await driver.$('button').click();
+			cleanJsdom();
 
-		assert.equal(s.lastCall.args[0].target.tagName, 'BUTTON');
-	});
+			assert.equal(s.lastCall.args[0].target.tagName, 'BUTTON');
+		});
 
-	it('sends event data properly on simulated events when element is attached to body', async () => {
-		const cleanJsdom = require('jsdom-global')();
-		const s = spy();
-		const elem = document.createElement('div');
-		document.body.appendChild(elem);
-		const btn = <button onClick={s}>bob</button>;
-		ReactDOM.render(btn, elem);
+		it('sends event data properly on simulated events when element is attached to body', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const s = spy();
+			const elem = document.createElement('div');
+			document.body.appendChild(elem);
+			const btn = <button onClick={s}>bob</button>;
+			ReactDOM.render(btn, elem);
 
-		const driver = jsdomReactUniDriver(elem);
+			const driver = jsdomReactUniDriver(elem);
 
-		await driver.$('button').click();
-		cleanJsdom();
+			await driver.$('button').click();
+			cleanJsdom();
 
-		assert.equal(s.lastCall.args[0].target.tagName, 'BUTTON');
-	});
+			assert.equal(s.lastCall.args[0].target.tagName, 'BUTTON');
+		});
+
+		it('should trigger [mouseDown, mouseUp, click] in this order and with default main-button(0) when clicked', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const mouseDown = spy();
+			const mouseUp = spy();
+			const click = spy();
+			const elem = document.createElement('div');
+			const btn = (
+				<button 
+					onMouseDown={mouseDown} 
+					onMouseUp={mouseUp} 
+					onClick={click}>
+					bob
+				</button>
+				);
+			ReactDOM.render(btn, elem);
+	
+			const driver = jsdomReactUniDriver(elem);
+	
+			await driver.$('button').click();
+			cleanJsdom();
+
+			sinon.assert.callOrder(mouseDown,mouseUp,click);
+			const DEFAULT_BUTTON_ID = '0'
+			assert.equal(mouseDown.lastCall.args[0].button, DEFAULT_BUTTON_ID);
+			assert.equal(mouseUp.lastCall.args[0].button, DEFAULT_BUTTON_ID);
+			assert.equal(click.lastCall.args[0].button, DEFAULT_BUTTON_ID);
+		});
+	})
+	
 });

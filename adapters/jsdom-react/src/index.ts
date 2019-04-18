@@ -100,10 +100,13 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 		},
 		click: async () => {
 			const el = await elem();
+			const eventData = { button: 0 }; // 0 - Main Button (Left)
 			// setting button 0 is now needed in React 16+ as it's not set by react anymore
 			// 15 - https://github.com/facebook/react/blob/v15.6.1/src/renderers/dom/client/syntheticEvents/SyntheticMouseEvent.js#L45
 			// 16 - https://github.com/facebook/react/blob/master/packages/react-dom/src/events/SyntheticMouseEvent.js#L33
-			Simulate.click(el, {button: 0});
+			Simulate.mouseDown(el, eventData);
+			Simulate.mouseUp(el, eventData);
+			Simulate.click(el, eventData);
 		},
 		mouse: {
 			press: async() => {
