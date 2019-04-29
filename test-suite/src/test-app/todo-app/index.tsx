@@ -94,13 +94,14 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 		return (
 		<div className='todo-app'>
 				<header>
-					<input value={this.state.newItem} onChange={this.onChange}/>
+					<input value={this.state.newItem} onChange={this.onChange} placeholder={"this is a placeholder"}/>
 					<button className='add' onClick={this.onAdd} onKeyDown={this.onKeyDown}>Add</button>
 				</header>
 				<main>
 					{itemsComp}
 				</main>
 				<footer>
+					<input type="checkbox" checked></input>Mark all as completed<br/>
 					Items count: <span className='count'>{items.length}</span>
 				</footer>
 			</div>);

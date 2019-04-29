@@ -176,6 +176,10 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 		},
 		type: 'react',
 		scrollIntoView: async () => { return {} },
-		getNative: () => elem()
+		getNative: () => elem(),
+		_prop: async (name: string) => {
+			const el = await elem();
+			return (el as any)[name];
+		},
 	};
 };

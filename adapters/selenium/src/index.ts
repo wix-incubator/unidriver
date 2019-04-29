@@ -180,10 +180,12 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 		type: 'selenium',
 		scrollIntoView: async () => {
 			const el = await elem();
-
-      //return el.getDriver().executeScript(`window.scrollTo(${location.x}, ${location.y});`);
-      return el.getDriver().executeScript('arguments[0].scrollIntoView();', el);
+			return el.getDriver().executeScript('arguments[0].scrollIntoView();', el);
     },
-    getNative: elem
+    getNative: elem,
+    _prop: async (name: string) => {
+      const el = await elem();
+      return el.getDriver().executeScript('return arguments[0][arguments[1]];', el, name);
+    },
   };
 };
