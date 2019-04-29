@@ -65,7 +65,7 @@ export const protractorUniDriverList = (
 export const protractorUniDriver = (
   el: ElementGetter
 ): UniDriver<ElementFinder> => {
-  const safeElem = async () => {
+  const safeElem: () => Promise<ElementFinder> = async () => {
     const e = await el();
     if (!e || !(await e.isPresent())) {
       throw new Error(`Cannot find element`);
@@ -185,6 +185,10 @@ export const protractorUniDriver = (
       const el = await safeElem();
       return browser.executeScript((el: HTMLElement) => el.scrollIntoView(), el.getWebElement())
     },
-    getNative: safeElem
+    getNative: safeElem,
+    _prop: async (name: string) => {
+      const el = await safeElem();
+      return browser.executeScript(function(){return arguments[0][arguments[1]]}, el.getWebElement(),name)
+    }
   };
 };

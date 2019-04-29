@@ -43,6 +43,8 @@ export type UniDriver<T = any> = {
 	type: string;
 	scrollIntoView: () => Promise<{}>;
 	getNative: () => Promise<T>;
+	/** Gets a html element's property value by property name. @returns null if property is not defined */
+	_prop: (name: string) => Promise<any>;
 };
 
 export enum ErrorTypes {

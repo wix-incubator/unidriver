@@ -79,7 +79,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
         describe('click()', () => {
             it('works', async () => {
                 await runTest({items: [], initialText: ''}, async (driver) => {
-                    await driver.$('.todo-app input').enterValue('bob');
+                    await driver.$('.todo-app header input').enterValue('bob');
                     await driver.$('.add').click();
                     
                     assert.equal(await driver.$('.count').text(), '1');
@@ -169,7 +169,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
         describe('pressKey()', () => {
             it('single key works', async () => {
                 await runTest({items: [], initialText: ''}, async (driver) => {
-                    await driver.$('.todo-app input').enterValue('bob');
+                    await driver.$('.todo-app header input').enterValue('bob');
                     await driver.$('.add').pressKey('Enter');
                     assert.equal(await driver.$('.count').text(), '1');
                     assert.equal(await driver.$('.label').text(), 'bob');
@@ -202,7 +202,27 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.deepEqual(await driver.$('.todo-item').attr('data-value'), '');
                 });
             });
-		});
+		    });
+
+        describe('_prop()', () => {
+          it('should return placeholder value', async () => {
+            await runTest({items: [], initialText: ''}, async (driver) => {
+              assert.equal(await driver.$('header input')._prop('placeholder'), 'this is a placeholder');
+            });
+          });
+
+          it('should return null for undefined prop', async () => {
+            await runTest({items: [], initialText: ''}, async (driver) => {
+              assert.equal(await driver.$('header input')._prop('dummyProp'), null);
+            });
+          });
+
+          it('should return true for checked checkbox', async () => {
+            await runTest({items: [], initialText: ''}, async (driver) => {
+              assert.equal(await driver.$('footer input')._prop('checked'), true);
+            });
+          });
+        })
 		
 		it('rejects with the right error on action when an element does not exist given locator', async () => {
 			await runTest({items: []}, async (driver) => {

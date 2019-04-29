@@ -233,6 +233,16 @@ export const pupUniDriver = (
 
             return {};
         },
-        getNative: elem
+        getNative: elem,
+        _prop: async (name: string) => {
+            const { page, selector } = await elem();
+            return page.$eval(
+              selector,
+              (elem: any, name) => {
+                  return elem[name];
+              },
+              name
+            );
+        },
     };
 };
