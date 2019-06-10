@@ -31,8 +31,7 @@
 		"@types/react": "^16.0.0",
 		"@types/react-dom": "^16.0.0",
 		"react": "^16.0.0",
-		"react-dom": "^16.0.0",
-		"typescript": "^3.33"
+		"react-dom": "^16.0.0"
 	},
 	"gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
 }

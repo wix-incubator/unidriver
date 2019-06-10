@@ -15,8 +15,7 @@
 		"selenium-webdriver": "^3.6.0"
 	},
 	"peerDependencies": {
-		"protractor": "^5.4.2",
-		"typescript": "^3.3.3"
+		"protractor": "^5.4.2"
 	},
 	"devDependencies": {
 		"@unidriver/test-suite": "^1.1.4",

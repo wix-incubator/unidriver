@@ -23,8 +23,7 @@
 	},
 	"peerDependencies": {
 		"@types/puppeteer": "^1.11.1",
-		"puppeteer": "^1.11.0",
-		"typescript": "^3.3.3"
+		"puppeteer": "^1.11.0"
 	},
 	"gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
 }

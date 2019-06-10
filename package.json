@@ -12,8 +12,7 @@
     "clean": "lerna clean -y",
     "release": "lerna publish",
 	"start": "npm run bootstrap && npm run build && npm run test",
-	"prepublish": "npm run build && npm run test",
-    "publish": "lerna publish"
+	"prerelease": "npm run build && npm run test"
   },
   "author": "Wix.com",
   "license": "MIT",
