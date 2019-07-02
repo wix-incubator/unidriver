@@ -93,7 +93,7 @@ export const createTodoAppDriver = (wrapper: UniDriver) => {
 		removeItem: (idx: number) => { 
 			const item = wrapper.$$('.item').get(idx);
 			item.click('.open-actions');
-			item.$('.popover).$('.delete).click(); // This won't work!! the ".popover" element is not a direct child of the component
+			item.$('.popover').$('.delete').click(); // This won't work!! the ".popover" element is not a direct child of the component
 		}
 	}
 }
@@ -109,8 +109,8 @@ export const createTodoAppDriver = (wrapper: UniDriver, theOuterWorld: UniDriver
 			const item = wrapper.$$('.item').get(idx);
 			item.click('.open-actions');
 
-			const popover = theOuterWorld.$('.popover);
-			popover.$('.delete).click(); // this will work
+			const popover = theOuterWorld.$('.popover');
+			popover.$('.delete').click(); // this will work
 		}
 	}
 }
@@ -130,7 +130,7 @@ export const createTodoAppDriver = (wrapper: UniDriver, theOuterWorld: UniDriver
 			const item = wrapper.$$('.item').get(idx);
 			item.click('.open-actions');
 
-			popover.$('.delete).click(); //  this will still work, as the popover will be resolved only here
+			popover.$('.delete').click(); //  this will still work, as the popover will be resolved only here
 		}
 	}
 }
@@ -165,7 +165,7 @@ export const createMyCoolDriver = (wrapper: UniDriver, theOuterWorld: UniDriver)
 
 ## Test Suite
 A standard test-suite on each adapter to ensure proper behavior of the API on each adapter. It is given a working todo-app, and by testing it's features and assuming that it is working well, we can test the adapters functionality. 
-Check out [the code](testsuite/run-test-suite.ts) for more details
+Check out [the code](test-suite/src/run-test-suite.ts) for more details
 
 ## Road map
 - Add more users to validate idea and API
@@ -179,12 +179,3 @@ Check out [the code](testsuite/run-test-suite.ts) for more details
 - experiment mobile testing
 - branding, documentation, more examples
 - move to github.com/wix
-
-
-
-
-
-
-
-
-
