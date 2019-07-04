@@ -1,7 +1,7 @@
 import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError } from '@unidriver/core';
-import { ElementHandle, Page } from 'puppeteer';
+import { ElementHandle, Page, Frame } from 'puppeteer';
 
-type BaseElementContainer = { page: Page; selector: string };
+type BaseElementContainer = { page: Page | Frame; selector: string };
 type ElementContainer = BaseElementContainer & { element: ElementHandle | null };
 type ElementsContainer = BaseElementContainer & { elements: ElementHandle[] };
 
