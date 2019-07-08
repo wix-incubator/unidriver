@@ -52,6 +52,17 @@ export const jsdomReactUniDriverList = (containerOrFn: ElementsOrElementsFinder)
 	};
 };
 
+type HTMLFocusableElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement;
+
+const elementIsFocusable = (el: Element): el is HTMLFocusableElement => {
+	return (
+		el.tagName === 'INPUT' ||
+		el.tagName === 'SELECT' ||
+		el.tagName === 'TEXTAREA' ||
+		el.tagName === 'BUTTON'
+	)
+}
+
 export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver<Element> => {
 
 	const elem = async () => {
@@ -107,6 +118,19 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			Simulate.mouseDown(el, eventData);
 			Simulate.mouseUp(el, eventData);
 			Simulate.click(el, eventData);
+
+			if (elementIsFocusable(el)) {
+				if (document.activeElement != el) {
+					if (document.activeElement) {
+						Simulate.blur(document.activeElement);
+					}
+
+					if (!el.disabled) {
+						el.focus();
+						Simulate.focus(el);
+					}
+				}
+			}
 		},
 		mouse: {
 			press: async() => {
