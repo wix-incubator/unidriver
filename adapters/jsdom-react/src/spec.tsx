@@ -91,6 +91,87 @@ describe('react base driver specific tests', () => {
 			assert.equal(mouseUp.lastCall.args[0].button, DEFAULT_BUTTON_ID);
 			assert.equal(click.lastCall.args[0].button, DEFAULT_BUTTON_ID);
 		});
+
+		it('should trigger [focus] on click', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const focus = spy();
+			const elem = document.createElement('div');
+			const btn = (
+				<button onFocus={focus}>
+					bob
+				</button>
+				);
+			ReactDOM.render(btn, elem);
+	
+			const driver = jsdomReactUniDriver(elem);
+	
+			await driver.$('button').click();
+			cleanJsdom();
+
+			assert(focus.calledOnce);
+		});
+
+		it('should trigger [focusA, blurA, focusB] when clicking two buttons', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const focusA = spy();
+			const focusB = spy();
+			const blurA = spy();
+			const elem = document.createElement('div');
+			const btn = (
+				<div>
+					<button id="A" onFocus={focusA} onBlur={blurA}>
+						button A
+					</button>
+					<button id="B" onFocus={focusB}>
+						button B
+					</button>
+				</div>
+				);
+			ReactDOM.render(btn, elem);
+	
+			const driver = jsdomReactUniDriver(elem);
+	
+			await driver.$('button#A').click();
+			await driver.$('button#B').click();
+			cleanJsdom();
+
+			sinon.assert.callOrder(focusA, blurA, focusB);
+
+			assert(focusA.calledOnce);
+			assert(blurA.calledOnce);
+			assert(focusB.calledOnce);
+		});
+
+		it('should trigger [focusA, blurA] when clicking enabled and disabled button', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const focusA = spy();
+			const focusB = spy();
+			const blurA = spy();
+			const elem = document.createElement('div');
+			const btn = (
+				<div>
+					<button id="A" onFocus={focusA} onBlur={blurA}>
+						button A
+					</button>
+					<button id="B" onFocus={focusB} disabled>
+						button B
+					</button>
+				</div>
+				);
+			ReactDOM.render(btn, elem);
+	
+			const driver = jsdomReactUniDriver(elem);
+	
+			await driver.$('button#A').click();
+			await driver.$('button#B').click();
+			cleanJsdom();
+
+			sinon.assert.callOrder(focusA, blurA);
+
+			assert(focusA.calledOnce);
+			assert(blurA.calledOnce);
+			assert(focusB.notCalled);
+		});
 	})
 	
 });
