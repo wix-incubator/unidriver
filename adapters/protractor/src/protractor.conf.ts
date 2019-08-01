@@ -7,8 +7,8 @@ let server: Server;
 
 exports.config = {
   framework: 'jasmine',
-  onPrepare() {
-    browser.ignoreSynchronization = true;
+  onPrepare: async () => {
+    await browser.waitForAngularEnabled(false);
   },
   capabilities: {
     'browserName': 'chrome'
