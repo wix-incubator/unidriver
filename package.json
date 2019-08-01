@@ -11,8 +11,8 @@
     "test-no-bail": "lerna run --stream --no-bail test",
     "clean": "lerna clean -y",
     "release": "lerna publish",
-	"start": "npm run bootstrap && npm run build && npm run test",
-	"prerelease": "npm run build && npm run test"
+    "start": "npm run bootstrap && npm run build && npm run test",
+    "prerelease": "npm run build && npm run test"
   },
   "author": "Wix.com",
   "license": "MIT",
