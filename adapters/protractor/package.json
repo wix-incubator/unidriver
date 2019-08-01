@@ -16,7 +16,7 @@
 		"selenium-webdriver": "^3.6.0"
 	},
 	"peerDependencies": {
-		"protractor": "^5.4.2 || ^6.0.0"
+		"protractor": "^6.0.0"
 	},
 	"devDependencies": {
 		"@unidriver/test-suite": "^1.1.5",
