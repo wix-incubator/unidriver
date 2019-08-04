@@ -116,7 +116,7 @@ export const protractorUniDriver = (
     hover: async () => {
       const e = await safeElem();
 
-      return (await e.browser_.actions().mouseMove(e).perform());
+      return (await e.browser_.actions().move({ origin: await e.getWebElement() }).perform());
     },
 		pressKey: async(key: string) => {
       const el = await safeElem();
@@ -139,16 +139,16 @@ export const protractorUniDriver = (
     mouse: {
 			press: async() => {
         const e = await safeElem();
-        return (await e.browser_.actions().mouseDown(e).perform());
+        return (await e.browser_.actions().move({origin: await e.getWebElement()}).press().perform());
 			},
 			release: async () => {
         const e = await safeElem();
-        return (await e.browser_.actions().mouseUp(e).perform());
+        return (await e.browser_.actions().move({origin: await e.getWebElement()}).release().perform());
       },
       moveTo: async (to) => {
         const e = await safeElem();
         const nativeElem = await to.getNative();
-        await (await e.browser_.actions().mouseMove(nativeElem).perform());
+        await (await e.browser_.actions().move({origin: await nativeElem.getWebElement()}).perform());
       }
 		},
     exists,
@@ -156,7 +156,7 @@ export const protractorUniDriver = (
       const el = await safeElem();
 
       const retValue: boolean =
-        await browser.executeScript<boolean>(
+        await browser.executeScript(
           'const elem = arguments[0], ' +
           '			box = elem.getBoundingClientRect(), ' +
           '			cx = box.left + box.width / 2, ' +

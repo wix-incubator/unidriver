@@ -6,7 +6,8 @@
 	"typings": "dist/index.d.ts",
 	"scripts": {
 		"build": "rm -rf dist && tsc -p .",
-		"test": "webdriver-manager update && protractor ./dist/protractor.conf.js"
+		"pretest": "test $CI || webdriver-manager update",
+		"test": "protractor ./dist/protractor.conf.js"
 	},
 	"author": "Wix.com",
 	"license": "MIT",
@@ -15,10 +16,10 @@
 		"selenium-webdriver": "^3.6.0"
 	},
 	"peerDependencies": {
-		"protractor": "^5.4.2"
+		"protractor": "^6.0.0"
 	},
 	"devDependencies": {
 		"@unidriver/test-suite": "^1.1.5",
-		"protractor": "^5.4.2"
+		"protractor": "^6.0.0"
 	}
 }
