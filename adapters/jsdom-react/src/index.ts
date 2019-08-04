@@ -116,8 +116,6 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			// 15 - https://github.com/facebook/react/blob/v15.6.1/src/renderers/dom/client/syntheticEvents/SyntheticMouseEvent.js#L45
 			// 16 - https://github.com/facebook/react/blob/master/packages/react-dom/src/events/SyntheticMouseEvent.js#L33
 			Simulate.mouseDown(el, eventData);
-			Simulate.mouseUp(el, eventData);
-			Simulate.click(el, eventData);
 
 			if (elementIsFocusable(el)) {
 				if (document.activeElement != el) {
@@ -131,6 +129,9 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 					}
 				}
 			}
+
+			Simulate.mouseUp(el, eventData);
+			Simulate.click(el, eventData);
 		},
 		mouse: {
 			press: async() => {

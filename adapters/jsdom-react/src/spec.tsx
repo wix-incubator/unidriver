@@ -111,6 +111,35 @@ describe('react base driver specific tests', () => {
 			assert(focus.calledOnce);
 		});
 
+		it('should trigger [mousedown, focus, mouseup, click] events on click', async () => {
+			// https://jsbin.com/larubagiwu/1/edit?html,js,console,output
+			// https://github.com/wix-incubator/unidriver/pull/86#issuecomment-516809527
+			const cleanJsdom = require('jsdom-global')();
+			const mousedown = spy();
+			const focus = spy();
+			const mouseup = spy();
+			const click = spy();
+			const elem = document.createElement('div');
+			const btn = (
+				<button onMouseDown={mousedown} onFocus={focus} onMouseUp={mouseup} onClick={click}>
+					bob
+				</button>
+				);
+			ReactDOM.render(btn, elem);
+	
+			const driver = jsdomReactUniDriver(elem);
+	
+			await driver.$('button').click();
+			cleanJsdom();
+
+			sinon.assert.callOrder(mousedown, focus, mouseup, click);
+
+			assert(mousedown.calledOnce);
+			assert(focus.calledOnce);
+			assert(mouseup.calledOnce);
+			assert(click.calledOnce);
+		});
+
 		it('should trigger [focusA, blurA, focusB] when clicking two buttons', async () => {
 			const cleanJsdom = require('jsdom-global')();
 			const focusA = spy();
