@@ -63,6 +63,14 @@ const elementIsFocusable = (el: Element): el is HTMLFocusableElement => {
 	)
 }
 
+const isCheckable = (el: Element): boolean => {
+  return (
+    el.tagName === 'INPUT' &&
+    ((el as HTMLInputElement).type == 'checkbox' ||
+      (el as HTMLInputElement).type == 'radio')
+  );
+};
+
 export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver<Element> => {
 
 	const elem = async () => {
@@ -85,6 +93,12 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			}
 		}
 	};
+
+	const handleCheckableInput = async (input: HTMLInputElement) => {
+		input.checked = !input.checked;
+		Simulate.input(input);
+		Simulate.change(input);
+	}
 
 	return {
 		$: (loc: Locator) => {
@@ -130,8 +144,13 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 				}
 			}
 
+			
 			Simulate.mouseUp(el, eventData);
 			Simulate.click(el, eventData);
+
+			if (isCheckable(el)) {
+				handleCheckableInput(el as HTMLInputElement);
+			}
 		},
 		mouse: {
 			press: async() => {
@@ -189,8 +208,8 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			Simulate.change(el);
 		},
 		attr: async (name: string) => {
-		const el = await elem();
-		return el.getAttribute(name);
+			const el = await elem();
+			return el.getAttribute(name);
 		},
 		exists,
 		isDisplayed: async () => {
@@ -205,6 +224,6 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 		_prop: async (name: string) => {
 			const el = await elem();
 			return (el as any)[name];
-		},
+		}
 	};
 };
