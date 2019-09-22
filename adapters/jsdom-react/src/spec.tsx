@@ -140,6 +140,44 @@ describe('react base driver specific tests', () => {
 			assert(click.calledOnce);
 		});
 
+		it('should trigger [mousedown, focus, mouseup, click, input, change] events on click on input[type=checkbox]', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const mousedown = spy();
+			const focus = spy();
+			const mouseup = spy();
+			const click = spy();
+			const input = spy();
+			const change = spy();
+			const elem = document.createElement('div');
+			const checkbox = (
+        <input
+          type="checkbox"
+          onMouseDown={mousedown}
+          onFocus={focus}
+          onMouseUp={mouseup}
+          onClick={click}
+          onInput={input}
+          onChange={change}
+        />
+			);
+			
+			ReactDOM.render(checkbox, elem);
+	
+			const driver = jsdomReactUniDriver(elem);
+	
+			await driver.$('input').click();
+			cleanJsdom();
+
+			sinon.assert.callOrder(mousedown, focus, mouseup, click, input, change);
+
+			assert(mousedown.calledOnce);
+			assert(focus.calledOnce);
+			assert(mouseup.calledOnce);
+			assert(click.calledOnce);
+			assert(input.calledOnce);
+			assert(change.calledOnce);
+		})
+
 		it('should trigger [focusA, blurA, focusB] when clicking two buttons', async () => {
 			const cleanJsdom = require('jsdom-global')();
 			const focusA = spy();
