@@ -240,5 +240,34 @@ describe('react base driver specific tests', () => {
 			assert(focusB.notCalled);
 		});
 	})
-	
+
+	describe('enterValue', () => {
+		it('should set event target properly', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const change = spy();
+			const elem = document.createElement('div');
+			const input = (
+				<input
+					type="text"
+					name="search"
+					onChange={change}
+				/>
+			);
+
+			ReactDOM.render(input, elem);
+
+			const driver = jsdomReactUniDriver(elem);
+
+			await driver.$('input').enterValue('some keywords');
+			assert(change.calledOnce);
+
+			const eventTarget = change.args[0][0].target;
+			assert.equal(eventTarget.name, "search");
+			assert.equal(eventTarget.type, "text");
+			assert.equal(eventTarget.value, "some keywords");
+
+			cleanJsdom();
+		})
+	})
+
 });
