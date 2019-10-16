@@ -204,8 +204,10 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
 		enterValue: async (value: string) => {
 			const el = (await elem()) as HTMLInputElement;
-			el.value = value;
-			Simulate.change(el);
+			const { name, type } = el;
+			Simulate.change(el, {
+				target: { name, type, value } as HTMLInputElement
+			});
 		},
 		attr: async (name: string) => {
 			const el = await elem();
