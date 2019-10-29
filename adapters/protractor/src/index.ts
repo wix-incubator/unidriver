@@ -177,8 +177,8 @@ export const protractorUniDriver = (
       const attr = await (await safeElem()).getAttribute(name);
       return attr;
     },
-    wait: async () => {
-      return waitFor(exists);
+    wait: async (timeout?: number) => {
+      return waitFor(exists, timeout);
     },
     type: 'protractor',
     scrollIntoView: async () => {

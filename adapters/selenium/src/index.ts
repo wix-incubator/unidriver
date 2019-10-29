@@ -174,8 +174,8 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
         await actions.mouseMove(native).perform();
 			}
 		},
-		wait: async () => {
-			return waitFor(exists);
+		wait: async (timeout?: number) => {
+			return waitFor(exists, timeout);
 		},
 		type: 'selenium',
 		scrollIntoView: async () => {

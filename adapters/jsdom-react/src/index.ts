@@ -217,8 +217,8 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 		isDisplayed: async () => {
 			return true;
 		},
-		wait: async () => {
-			return waitFor(exists);
+		wait: async (timeout?: number) => {
+			return waitFor(exists, timeout);
 		},
 		type: 'react',
 		scrollIntoView: async () => { return {} },

@@ -223,8 +223,8 @@ export const pupUniDriver = (
                 }
             }
         },
-        wait: async () => {
-            return waitFor(exists);
+        wait: async (timeout?: number) => {
+            return waitFor(exists, timeout);
         },
         type: 'puppeteer',
         scrollIntoView: async () => {
