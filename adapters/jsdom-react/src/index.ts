@@ -139,18 +139,20 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 
 					if (!el.disabled) {
 						el.focus();
+
 						Simulate.focus(el);
 					}
 				}
 			}
 
-			
+
 			Simulate.mouseUp(el, eventData);
 			Simulate.click(el, eventData);
 
 			if (isCheckable(el)) {
 				handleCheckableInput(el as HTMLInputElement);
 			}
+			console.log('---');
 		},
 		mouse: {
 			press: async() => {
@@ -195,7 +197,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			// 	el.dispatchEvent(keyup)
 
 			// } else {
-				
+
 			// }
 			*/
 			Simulate.keyDown(el, def);

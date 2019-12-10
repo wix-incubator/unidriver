@@ -5,10 +5,9 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && (tsc -p . || true) && npm run build-test-suite",
+    "build": "rm -rf dist && (tsc -p . || true) && npm run build-test-suite && npm run build:svelte",
     "build:svelte": "rollup -c",
-    "dev:svelte": "rollup -c -w",
-    "start:svelte": "sirv public",
+    "start:svelte": "rollup -c -w && sirv public",
     "build-test-suite": "cp src/server/index.ejs dist/server/index.ejs && browserify dist/server/client.js > dist/bundle.js",
     "test-suite-server": "node -e 'require(\"./dist/index.js\").startTestAppServer(3000)'",
     "test": ":"

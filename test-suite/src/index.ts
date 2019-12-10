@@ -15,3 +15,5 @@ export {renderTestApp} from './test-app'
 export {startServer as startTestAppServer, getTestAppUrl} from './server';
 
 export {runTestSuite} from './run-test-suite';
+// @ts-ignore
+export {renderSvelteApp} from './svelte-app/renderSvelteApp'

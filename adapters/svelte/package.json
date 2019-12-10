@@ -1,7 +1,7 @@
 {
-	"name": "@unidriver/jsdom-react",
+	"name": "@unidriver/jsdom-svelte",
 	"version": "1.5.2",
-	"description": "JSDom React adapter for UniDriver",
+	"description": "JSDom Svelte adapter for Unidriver",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
 	"scripts": {
@@ -14,24 +14,15 @@
 		"@unidriver/core": "^1.1.2"
 	},
 	"devDependencies": {
+		"@testing-library/dom": "^6.10.1",
 		"@types/chai": "^4.1.7",
-		"@types/react": "^16.0.0",
-		"@types/react-dom": "^16.0.0",
 		"@types/sinon": "^7.0.10",
 		"@unidriver/test-suite": "^1.1.5",
 		"chai": "^4.2.0",
 		"jsdom": "15.1.1",
 		"jsdom-global": "^3.0.2",
 		"mocha": "^6.0.0",
-		"react": "^16.0.0",
-		"react-dom": "^16.0.0",
 		"sinon": "^7.3.0"
-	},
-	"peerDependencies": {
-		"@types/react": "^16.0.0",
-		"@types/react-dom": "^16.0.0",
-		"react": "^16.0.0",
-		"react-dom": "^16.0.0"
 	},
 	"gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
 }
