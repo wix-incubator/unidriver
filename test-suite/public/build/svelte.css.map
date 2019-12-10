@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "svelte.css",
+  "sources": [
+    "../../src/svelte-app/Events/Events.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n    import MouseEvent from './MouseEvent.svelte';\n    import KeyboardEvent from './KeyboardEvent.svelte';\n\n    let keyboardEvents = [];\n    let mouseEvents = [];\n\n    const handleMouseEvent = (event) => {\n        mouseEvents[mouseEvents.length] = { type: event.type, clientX: event.clientX, clientY: event.clientY }\n    };\n\n    const handleKeyboardEvent = (event) => {\n        keyboardEvents[keyboardEvents.length] = { key: event.key, keyCode: event.keyCode };\n    }\n</script>\n\n<style>\n    .button {\n        width: 100px;\n        height: 100px;\n    }\n</style>\n\n<div class='events-container'>\n    <div class='mouse-events'>\n        <button class=\"button\" on:mousedown={handleMouseEvent} on:mouseup={handleMouseEvent}\n                on:mousemove={handleMouseEvent}>\n            Mouse Events\n        </button>\n        {#each mouseEvents as event}\n            <MouseEvent event={event} />\n        {/each}\n    </div>\n    <div class='keyboard-events'>\n        <input on:keydown|preventDefault={handleKeyboardEvent} value='' />\n        {#each keyboardEvents as event}\n            <KeyboardEvent event={event} />\n        {/each}\n    </div>\n</div>\n"
+  ],
+  "names": [],
+  "mappings": "AAiBI,OAAO,eAAC,CAAC,AACL,KAAK,CAAE,KAAK,CACZ,MAAM,CAAE,KAAK,AACjB,CAAC"
+}

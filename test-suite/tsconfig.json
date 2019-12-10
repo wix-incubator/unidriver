@@ -2,7 +2,8 @@
     "extends": "./../tsconfig.json",
     "compilerOptions": {
         "outDir": "dist",
-        "types": ["mocha", "node"]
+        "types": ["mocha", "node"],
+        "allowJs": true
     },
     "include": [
         "src/**/*.ts",

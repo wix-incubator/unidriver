@@ -17,4 +17,4 @@ export const renderTestApp = (element: HTMLElement, params: TestAppProps) => {
 	const comp = React.createElement(TestApp, params);
 	ReactDOM.render(comp, element);
 	return () => ReactDOM.unmountComponentAtNode(element);
-}
+};
