@@ -7,7 +7,7 @@ import {
     UniDriver, UniDriverList, waitFor
 } from "@unidriver/core";
 
-import {fireEvent} from '@testing-library/dom';
+import {fireEvent} from '@testing-library/svelte';
 
 type HTMLFocusableElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement;
 type ElementOrElementFinder = (() => Element) | Element | (() => Promise<Element>);
@@ -60,8 +60,8 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
 
     const handleCheckableInput = async (input: HTMLInputElement) => {
         input.checked = !input.checked;
-        fireEvent.input(input);
-        fireEvent.change(input);
+        await fireEvent.input(input);
+        await fireEvent.change(input);
     }
 
     return {
@@ -89,7 +89,7 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
         },
         click: async () => {
             const el = await elem();
-            fireEvent.mouseDown(el);
+            await fireEvent.mouseDown(el);
 
             if (elementIsFocusable(el)) {
                 if (document.activeElement != el) {
@@ -99,14 +99,14 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
 
                     if (!el.disabled) {
                         el.focus();
-                        fireEvent.focus(el);
+                        await fireEvent.focus(el);
                     }
                 }
             }
 
 
-            fireEvent.mouseUp(el);
-            fireEvent.click(el);
+            await fireEvent.mouseUp(el);
+            await fireEvent.click(el);
 
             if (isCheckable(el)) {
                 handleCheckableInput(el as HTMLInputElement);
@@ -116,38 +116,38 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
             press: async() => {
                 const el = await elem();
 
-                fireEvent.mouseDown(el);
+                await fireEvent.mouseDown(el);
             },
             release: async () => {
                 const el = await elem();
 
-                fireEvent.mouseUp(el);
+                await fireEvent.mouseUp(el);
             },
             moveTo: async (to) => {
                 const el = await elem();
                 const {left, top} = (await to.getNative()).getBoundingClientRect();
 
-                fireEvent.mouseMove(el, {clientX: left, clientY: top});
+                await fireEvent.mouseMove(el, {clientX: left, clientY: top});
             }
         },
         hover: async () => {
             const el = await elem();
 
-            fireEvent.mouseOver(el);
-            fireEvent.mouseEnter(el);
+            await fireEvent.mouseOver(el);
+            await fireEvent.mouseEnter(el);
         },
         pressKey: async (key) => {
             const el = await elem();
             const def = getDefinitionForKeyType(key);
 
-            fireEvent.keyDown(el, def);
-            fireEvent.keyUp(el, def);
+            await fireEvent.keyDown(el, def);
+            await fireEvent.keyUp(el, def);
         },
         hasClass: async (className: string) => (await elem()).classList.contains(className),
         enterValue: async (value: string) => {
             const el = (await elem()) as HTMLInputElement;
             const { name, type } = el;
-            fireEvent.change(el, {
+            await fireEvent.change(el, {
                 target: { name, type, value }
             });
         },

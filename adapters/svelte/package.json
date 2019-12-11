@@ -14,7 +14,7 @@
 		"@unidriver/core": "^1.1.2"
 	},
 	"devDependencies": {
-		"@testing-library/dom": "^6.10.1",
+		"@testing-library/svelte": "^1.11.0",
 		"@types/chai": "^4.1.7",
 		"@types/sinon": "^7.0.10",
 		"@unidriver/test-suite": "^1.1.5",
@@ -22,7 +22,11 @@
 		"jsdom": "15.1.1",
 		"jsdom-global": "^3.0.2",
 		"mocha": "^6.0.0",
-		"sinon": "^7.3.0"
+		"sinon": "^7.3.0",
+		"svelte": "^3.0.0"
+	},
+	"peerDependencies": {
+		"svelte": "^3.0.0"
 	},
 	"gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
 }
