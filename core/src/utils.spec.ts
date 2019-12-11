@@ -1,10 +1,9 @@
-import { waitFor } from '@unidriver/core/dist/utils';
 import {assert} from 'chai';
 
+import { waitFor } from './utils';
+
 describe('utils', () => {
-
 	describe('waitFor', () => {
-
 		const createLongFn = (ms: number) => {
 			const now = Date.now();
 			return async () => {
