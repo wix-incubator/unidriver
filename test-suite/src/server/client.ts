@@ -1,4 +1,4 @@
-import { renderTestApp } from "../react-app";
+import { renderTestApp } from "../app/react";
 
 const w: any = window;
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EventsAppProps } from '../../types';
+import { EventsAppProps } from '../../../types';
 
 export type EventsAppState = {
 	keyboardEvents: React.KeyboardEvent[];

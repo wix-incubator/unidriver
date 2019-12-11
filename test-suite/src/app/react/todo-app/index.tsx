@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import {TodoAppProps, TodoItem} from "../../types";
+import {TodoAppProps, TodoItem} from "../../../types";
 
 export type TodoItemProps = {
 	item: TodoItem;

@@ -1,3 +1,3 @@
-import {RenderTestApp} from "../types";
+import {RenderTestApp} from "../../types";
 
 export declare const renderSvelteApp: RenderTestApp;

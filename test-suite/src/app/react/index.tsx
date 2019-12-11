@@ -3,7 +3,7 @@ import ReactDOM = require('react-dom');
 
 import { TodoApp } from './todo-app';
 import { EventsApp } from './events';
-import {RenderTestApp, TestAppProps} from '../types';
+import {RenderTestApp, TestAppProps} from '../../types';
 
 export class TestApp extends React.Component<TestAppProps, {}> {
 	render() {
