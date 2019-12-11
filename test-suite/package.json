@@ -5,10 +5,10 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && (tsc -p . || true) && npm run build-test-suite && npm run build:svelte",
-    "build:svelte": "rollup -c",
-    "start:svelte": "rollup -c -w && sirv public",
+    "build": "rm -rf dist && npm run build-svelte && (tsc -p . || true) && npm run build-test-suite",
+    "build-svelte": "parcel build src/svelte-app/renderSvelteApp.js -d dist/svelte-app",
     "build-test-suite": "cp src/server/index.ejs dist/server/index.ejs && browserify dist/server/client.js > dist/bundle.js",
+    "serve-svelte": "parcel src/svelte-app/index.html --open",
     "test-suite-server": "node -e 'require(\"./dist/index.js\").startTestAppServer(3000)'",
     "test": ":"
   },
@@ -22,9 +22,7 @@
     "mocha": "^6.0.0",
     "puppeteer": "^1.11.0",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "sirv-cli": "^0.4.4",
-    "svelte": "^3.0.0"
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.0.10",
@@ -33,15 +31,15 @@
     "@types/express": "^4.11.0",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0",
-    "rollup": "^1.12.0",
-    "rollup-plugin-alias": "^2.2.0",
-    "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-livereload": "^1.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-svelte": "^5.0.3",
-    "rollup-plugin-terser": "^5.1.2"
+    "parcel-bundler": "^1.12.3",
+    "parcel-plugin-svelte": "^4.0.2",
+    "svelte": "^3.0.0",
+    "typescript": "^3.3.3"
   },
   "author": "Wix.com",
   "license": "MIT",
-  "gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
+  "gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77",
+  "browserslist": [
+    "last 1 chrome versions"
+  ]
 }
