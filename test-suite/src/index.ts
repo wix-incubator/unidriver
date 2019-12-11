@@ -1,5 +1,6 @@
 import { UniDriver } from '@unidriver/core';
-import { TestAppProps } from './test-app';
+
+import { TestAppProps } from "./types";
 
 export type SetupFn = (data: TestAppProps) => Promise<{driver: UniDriver, tearDown: () => Promise<void>}>;
 
@@ -10,10 +11,9 @@ export type TestSuiteParams = {
 };
 
 
-export {renderTestApp} from './test-app'
+export {renderTestApp} from './react-app';
+export {renderSvelteApp} from './svelte-app/renderSvelteApp';
 
 export {startServer as startTestAppServer, getTestAppUrl} from './server';
 
 export {runTestSuite} from './run-test-suite';
-// @ts-ignore
-export {renderSvelteApp} from './svelte-app/renderSvelteApp'

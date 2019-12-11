@@ -1,8 +1,8 @@
 import {assert} from 'chai';
 import {UniDriver, getAllNonTextKeyTypes, getDefinitionForKeyType, isMultipleElementsWithLocatorError, isNoElementWithLocatorError} from '@unidriver/core';
 import { TestSuiteParams } from '.';
-import { TestAppProps } from './test-app';
-import { itemCreator } from './test-app/utils';
+import { itemCreator } from './react-app/utils';
+import { TestAppProps } from './types';
 
 export const runTestSuite = (params: TestSuiteParams) => {
 

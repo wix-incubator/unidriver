@@ -1,11 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-
-export type TodoItem = {
-	label: string;
-	completed: boolean;
-	id?: string;
-};
+import {TodoAppProps, TodoItem} from "../../types";
 
 export type TodoItemProps = {
 	item: TodoItem;
@@ -35,11 +30,6 @@ class TodoAppItem extends React.Component<TodoItemProps, {}> {
 	}
 }
 
-export type TodoAppProps = {
-	items: TodoItem[];
-	initialText?: string;
-};
-
 type TodoAppState = {
 	newItem: string;
 	items: TodoItem[];
@@ -68,7 +58,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 		const items = this.state.items;
 		this.setState({items: [...items, {label: this.state.newItem, completed: false}], newItem: ''});
 	};
-	
+
 	onKeyDown = (e: React.KeyboardEvent) => {
 		e.preventDefault();
 		if (e.key === 'Enter') {
