@@ -14,4 +14,4 @@ export type EventsAppProps = {};
 
 export type TestAppProps = TodoAppProps & EventsAppProps;
 
-export type RenderTestApp = (element: HTMLElement, props: TestAppProps) => () => any;
+export type RenderTestApp = (element: HTMLElement, props?: TestAppProps) => () => any;

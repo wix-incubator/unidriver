@@ -1,6 +1,6 @@
 import App from './App.svelte';
 
-export const renderSvelteApp = (element, params) => {
+export const renderSvelteApp = (element, params = {}) => {
   const app = new App({
     target: element,
     props: {
