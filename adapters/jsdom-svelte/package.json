@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/jsdom-svelte",
-	"version": "1.5.2",
+	"version": "1.0.0",
 	"description": "JSDom Svelte adapter for Unidriver",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
