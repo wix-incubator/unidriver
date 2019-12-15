@@ -152,7 +152,6 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			if (isCheckable(el)) {
 				handleCheckableInput(el as HTMLInputElement);
 			}
-			console.log('---');
 		},
 		mouse: {
 			press: async() => {
