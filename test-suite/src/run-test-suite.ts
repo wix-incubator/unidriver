@@ -1,8 +1,8 @@
 import {assert} from 'chai';
 import {UniDriver, getAllNonTextKeyTypes, getDefinitionForKeyType, isMultipleElementsWithLocatorError, isNoElementWithLocatorError} from '@unidriver/core';
 import { TestSuiteParams } from '.';
-import { TestAppProps } from './test-app';
-import { itemCreator } from './test-app/utils';
+import { itemCreator } from './utils';
+import { TestAppProps } from './types';
 
 export const runTestSuite = (params: TestSuiteParams) => {
 
@@ -81,7 +81,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
                 await runTest({items: [], initialText: ''}, async (driver) => {
                     await driver.$('.todo-app header input').enterValue('bob');
                     await driver.$('.add').click();
-                    
+
                     assert.equal(await driver.$('.count').text(), '1');
                     assert.equal(await driver.$('.label').text(), 'bob');
                 });
@@ -113,14 +113,14 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await driver.$('#arnold-schwarzenegger').exists(), false);
                 });
 			});
-			
+
 			it('rejects the promise with an error when more than 1 element exists', async () => {
 				const items = [
-					itemCreator({label: 'a'}), 
+					itemCreator({label: 'a'}),
 					itemCreator({label: 'b'})
 				];
                 await runTest({items}, async (driver) => {
-					
+
 					const error = await (driver.$('.todo-item').exists().catch((e: any) => e));
 					assert.equal(isMultipleElementsWithLocatorError(error), true);
                 });
@@ -223,7 +223,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
             });
           });
         })
-		
+
 		it('rejects with the right error on action when an element does not exist given locator', async () => {
 			await runTest({items: []}, async (driver) => {
 				const err = await (driver.$('.fdgfdgfdg').text().catch((e: any) => e));
@@ -233,7 +233,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
 		it('rejects with the right error on action when an more than 1 element exist given locator', async () => {
 			const items = [
-				itemCreator({label: 'a'}), 
+				itemCreator({label: 'a'}),
 				itemCreator({label: 'b'})
 			];
 			await runTest({items}, async (driver) => {
@@ -252,13 +252,13 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await driver.$$('.label').get(1).text(), 'David');
                 });
 			});
-		
+
 			it('exists() works properly on elements from `.get`', async () => {
 				await runTest({items: []}, async (driver) => {
 					assert.equal(await driver.$$('.some-elem-bla-bla').get(0).exists(), false);
 					assert.equal(await driver.$$('.add').get(0).exists(), true);
 				});
-			});	
+			});
         });
 
         describe('text()', () => {
@@ -310,7 +310,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
             it('works', async () => {
                 const items = Array.from(Array(150).keys()).map(value => itemCreator({label: value.toString()}));
                 await runTest({items}, async (driver) => {
-                    if (driver.type !== 'react') {
+                    if (driver.type !== 'react' && driver.type !== 'svelte') {
                         const footer: UniDriver = await driver.$('footer');
 
                         assert.isNotTrue(await footer.isDisplayed(), 'Footer is displayed :(');
@@ -324,7 +324,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
         });
 
 	});
-	
+
 	describe('keyboard events', () => {
 
         getAllNonTextKeyTypes().forEach(async (keyType) => {
@@ -332,7 +332,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 			await runTest({items: []}, async (driver) => {
 					const eventsComp = await driver.$('.keyboard-events input');
 					await eventsComp.pressKey(keyType as any);
-					
+
                     const def = getDefinitionForKeyType(keyType);
                     assert.equal(await driver.$('.keyboard-event-data .event-key').text(), def.key);
                     assert.equal(await driver.$('.keyboard-event-data .event-keycode').text(), def.keyCode.toString());

@@ -139,12 +139,13 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 
 					if (!el.disabled) {
 						el.focus();
+
 						Simulate.focus(el);
 					}
 				}
 			}
 
-			
+
 			Simulate.mouseUp(el, eventData);
 			Simulate.click(el, eventData);
 
@@ -195,7 +196,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			// 	el.dispatchEvent(keyup)
 
 			// } else {
-				
+
 			// }
 			*/
 			Simulate.keyDown(el, def);

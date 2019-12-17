@@ -1,4 +1,4 @@
-import { TodoItem } from "./todo-app";
+import { TodoItem } from "./types";
 
 export const itemCreator = (partial: Partial<TodoItem>) => {
     return {

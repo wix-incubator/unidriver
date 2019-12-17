@@ -71,17 +71,17 @@ describe('react base driver specific tests', () => {
 			const click = spy();
 			const elem = document.createElement('div');
 			const btn = (
-				<button 
-					onMouseDown={mouseDown} 
-					onMouseUp={mouseUp} 
+				<button
+					onMouseDown={mouseDown}
+					onMouseUp={mouseUp}
 					onClick={click}>
 					bob
 				</button>
 				);
 			ReactDOM.render(btn, elem);
-	
+
 			const driver = jsdomReactUniDriver(elem);
-	
+
 			await driver.$('button').click();
 			cleanJsdom();
 
@@ -102,9 +102,9 @@ describe('react base driver specific tests', () => {
 				</button>
 				);
 			ReactDOM.render(btn, elem);
-	
+
 			const driver = jsdomReactUniDriver(elem);
-	
+
 			await driver.$('button').click();
 			cleanJsdom();
 
@@ -126,9 +126,9 @@ describe('react base driver specific tests', () => {
 				</button>
 				);
 			ReactDOM.render(btn, elem);
-	
+
 			const driver = jsdomReactUniDriver(elem);
-	
+
 			await driver.$('button').click();
 			cleanJsdom();
 
@@ -160,11 +160,11 @@ describe('react base driver specific tests', () => {
           onChange={change}
         />
 			);
-			
+
 			ReactDOM.render(checkbox, elem);
-	
+
 			const driver = jsdomReactUniDriver(elem);
-	
+
 			await driver.$('input').click();
 			cleanJsdom();
 
@@ -180,9 +180,9 @@ describe('react base driver specific tests', () => {
 
 		it('should trigger [focusA, blurA, focusB] when clicking two buttons', async () => {
 			const cleanJsdom = require('jsdom-global')();
-			const focusA = spy();
-			const focusB = spy();
-			const blurA = spy();
+			const focusA = spy(function focusA() {});
+			const focusB = spy(function focusB() {});
+			const blurA = spy(function blurA() {});
 			const elem = document.createElement('div');
 			const btn = (
 				<div>
@@ -195,9 +195,9 @@ describe('react base driver specific tests', () => {
 				</div>
 				);
 			ReactDOM.render(btn, elem);
-	
+
 			const driver = jsdomReactUniDriver(elem);
-	
+
 			await driver.$('button#A').click();
 			await driver.$('button#B').click();
 			cleanJsdom();
@@ -226,9 +226,9 @@ describe('react base driver specific tests', () => {
 				</div>
 				);
 			ReactDOM.render(btn, elem);
-	
+
 			const driver = jsdomReactUniDriver(elem);
-	
+
 			await driver.$('button#A').click();
 			await driver.$('button#B').click();
 			cleanJsdom();

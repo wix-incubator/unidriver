@@ -3,7 +3,7 @@ import * as express from 'express';
 import { readFileSync } from 'fs';
 import * as ejs from 'ejs';
 import * as path from 'path';
-import { TestAppProps } from "../test-app";
+import { TestAppProps } from "../types";
 
 export const startServer = (port: number): Promise<Server> => {
 	const app = express();

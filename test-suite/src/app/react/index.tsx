@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { TodoApp, TodoAppProps } from './todo-app';
-import { EventsApp, EventsAppProps } from './events';
 import ReactDOM = require('react-dom');
 
-export type TestAppProps = TodoAppProps & EventsAppProps;
+import { TodoApp } from './todo-app';
+import { EventsApp } from './events';
+import {RenderTestApp, TestAppProps} from '../../types';
+
 export class TestApp extends React.Component<TestAppProps, {}> {
 	render() {
 		return (<main>
@@ -13,8 +14,9 @@ export class TestApp extends React.Component<TestAppProps, {}> {
 	}
 }
 
-export const renderTestApp = (element: HTMLElement, params: TestAppProps) => {
+export const renderTestApp: RenderTestApp  = (element, params) => {
 	const comp = React.createElement(TestApp, params);
 	ReactDOM.render(comp, element);
 	return () => ReactDOM.unmountComponentAtNode(element);
-}
+};
+export {TestAppProps};
