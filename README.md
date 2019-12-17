@@ -61,6 +61,7 @@ This pattern can be nested as one see fit, enabling users to create a cross-plat
 ## Available Adapters
 
 - [JSDOM - React (DOM + React test utils)](adapters/jsdom-react)
+- [JSDOM - Svelte (DOM + @testing-library/svelte)](adapters/jsdom-svelte)
 - [Puppeteer](adapters/puppeteer)
 - [Selenium](adapters/selenium)
 - [Protractor](adapters/protractor)
