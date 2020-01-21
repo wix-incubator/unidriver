@@ -10,7 +10,7 @@ export const waitFor = async (fn: () => Promise<boolean>, timeout = 1200, retryD
 		const now = Date.now();
 		await delay(retryDelay);
 		const delta = Date.now() - now;
-		return waitFor(fn, timeout - delta, retryDelay);
+		return waitFor(fn, timeout - delta, retryDelay, customError);
 	}
 };
 
