@@ -62,7 +62,7 @@ describe('puppeteer specific tests', () => {
       assert.equal(await item.$('.label').text(), 'Bob');
 
       assert.equal(await item.$('button').hasClass('toggle'), true);
-      assert.equal(await item.$('button').attr('classname'), 'toggle');
+      assert.equal(await item.$('button').attr('class'), 'toggle');
     });
   });
 });
