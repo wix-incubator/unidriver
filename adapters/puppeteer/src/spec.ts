@@ -59,7 +59,7 @@ describe('puppeteer specific tests', () => {
       });
 
       assert.equal(await driver.$('header').exists(), true);
-      assert.equal(await driver.$('header').$('header').exists(), false);
+      assert.equal(await driver.$('header').$('header').exists(), true);
     });
   });
 });
