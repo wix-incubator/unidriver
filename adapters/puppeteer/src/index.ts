@@ -104,7 +104,7 @@ export const pupUniDriver = (
     return {
         $: (newLoc: Locator) => {
             return pupUniDriver(async () => {
-				const { element, ...rest } = await elem();
+				const { element, selector, ...rest } = await elem();
 				
 				const elHandles = await element.$$(newLoc);
 
@@ -116,7 +116,7 @@ export const pupUniDriver = (
 					return {
 						...rest,
 						element: elHandles[0],
-						selector: newLoc
+						selector: `${selector} ${newLoc}`
 					};
 				}
             });
