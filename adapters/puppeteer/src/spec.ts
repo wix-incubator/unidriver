@@ -58,9 +58,8 @@ describe('puppeteer specific tests', () => {
         items: [itemCreator({ label: 'Bob' })],
       });
 
-      const item = await driver.$('[data-value="1"]');
-
-      assert.equal(await item.exists(), true);
+      const item = await driver.$('.todo-item');
+      assert.equal(await item.$('.label').text(), 'Bob');
 
       assert.equal(await item.$('button').hasClass('toggle'), true);
       assert.equal(await item.$('button').attr('classname'), 'toggle');
