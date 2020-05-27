@@ -52,14 +52,18 @@ describe('puppeteer specific tests', () => {
 
   afterEach(() => after());
 
-  describe('$', () => {
-    it('should return new driver instance but with scoped value', async () => {
+  describe('attr', () => {
+    it('should target scoped element and not the page', async () => {
       const { driver } = await setup({
         items: [itemCreator({ label: 'Bob' })],
       });
 
-      assert.equal(await driver.$('header').exists(), true);
-      assert.equal(await driver.$('header').$('header').exists(), true);
+      const item = await driver.$('[data-value="1"]');
+
+      assert.equal(await item.exists(), true);
+
+      assert.equal(await item.$('button').hasClass('toggle'), true);
+      assert.equal(await item.$('button').attr('classname'), 'toggle');
     });
   });
 });
