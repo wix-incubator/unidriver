@@ -52,8 +52,8 @@ describe('puppeteer specific tests', () => {
 
   afterEach(() => after());
 
-  describe('attr', () => {
-    it('should target scoped element and not the page', async () => {
+  describe('$', () => {
+    it('should append previous selector', async () => {
       const { driver } = await setup({
         items: [itemCreator({ label: 'Bob' })],
       });
@@ -65,4 +65,6 @@ describe('puppeteer specific tests', () => {
       assert.equal(await item.$('button').attr('class'), 'toggle');
     });
   });
+
+  
 });
