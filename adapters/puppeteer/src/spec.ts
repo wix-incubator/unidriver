@@ -58,6 +58,7 @@ describe('puppeteer specific tests', () => {
         items: [itemCreator({ label: 'Bob' })],
       });
 
+      assert.equal(await driver.$('header').exists(), true);
       assert.equal(await driver.$('header').$('header').exists(), false);
     });
   });
