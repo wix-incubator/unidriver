@@ -23,8 +23,6 @@
     "*.js"
   ],
   "devDependencies": {
-    "@types/chai": "^4.2.11",
-    "@types/mocha": "^2.2.37",
     "@types/node": "^7.0.0",
     "lerna": "^3.11.1",
     "typescript": "^3.3.3"
