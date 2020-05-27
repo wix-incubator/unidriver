@@ -1,30 +1,31 @@
 {
-	"name": "@unidriver/puppeteer",
-	"version": "1.1.9",
-	"description": "",
-	"main": "dist/index.js",
-	"typings": "dist/index.d.ts",
-	"scripts": {
-		"build": "rm -rf dist && (tsc -p . || true)",
-		"test": "mocha dist/**/spec.js"
-	},
-	"keywords": [],
-	"author": "Wix.com",
-	"license": "MIT",
-	"dependencies": {
-		"@unidriver/core": "^1.1.5"
-	},
-	"devDependencies": {
-		"@types/puppeteer": "^1.11.1",
-		"@unidriver/test-suite": "^1.1.7",
-		"chai": "^4.2.0",
-		"find-free-port-sync": "^1.0.0",
-		"mocha": "^6.0.0",
-		"puppeteer": "^1.11.0"
-	},
-	"peerDependencies": {
-		"@types/puppeteer": "^1.11.1",
-		"puppeteer": "^1.11.0"
-	},
-	"gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
+  "name": "@unidriver/puppeteer",
+  "version": "1.1.9",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && (tsc -p . || true)",
+    "test": "mocha dist/**/spec.js"
+  },
+  "keywords": [],
+  "author": "Wix.com",
+  "license": "MIT",
+  "dependencies": {
+    "@unidriver/core": "^1.1.5"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/puppeteer": "^1.11.1",
+    "@unidriver/test-suite": "^1.1.7",
+    "chai": "^4.2.0",
+    "find-free-port-sync": "^1.0.0",
+    "mocha": "^6.0.0",
+    "puppeteer": "^1.11.0"
+  },
+  "peerDependencies": {
+    "@types/puppeteer": "^1.11.1",
+    "puppeteer": "^1.11.0"
+  },
+  "gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
 }
