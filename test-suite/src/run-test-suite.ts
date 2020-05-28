@@ -57,17 +57,6 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await item.text(), 'Some value');
                 });
             });
-
-            it('should append previous selector', async () => {
-                await runTest({items: [itemCreator({ label: 'Bob' })]}, async (driver) => {
-
-                    const item = await driver.$('.todo-item');
-                    assert.equal(await item.$('.label').text(), 'Bob');
-              
-                    assert.equal(await item.$('button').hasClass('toggle'), true);
-                    assert.equal(await item.$('button').attr('class'), 'toggle');
-                });
-            });
         });
 
         describe('value()', () => {
@@ -213,6 +202,17 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.deepEqual(await driver.$('.todo-item').attr('data-value'), '');
                 });
             });
+
+            it('should get correct attribute [when] $ is deep nested', async () => {
+              await runTest({items: [itemCreator({ label: 'Bob' })]}, async (driver) => {
+
+                  const item = await driver.$('.todo-item');
+                  assert.equal(await item.$('.label').text(), 'Bob');
+            
+                  assert.equal(await item.$('button').hasClass('toggle'), true);
+                  assert.equal(await item.$('button').attr('class'), 'toggle');
+              });
+          });
 		    });
 
         describe('_prop()', () => {
