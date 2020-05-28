@@ -1,15 +1,8 @@
 import * as puppeteer from 'puppeteer';
-import { assert } from 'chai';
-import { Browser, Page } from 'puppeteer';
-import {
-  getTestAppUrl,
-  startTestAppServer,
-  SetupFn,
-  runTestSuite,
-} from '@unidriver/test-suite';
-import { itemCreator } from '@unidriver/test-suite/dist/utils';
-import { pupUniDriver } from './';
-import { Server } from 'http';
+import {Browser, Page} from 'puppeteer';
+import {getTestAppUrl, startTestAppServer, SetupFn, runTestSuite} from '@unidriver/test-suite';
+import {pupUniDriver} from './';
+import {Server} from 'http';
 
 const port = require('find-free-port-sync')();
 
@@ -21,7 +14,7 @@ const before = async () => {
   const args = process.env.CI ? ['--no-sandbox'] : [];
   const headless = !!process.env.CI;
   server = await startTestAppServer(port);
-  browser = await puppeteer.launch({ headless, args });
+  browser = await puppeteer.launch({headless, args});
   page = await browser.newPage();
 };
 
@@ -32,39 +25,21 @@ const after = async () => {
 };
 
 const setup: SetupFn = async (params) => {
-  await page.goto(`http://localhost:${port}${getTestAppUrl(params)}`);
-  const driver = pupUniDriver({
-    page,
-    selector: 'body',
-  });
+    await page.goto(`http://localhost:${port}${getTestAppUrl(params)}`);
+    const driver = pupUniDriver({
+        page,
+        selector: 'body'
+    });
 
-  const tearDown = async () => {};
+	const tearDown = async () => {};
 
-  return { driver, tearDown };
+    return {driver, tearDown};
 };
 
 describe('puppeteer', () => {
-  runTestSuite({ setup, before, after });
+	runTestSuite({setup, before, after});
 });
 
 describe('puppeteer specific tests', () => {
-  beforeEach(() => before());
-
-  afterEach(() => after());
-
-  describe('$', () => {
-    it('should append previous selector', async () => {
-      const { driver } = await setup({
-        items: [itemCreator({ label: 'Bob' })],
-      });
-
-      const item = await driver.$('.todo-item');
-      assert.equal(await item.$('.label').text(), 'Bob');
-
-      assert.equal(await item.$('button').hasClass('toggle'), true);
-      assert.equal(await item.$('button').attr('class'), 'toggle');
-    });
-  });
-
   
 });

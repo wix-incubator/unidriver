@@ -57,6 +57,18 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await item.text(), 'Some value');
                 });
             });
+
+            it('should append previous selector', async () => {
+                const { driver } = await setup({
+                  items: [itemCreator({ label: 'Bob' })],
+                });
+          
+                const item = await driver.$('.todo-item');
+                assert.equal(await item.$('.label').text(), 'Bob');
+          
+                assert.equal(await item.$('button').hasClass('toggle'), true);
+                assert.equal(await item.$('button').attr('class'), 'toggle');
+            });
         });
 
         describe('value()', () => {
