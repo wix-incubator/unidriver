@@ -203,7 +203,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
                 });
             });
 
-            it('should get correct attribute [when] $ is deep nested', async () => {
+            it('gets correct attribute [when] $ is deep nested', async () => {
               await runTest({items: [itemCreator({ label: 'Bob' })]}, async (driver) => {
 
                   const item = await driver.$('.todo-item');
