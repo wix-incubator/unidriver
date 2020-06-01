@@ -364,7 +364,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
             await runTest({items: []}, async (driver) => {
                 const eventsComp = await driver.$('.mouse-events').$('button');
                 await eventsComp.mouse.moveTo(eventsComp);
-                assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mousemove');
+                assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mousedown');
             });
         })
 
