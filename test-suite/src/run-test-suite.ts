@@ -363,8 +363,8 @@ export const runTestSuite = (params: TestSuiteParams) => {
         it('with deep nested selector press works', async () => {
             await runTest({items: []}, async (driver) => {
                 const eventsComp = await driver.$('.mouse-events').$('button');
-                await eventsComp.mouse.moveTo(eventsComp);
-                assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mousedown');
+                await eventsComp.mouse.press();
+                assert.include(await driver.$$('.mouse-event-data .event-type').text(), 'mousedown');
             });
         })
 
@@ -379,8 +379,8 @@ export const runTestSuite = (params: TestSuiteParams) => {
         it('with deep nested selector release works', async () => {
             await runTest({items: []}, async (driver) => {
                 const eventsComp = await driver.$('.mouse-events').$('button');
-                await eventsComp.mouse.moveTo(eventsComp);
-                assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mouseup');
+                await eventsComp.mouse.release();
+                assert.include(await driver.$$('.mouse-event-data .event-type').text(), 'mouseup');
             });
         })
 
