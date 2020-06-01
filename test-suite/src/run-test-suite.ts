@@ -207,8 +207,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
               await runTest({items: [itemCreator({ label: 'Bob' })]}, async (driver) => {
 
                   const item = await driver.$('.todo-item');
-                  assert.equal(await item.$('.label').text(), 'Bob');
-            
+          
                   assert.equal(await item.$('button').hasClass('toggle'), true);
                   assert.equal(await item.$('button').attr('class'), 'toggle');
               });
