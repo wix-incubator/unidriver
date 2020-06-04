@@ -31,9 +31,10 @@
     "@types/express": "^4.11.0",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0",
-    "parcel-bundler": "^1.12.3",
-    "parcel-plugin-svelte": "^4.0.2",
-    "svelte": "^3.0.0",
+    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-svelte": "^4.0.6",
+    "svelte": "^3.23.0",
     "typescript": "^3.3.3"
   },
   "author": "Wix.com",

@@ -86,7 +86,7 @@ export const protractorUniDriver = (
 	}
 };
 
-  return {
+const adapter: UniDriver<ElementFinder> = {
     // done
     $: (newLoc: Locator) => {
       return protractorUniDriver(async () => {
@@ -118,9 +118,9 @@ export const protractorUniDriver = (
 
       return (await e.browser_.actions().move({ origin: await e.getWebElement() }).perform());
     },
-		pressKey: async(key: string) => {
+		pressKey: async(key) => {
       const el = await safeElem();
-      const realKey = interpolateSeleniumSpecialKeys(camelCaseToHyphen(key).toUpperCase());
+      const realKey = interpolateSeleniumSpecialKeys(camelCaseToHyphen(`${key}`).toUpperCase());
       const value = SeleniumKey[realKey as keyof typeof SeleniumKey] as string;
       if (value) {
         await el.sendKeys(value);
@@ -191,4 +191,6 @@ export const protractorUniDriver = (
       return browser.executeScript(function(){return arguments[0][arguments[1]]}, el.getWebElement(),name)
     }
   };
+
+  return adapter;
 };
