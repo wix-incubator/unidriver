@@ -16,6 +16,7 @@
      on:mouseleave={onBlur}
      data-value={item.id}
 >
+    <input type="checkbox" checked={item.completed} />
     <span class='label'>{item.label}</span>
     {#if item.completed}
         <span class='completed'>Completed!</span>
