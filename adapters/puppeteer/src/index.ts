@@ -154,7 +154,7 @@ export const pupUniDriver = (
         },
         pressKey: async (key) => {
             const { element } = await elem();
-            return element.press(key);
+            return element.press(`${key}`);
         },
         exists,
         isDisplayed: async () => {

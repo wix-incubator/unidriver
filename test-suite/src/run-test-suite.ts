@@ -343,7 +343,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 					const eventsComp = await driver.$('.keyboard-events input');
 					await eventsComp.pressKey(keyType as any);
 
-                    const def = getDefinitionForKeyType(keyType);
+                    const def = getDefinitionForKeyType(keyType as any);
                     assert.equal(await driver.$('.keyboard-event-data .event-key').text(), def.key);
                     assert.equal(await driver.$('.keyboard-event-data .event-keycode').text(), def.keyCode.toString());
                 });

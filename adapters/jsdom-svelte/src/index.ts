@@ -9,7 +9,7 @@ import {
 
 import {fireEvent} from '@testing-library/svelte';
 
-type HTMLFocusableElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement | HTMLAnchorElement;
+type HTMLFocusableElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement;
 type ElementOrElementFinder = (() => Element) | Element | (() => Promise<Element>);
 type ElementsOrElementsFinder = (() => Element[]) | Element[] | (() => Promise<Element[]>);
 
@@ -17,7 +17,7 @@ const isPromise = (a: Promise<any> | any ): a is Promise<any> => {
     return !!((a as any).then);
 };
 
-const elementIsFocusable = (el: Element): el is HTMLFocusableElement => {
+const elementIsFocusableAndNotAnchor = (el: Element): el is HTMLFocusableElement => {
     return (
         el.tagName === 'INPUT' ||
         el.tagName === 'SELECT' ||
@@ -25,6 +25,7 @@ const elementIsFocusable = (el: Element): el is HTMLFocusableElement => {
         el.tagName === 'BUTTON'
     )
 }
+
 
 const isCheckable = (el: Element): boolean => {
     return (
@@ -91,7 +92,7 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
             const el = await elem();
             await fireEvent.mouseDown(el);
 
-            if (elementIsFocusable(el)) {
+            if (elementIsFocusableAndNotAnchor(el)) {
                 if (document.activeElement != el) {
                     if (document.activeElement) {
                         fireEvent.blur(document.activeElement);

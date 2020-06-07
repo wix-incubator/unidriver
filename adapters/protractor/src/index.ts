@@ -1,8 +1,12 @@
 import {browser, ElementFinder} from 'protractor';
 import {Key as SeleniumKey} from 'selenium-webdriver';
 import {Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError} from '@unidriver/core';
-type ElementGetter = () => Promise<ElementFinder | null>;
-type ElementsGetter = () => Promise<ElementFinder[]>;
+
+type TsSafeElementFinder = Omit<ElementFinder, 'then'>;
+
+type ElementGetter = () => Promise<TsSafeElementFinder | null>;
+type ElementsGetter = () => Promise<TsSafeElementFinder[]>;
+
 
 const camelCaseToHyphen = (key: string) => key.replace(/([a-z])([A-Z])/g, '$1_$2');
 const interpolateSeleniumSpecialKeys = (key: string) => {
@@ -17,7 +21,7 @@ const interpolateSeleniumSpecialKeys = (key: string) => {
 
 export const protractorUniDriverList = (
   elems: ElementsGetter
-): UniDriverList<ElementFinder> => {
+): UniDriverList<TsSafeElementFinder> => {
   const map = async <T>(fn: MapFn<T>) => {
     const els = await elems();
     const promises = els.map((e, i) => {
@@ -64,13 +68,13 @@ export const protractorUniDriverList = (
 
 export const protractorUniDriver = (
   el: ElementGetter
-): UniDriver<ElementFinder> => {
-  const safeElem: () => Promise<ElementFinder> = async () => {
+): UniDriver<TsSafeElementFinder> => {
+  const safeElem: () => Promise<TsSafeElementFinder> = async () => {
     const e = await el();
     if (!e || !(await e.isPresent())) {
       throw new Error(`Cannot find element`);
     }
-    return e;
+    return e as TsSafeElementFinder;
   };
 
   const exists = async () => {
@@ -86,7 +90,7 @@ export const protractorUniDriver = (
 	}
 };
 
-const adapter: UniDriver<ElementFinder> = {
+const adapter: UniDriver<TsSafeElementFinder> = {
     // done
     $: (newLoc: Locator) => {
       return protractorUniDriver(async () => {
@@ -97,7 +101,7 @@ const adapter: UniDriver<ElementFinder> = {
         } else if (count > 1) {
           throw new MultipleElementsWithLocatorError(elmArrFinder.length, newLoc);
         }
-        return elmArrFinder.get(0);
+        return elmArrFinder.get(0) as TsSafeElementFinder;
       });
     },
     // done

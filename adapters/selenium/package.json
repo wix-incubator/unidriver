@@ -5,7 +5,7 @@
   "typings": "dist/index.d.ts",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && (tsc -p . || true)",
+    "build": "rm -rf dist && tsc -p .",
     "test": "mocha --timeout 10000 dist/**/spec.js"
   },
   "dependencies": {
