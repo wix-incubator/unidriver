@@ -13,7 +13,8 @@
 	"license": "MIT",
 	"dependencies": {
 		"@unidriver/core": "^1.1.5",
-		"selenium-webdriver": "^3.6.0"
+		"selenium-webdriver": "^3.6.0",
+		"chromedriver": "^83.0.0"
 	},
 	"peerDependencies": {
 		"protractor": "^6.0.0"

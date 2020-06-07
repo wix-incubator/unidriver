@@ -10,7 +10,7 @@ addons:
 install:
 - npm install
 - npm run bootstrap
-- node_modules/protractor/bin/webdriver-manager update --github_token=$PROTRACTOR_GITHUB_TOKEN
+- node_modules/protractor/bin/webdriver-manager update --versions.chrome 83 --github_token=$PROTRACTOR_GITHUB_TOKEN
 script:
 - npm run build
 - npm run test
