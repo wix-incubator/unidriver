@@ -119,7 +119,7 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
     },
     pressKey: async (key) => {
       const el = await elem();
-      const realKey = interpolateSeleniumSpecialKeys(camelCaseToHyphen(key).toUpperCase());
+      const realKey = interpolateSeleniumSpecialKeys(camelCaseToHyphen(`${key}`).toUpperCase());
       const value = SeleniumKey[realKey as keyof typeof SeleniumKey] as string;
       if (value) {
         await el.sendKeys(value);

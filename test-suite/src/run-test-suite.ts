@@ -202,6 +202,16 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.deepEqual(await driver.$('.todo-item').attr('data-value'), '');
                 });
             });
+
+            it('gets correct attribute [when] $ is deep nested', async () => {
+              await runTest({items: [itemCreator({ label: 'Bob' })]}, async (driver) => {
+
+                  const item = await driver.$('.todo-item');
+          
+                  assert.equal(await item.$('button').hasClass('toggle'), true);
+                  assert.equal(await item.$('button').attr('class'), 'toggle');
+              });
+          });
 		    });
 
         describe('_prop()', () => {
@@ -350,6 +360,14 @@ export const runTestSuite = (params: TestSuiteParams) => {
             });
         });
 
+        it('with deep nested selector press works', async () => {
+            await runTest({items: []}, async (driver) => {
+                const eventsComp = await driver.$('.mouse-events').$('button');
+                await eventsComp.mouse.press();
+                assert.include(await driver.$$('.mouse-event-data .event-type').text(), 'mousedown');
+            });
+        })
+
         it('release works', async () => {
             await runTest({items: []}, async (driver) => {
                 const eventsComp = await driver.$('.mouse-events button');
@@ -358,6 +376,14 @@ export const runTestSuite = (params: TestSuiteParams) => {
             });
         });
 
+        it('with deep nested selector release works', async () => {
+            await runTest({items: []}, async (driver) => {
+                const eventsComp = await driver.$('.mouse-events').$('button');
+                await eventsComp.mouse.release();
+                assert.include(await driver.$$('.mouse-event-data .event-type').text(), 'mouseup');
+            });
+        })
+
         it('move works', async () => {
             await runTest({items: []}, async (driver) => {
                 const eventsComp = await driver.$('.mouse-events button');
@@ -365,5 +391,13 @@ export const runTestSuite = (params: TestSuiteParams) => {
                 assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mousemove');
             });
         });
+
+        it('with deep nested selector move works', async () => {
+            await runTest({items: []}, async (driver) => {
+                const eventsComp = await driver.$('.mouse-events').$('button');
+                await eventsComp.mouse.moveTo(eventsComp);
+                assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mousemove');
+            });
+        })
     });
 };
