@@ -226,7 +226,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
             });
           });
 
-          it('should correct prop for items in list', async () => {
+          it('returns the correct prop for items in list', async () => {
             const items = [
                 itemCreator({ label: 'Bob', completed: false }),
                 itemCreator({ label: 'Alice', completed: true })
