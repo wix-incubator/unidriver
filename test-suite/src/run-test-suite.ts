@@ -187,10 +187,13 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
             it('returns attribute value', async () => {
                 const items = [
-                    itemCreator({ label: 'Bob', completed: false, id: 'bob' })
+                    itemCreator({ label: 'Bob', completed: false, id: 'bob' }),
+                    itemCreator({ label: 'Alice', completed: false, id: 'alice' })
                 ];
                 await runTest({ items }, async driver => {
-                    assert.deepEqual(await driver.$('.todo-item').attr('data-value'), 'bob');
+                    const items = driver.$$('.todo-item');
+                    assert.deepEqual(await items.get(0).attr('data-value'), 'bob');
+                    assert.deepEqual(await items.get(1).attr('data-value'), 'alice');
                 });
             });
 
@@ -232,7 +235,19 @@ export const runTestSuite = (params: TestSuiteParams) => {
               assert.equal(await driver.$('footer input')._prop('checked'), true);
             });
           });
-        })
+
+          it('returns the correct prop for items in list', async () => {
+            const items = [
+                itemCreator({ label: 'Bob', completed: false }),
+                itemCreator({ label: 'Alice', completed: true })
+            ];
+            await runTest({items}, async (driver) => {
+              const checkboxes = driver.$$('.todo-item input');
+              assert.equal(await checkboxes.get(0)._prop('checked'), false);
+              assert.equal(await checkboxes.get(1)._prop('checked'), true);
+            });
+          });
+        });
 
 		it('rejects with the right error on action when an element does not exist given locator', async () => {
 			await runTest({items: []}, async (driver) => {

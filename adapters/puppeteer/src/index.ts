@@ -169,12 +169,12 @@ export const pupUniDriver = (
             return value || '';
         },
         attr: async name => {
-            const { page, selector } = await elem();
-            return page.$eval(
-                selector,
-                (elem, name) => {
-                    return elem.getAttribute(name);
+            const { page, element } = await elem();
+            return page.evaluate(
+                (elem:any, n) => {
+                    return elem.getAttribute(n);
                 },
+                element,
                 name
             );
         },
@@ -235,13 +235,12 @@ export const pupUniDriver = (
         },
         getNative: elem,
         _prop: async (name: string) => {
-            const { page, selector } = await elem();
-            return page.$eval(
-              selector,
-              (elem: any, name) => {
-                  return elem[name];
+            const { page, element } = await elem();
+            return page.evaluate(
+              (elem: any, n) => {
+                  return elem[n];
               },
-              name
+              element, name
             );
         },
     };

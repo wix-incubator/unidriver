@@ -22,6 +22,7 @@ class TodoAppItem extends React.Component<TodoItemProps, {}> {
 
 		return (
 			<div className={`todo-item ${cn}`} onMouseEnter={onHover} onMouseLeave={onBlur} data-value={item.id} style={style}>
+				<input type="checkbox" checked={item.completed} />
 				<span className='label'>{item.label}</span>
 				{item.completed ? <span className='completed'>Completed!</span> : null}
 				<button className='toggle' onClick={onToggle}>Toggle</button>
@@ -52,7 +53,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 
 	onChange = (e: any) => {
 		this.setState({newItem: e.target.value});
-	}
+	};
 
 	onAdd = () => {
 		const items = this.state.items;
@@ -91,7 +92,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 					{itemsComp}
 				</main>
 				<footer>
-					<input type="checkbox" checked></input>Mark all as completed<br/>
+					<input type="checkbox" checked />Mark all as completed<br/>
 					Items count: <span className='count'>{items.length}</span>
 				</footer>
 			</div>);
