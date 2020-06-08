@@ -5,7 +5,7 @@
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
 	"scripts": {
-		"build": "rm -rf dist && (tsc -p . || true)",
+		"build": "rm -rf dist && tsc -p .",
 		"test": "mocha dist/**/spec.js"
 	},
 	"keywords": [],

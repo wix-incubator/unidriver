@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && npm run build-svelte && (tsc -p . || true) && npm run build-test-suite",
+    "build": "rm -rf dist && npm run build-svelte && tsc -p . && npm run build-test-suite",
     "build-svelte": "parcel build src/app/svelte/renderSvelteApp.js -d dist/app/svelte && cp src/app/svelte/renderSvelteApp.d.ts dist/app/svelte/renderSvelteApp.d.ts",
     "build-test-suite": "cp src/server/index.ejs dist/server/index.ejs && browserify dist/server/client.js > dist/bundle.js",
     "serve-svelte": "parcel src/app/svelte/index.html --open",

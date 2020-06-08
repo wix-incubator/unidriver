@@ -5,12 +5,12 @@
   "typings": "dist/index.d.ts",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && (tsc -p . || true)",
+    "build": "rm -rf dist && tsc -p .",
     "test": "mocha --timeout 10000 dist/**/spec.js"
   },
   "dependencies": {
     "@unidriver/core": "^1.1.5",
-    "chromedriver": "^79.0.0",
+    "chromedriver": "^83.0.0",
     "selenium-webdriver": "^3.6.0"
   },
   "devDependencies": {
