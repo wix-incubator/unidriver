@@ -59,7 +59,8 @@ const elementIsFocusable = (el: Element): el is HTMLFocusableElement => {
 		el.tagName === 'INPUT' ||
 		el.tagName === 'SELECT' ||
 		el.tagName === 'TEXTAREA' ||
-		el.tagName === 'BUTTON'
+		el.tagName === 'BUTTON' ||
+		el.tagName === 'svg'
 	)
 }
 
