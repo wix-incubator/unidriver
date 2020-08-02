@@ -239,6 +239,31 @@ describe('react base driver specific tests', () => {
 			assert(blurA.calledOnce);
 			assert(focusB.notCalled);
 		});
+
+		it('should trigger blur on active element when clicking an svg', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const blurA = spy();
+			const elem = document.createElement('div');
+			const testApp = (
+				<div>
+					<button id="A" onBlur={blurA}>
+						button A
+					</button>
+					<svg id="B" width="100" height="100">
+						<circle cx="50" cy="50" r="40" />
+					</svg>
+				</div>
+				);
+			ReactDOM.render(testApp, elem);
+
+			const driver = jsdomReactUniDriver(elem);
+
+			await driver.$('button#A').click();
+			await driver.$('svg#B').click();
+			cleanJsdom();
+
+			assert(blurA.calledOnce);
+		});
 	})
 
 	describe('enterValue', () => {
