@@ -6,8 +6,10 @@ export * from './key-types';
 export type Locator = string;
 
 export type MapFn<T> = (e: UniDriver, idx?: number, array?: UniDriver[]) => Promise<T>;
+export type MobileMapFn<T> = (e: MobileUniDriver, idx?: number, array?: MobileUniDriver[]) => Promise<T>;
 
 export type PredicateFn = (e: UniDriver, idx?: number, array?: UniDriver[]) => Promise<boolean>;
+export type MobilePredicateFn = (e: MobileUniDriver, idx?: number, array?: MobileUniDriver[]) => Promise<boolean>;
 
 export type ReducerFn<T> = (acc: T, curr: UniDriver, idx?: number, array?: UniDriver[]) => T;
 
@@ -49,6 +51,25 @@ export type UniDriver<T = any> = {
 	scrollIntoView: () => Promise<{}>;
 	getNative: () => Promise<T>;
 	/** Gets a html element's property value by property name. @returns null if property is not defined */
+	_prop: (name: string) => Promise<any>;
+};
+
+export type MobileUniDriverList<T = any> = {
+	get: (idx: number) => MobileUniDriver<T>,
+	count: () => Promise<number>,
+	map: <T>(mapFn: MobileMapFn<T>) => Promise<T[]>,
+	filter: (predicate: MobilePredicateFn) => MobileUniDriverList 
+};
+
+export type MobileUniDriver<T = any> = {
+	$: (selector: Locator) => MobileUniDriver<T>;
+	$$: (selector: Locator) => MobileUniDriverList<T>;
+	press: () => Promise<void>;
+	enterValue: (value: string) => Promise<void>;
+	scroll: () => Promise<void>;
+	exists: () => Promise<boolean>;
+	wait: (timeout?: number) => Promise<void>;
+	type: string;
 	_prop: (name: string) => Promise<any>;
 };
 
