@@ -84,7 +84,7 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
 			const getElement = async () => {
 				const container = await elem();
 
-				const elements = container.findAllByProps({ testID: loc }).filter((element) => typeof element.type === 'string');
+				const elements = container.findAllByProps({ testID: loc });
 				if (!elements.length) {
 					throw new NoElementWithLocatorError(loc);
 				} else if (elements.length > 1) {
@@ -101,7 +101,7 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
     press: async () => {
       const e = await elem();
       act(() => {
-				e.props.onClick && e.props.onClick();
+				e.props.onPress && e.props.onPress();
 				e.props.onTouchStart && e.props.onTouchStart();
 				e.props.onFocus && e.props.onFocus();
 			});
@@ -112,7 +112,7 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
 		},
 		scroll: async () => {
 			const el = await elem();
-			act(() => el.props.onScroll())
+			act(() => el.props.onScroll());
 		},
 		exists,
 		wait: async (timeout?: number) => {

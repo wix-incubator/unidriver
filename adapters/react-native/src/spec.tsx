@@ -2,11 +2,15 @@ import * as React from 'react';
 import { Button, View, TextInput, ScrollView } from 'react-native';
 import { create as render } from 'react-test-renderer';
 import { reactNativeUniDriver } from '.';
+import * as sinon from 'sinon';
+import { assert } from 'chai';
 
-const mockOnPress = jest.fn();
-const mockOnChange = jest.fn();
-const mockOnScroll = jest.fn();
-const mockOnFocus = jest.fn();
+const spy = sinon.spy;
+
+const mockOnPress = spy();
+const mockOnChange = spy();
+const mockOnScroll = spy();
+const mockOnFocus = spy();
 
 
 const renderApp = () => {
@@ -33,7 +37,7 @@ describe('React Native Driver', () => {
     const driver = renderAppAndCreateDriver();
     await driver.$('button').press();
 
-    expect(mockOnPress).toHaveBeenCalled();
+    assert(mockOnPress.called);
   });
 
   it('Types', async () => {
@@ -43,15 +47,15 @@ describe('React Native Driver', () => {
     await input.press()
     await input.enterValue('value');
 
-    expect(mockOnPress).toHaveBeenCalled();
-    expect(mockOnFocus).toHaveBeenCalled();
-    expect(mockOnChange).toHaveBeenCalledWith('value');
+    assert(mockOnPress.called);
+    assert(mockOnFocus.called);
+    assert(mockOnChange.calledWith('value'));
   });
 
   it('Scrolls', async () => {
     const driver = renderAppAndCreateDriver();
     await driver.$('scroll').scroll();
 
-    expect(mockOnScroll).toHaveBeenCalled();
+    assert(mockOnScroll.called);
   });
 });
