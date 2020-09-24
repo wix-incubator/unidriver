@@ -111,7 +111,6 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
     press: async () => {
       const e = await elem();
       act(() => {
-				e.props.onClick && e.props.onClick();
 				e.props.onPress && e.props.onPress();
 				e.props.onTouchStart && e.props.onTouchStart();
 				e.props.onFocus && e.props.onFocus();
