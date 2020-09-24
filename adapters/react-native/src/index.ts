@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { 
 	MobileUniDriver,
 	Locator,
@@ -96,24 +97,47 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
 		},
 		$$: (selector: Locator) => reactNativeUniDriverList(async () => {
 			const e = await elem();
-			return e.findAllByProps({ testID: selector }).filter((element) => typeof element.type === 'string');
-    }),
+			return e.findAllByProps({ testID: selector });
+		}),
+		text: async () => {
+			try {
+				const e = await elem();
+				const text = React.Children.map(e.props.children, (child) => typeof child.props.children === 'string' ? child.props.children : '');
+				return text.join(' ');
+			} catch (err) {
+				throw new Error('Element does not contain any text nodes');
+			}
+		},
     press: async () => {
       const e = await elem();
       act(() => {
+				e.props.onClick && e.props.onClick();
 				e.props.onPress && e.props.onPress();
 				e.props.onTouchStart && e.props.onTouchStart();
 				e.props.onFocus && e.props.onFocus();
 			});
-    },
+		},
+		longPress: async () => {
+			const e = await elem();
+			act(() => {
+				e.props.onLongPress && e.props.onLongPress();
+			});
+		},
 		enterValue: async (value: string) => {
 			const el = await elem();
 			act(() => el.props.onChangeText(value));
+		},
+		value: async () => {
+			const e = await elem();
+			return e.props.value;
 		},
 		scroll: async () => {
 			const el = await elem();
 			act(() => el.props.onScroll());
 		},
+		isDisplayed: async () => true,
+		scrollIntoView: async () => { return {} },
+		getNative: () => elem(),
 		exists,
 		wait: async (timeout?: number) => {
 			return waitFor(exists, timeout);

@@ -18,11 +18,13 @@ module.exports = function (wallaby) {
 				jsx: 'react'
 			})
 		},
-		testFramework: 'jest',
+		testFramework: 'mocha',
 		env: {
 			type: 'node'
 		},
 		setup: function (wallaby) {
+			console.log(wallaby)
+			require(`${wallaby.localProjectDir}../../node_modules/react-native-mock-render/mock`);
 		}
 	}
 };
