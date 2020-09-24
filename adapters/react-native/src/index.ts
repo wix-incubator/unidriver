@@ -85,7 +85,7 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
 			const getElement = async () => {
 				const container = await elem();
 
-				const elements = container.findAllByProps({ testID: loc });
+				const elements = container.findAllByProps({ testID: loc }, {deep: false});
 				if (!elements.length) {
 					throw new NoElementWithLocatorError(loc);
 				} else if (elements.length > 1) {
@@ -97,7 +97,7 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
 		},
 		$$: (selector: Locator) => reactNativeUniDriverList(async () => {
 			const e = await elem();
-			return e.findAllByProps({ testID: selector });
+			return e.findAllByProps({ testID: selector }, {deep: false});
 		}),
 		text: async () => {
 			try {
