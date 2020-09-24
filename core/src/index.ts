@@ -65,8 +65,14 @@ export type MobileUniDriver<T = any> = {
 	$: (selector: Locator) => MobileUniDriver<T>;
 	$$: (selector: Locator) => MobileUniDriverList<T>;
 	press: () => Promise<void>;
+	longPress: () => Promise<void>;
+	text: () => Promise<string>;
 	enterValue: (value: string) => Promise<void>;
+	value: () => Promise<string | undefined>;
 	scroll: () => Promise<void>;
+	isDisplayed: () => Promise<boolean>,
+	scrollIntoView: () => Promise<{}>,
+	getNative: () => Promise<T>,
 	exists: () => Promise<boolean>;
 	wait: (timeout?: number) => Promise<void>;
 	type: string;
