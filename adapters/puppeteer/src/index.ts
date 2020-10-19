@@ -101,6 +101,13 @@ export const pupUniDriver = (
 		}
     };
 
+    const clearValue = async() => {
+        const { element, page } = await elem();
+        await page.evaluate((element) => {
+            element.value = '';
+        }, element);
+    };
+
     return {
         $: (newLoc: Locator) => {
             return pupUniDriver(async () => {
@@ -149,6 +156,7 @@ export const pupUniDriver = (
         },
         enterValue: async (value: string) => {
             const { element } = await elem();
+            await clearValue();
             await element.focus();
             await element.type(value);
         },

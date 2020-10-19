@@ -138,6 +138,7 @@ const adapter: UniDriver<TsSafeElementFinder> = {
     },
     enterValue: async (value: string) => {
       const e = await safeElem();
+      await e.clear();
       await e.sendKeys(value);
     },
     mouse: {
