@@ -69,7 +69,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
         describe('enterValue()', () => {
             it('works', async () => {
-                await runTest({items: [], initialText: ''}, async (driver) => {
+                await runTest({items: [], initialText: 'other text'}, async (driver) => {
                     await driver.$('header input').enterValue('hey there');
                     assert.equal(await driver.$('header input').value(), 'hey there');
                 });
