@@ -7,7 +7,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
     "build": "lerna run --stream build",
-    "test": "lerna run --stream test",
+    "test": "lerna run --stream --no-bail test",
     "test-no-bail": "lerna run --stream --no-bail test",
     "clean": "lerna clean -y",
     "release": "lerna publish",
