@@ -83,6 +83,11 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 	}
 };
 
+  const clearValue = async () => {
+    const el = await elem();
+    return el.getDriver().executeScript(`arguments[0].value = '';`, el);
+  };
+
   return {
     $: (selector: Locator) => seleniumUniDriver(async () => {
 		const els = await (await elem()).findElements(By.css(selector));
@@ -133,6 +138,7 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
       return cl.split(' ').includes(className);
     },
     enterValue: async (value: string) => {
+      await clearValue();
       (await elem()).sendKeys(value);
     },
     exists,
