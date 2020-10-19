@@ -292,7 +292,29 @@ describe('react base driver specific tests', () => {
 			assert.equal(eventTarget.value, "some keywords");
 
 			cleanJsdom();
-		})
+		});
+		
+		it('works with uncontrolled inputs', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const elem = document.createElement('div');
+			const input = (
+				<input
+					type="text"
+					name="search"
+				/>
+			);
+
+			ReactDOM.render(input, elem);
+
+			const driver = jsdomReactUniDriver(elem);
+
+			await driver.$('input').enterValue('some keywords');
+
+			const inputValue = await driver.$('input').value();
+			assert.equal(inputValue, "some keywords");
+
+			cleanJsdom();
+		});
 	})
 
 });
