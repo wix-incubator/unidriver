@@ -74,6 +74,12 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await driver.$('header input').value(), 'hey there');
                 });
             });
+            it('append value to existing value', async () => {
+                await runTest({items: [], initialText: 'Hello '}, async (driver) => {
+                    await driver.$('header input').enterValue('World!');
+                    assert.equal(await driver.$('header input').value(), 'Hello World!');
+                });
+            });
         });
 
         describe('click()', () => {
