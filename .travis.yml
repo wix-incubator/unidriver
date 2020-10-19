@@ -6,7 +6,7 @@ dist: xenial
 services:
   - xvfb
 addons:
-  chrome: stable
+  chrome: beta
 install:
 - npm install
 - npm run bootstrap
