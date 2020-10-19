@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/protractor",
-	"version": "2.0.5",
+	"version": "2.0.6",
 	"description": "",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -20,7 +20,7 @@
 		"protractor": "^6.0.0"
 	},
 	"devDependencies": {
-		"@unidriver/test-suite": "^1.1.9",
+		"@unidriver/test-suite": "^1.1.10",
 		"protractor": "^6.0.0"
 	}
 }

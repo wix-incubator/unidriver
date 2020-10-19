@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/jsdom-react",
-	"version": "1.5.7",
+	"version": "1.5.8",
 	"description": "JSDom React adapter for UniDriver",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -18,7 +18,7 @@
 		"@types/react": "^16.0.0",
 		"@types/react-dom": "^16.0.0",
 		"@types/sinon": "^7.0.10",
-		"@unidriver/test-suite": "^1.1.9",
+		"@unidriver/test-suite": "^1.1.10",
 		"chai": "^4.2.0",
 		"jsdom": "15.1.1",
 		"jsdom-global": "^3.0.2",
