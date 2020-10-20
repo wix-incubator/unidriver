@@ -147,6 +147,10 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
         hasClass: async (className: string) => (await elem()).classList.contains(className),
         enterValue: async (value: string) => {
             const el = (await elem()) as HTMLInputElement;
+			// Don't do anything if element is disabled
+			if (el.disabled) {
+				return;
+			}
             const { name, type } = el;
             await fireEvent.change(el, {
                 target: { name, type, value }
