@@ -1,6 +1,6 @@
 {
   "name": "@unidriver/selenium",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "description": "",
   "typings": "dist/index.d.ts",
   "main": "dist/index.js",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@types/selenium-webdriver": "^3.0.15",
-    "@unidriver/test-suite": "^1.1.11",
+    "@unidriver/test-suite": "^1.1.12",
     "find-free-port-sync": "^1.0.0",
     "mocha": "^6.0.0"
   },
