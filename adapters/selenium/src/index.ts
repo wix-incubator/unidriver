@@ -138,8 +138,14 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
       return cl.split(' ').includes(className);
     },
     enterValue: async (value: string) => {
+      const el = await elem();
+      const disabled = await el.getAttribute('disabled');
+			// Don't do anything if element is disabled
+			if (disabled) {
+				return;
+			}
       await clearValue();
-      (await elem()).sendKeys(value);
+      el.sendKeys(value);
     },
     exists,
     isDisplayed: async () => {

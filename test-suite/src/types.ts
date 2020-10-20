@@ -7,6 +7,7 @@ export type TodoItem = {
 export type TodoAppProps = {
     items: TodoItem[];
     initialText?: string;
+    inputDisabled?: boolean;
 };
 
 

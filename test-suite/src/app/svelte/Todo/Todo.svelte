@@ -3,6 +3,7 @@
 
     export let initialText;
     export let initialItems;
+    export let inputDisabled;
 
     let activeItemIndex = null;
     let items = initialItems || [];
@@ -40,7 +41,7 @@
 <div class='todo-app'>
     <header>
         <input value={inputValue} on:change|preventDefault={handleInputChange}
-               placeholder="this is a placeholder"/>
+               placeholder="this is a placeholder" disabled={inputDisabled} />
         <button class='add' on:click={handleAddButtonClick} on:keydown|preventDefault={handleAddButtonKeydown} type="button">Add
         </button>
     </header>

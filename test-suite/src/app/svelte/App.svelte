@@ -4,9 +4,10 @@
 
 	export let initialText = undefined;
 	export let initialItems = undefined;
+	export let inputDisabled = undefined;
 </script>
 
 <main>
-	<Todo initialText={initialText} initialItems={initialItems} />
+	<Todo initialText={initialText} initialItems={initialItems} inputDisabled={inputDisabled} />
 	<Events />
 </main>

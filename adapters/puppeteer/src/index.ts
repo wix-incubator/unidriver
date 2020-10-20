@@ -156,6 +156,11 @@ export const pupUniDriver = (
         },
         enterValue: async (value: string) => {
             const { element } = await elem();
+            const disabled = await (await element.getProperty('disabled')).jsonValue();
+			// Don't do anything if element is disabled
+			if (disabled) {
+				return;
+			}
             await clearValue();
             await element.focus();
             await element.type(value);

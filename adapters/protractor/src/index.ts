@@ -138,6 +138,11 @@ const adapter: UniDriver<TsSafeElementFinder> = {
     },
     enterValue: async (value: string) => {
       const e = await safeElem();
+      const disabled = await e.getAttribute("disabled");
+			// Don't do anything if element is disabled
+			if (disabled) {
+				return;
+			}
       await e.clear();
       await e.sendKeys(value);
     },
