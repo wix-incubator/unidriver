@@ -6,6 +6,7 @@ export const renderSvelteApp = (element, params = {}) => {
     props: {
       initialItems: params.items,
       initialText: params.initialText,
+      inputDisabled: params.inputDisabled,
     },
   });
 
