@@ -206,6 +206,12 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
 		enterValue: async (value: string) => {
 			const el = (await elem()) as JSX.IntrinsicElements['input'];
+
+			// Don't do anything if element is disabled
+			if (el.disabled) {
+				return;
+			}
+
 			const { name, type, onChange } = el;
 			// Set native value for uncontrolled component
 			if (!onChange) {
