@@ -74,6 +74,12 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await driver.$('header input').value(), 'hey there');
                 });
             });
+            it('does nothing when input is disabled', async () => {
+                await runTest({items: [], initialText: 'other text', inputDisabled: true}, async (driver) => {
+                    await driver.$('header input').enterValue('hey there');
+                    assert.equal(await driver.$('header input').value(), 'other text');
+                });
+            });
         });
 
         describe('click()', () => {

@@ -85,7 +85,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 		return (
 		<div className='todo-app'>
 				<header>
-					<input value={this.state.newItem} onChange={this.onChange} placeholder={"this is a placeholder"}/>
+					<input disabled={this.props.inputDisabled} value={this.state.newItem} onChange={this.onChange} placeholder={"this is a placeholder"}/>
 					<button className='add' onClick={this.onAdd} onKeyDown={this.onKeyDown}>Add</button>
 				</header>
 				<main>
