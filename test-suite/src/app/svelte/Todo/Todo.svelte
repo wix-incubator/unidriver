@@ -3,7 +3,7 @@
 
     export let initialText;
     export let initialItems;
-    export let inputDisabled
+    export let inputDisabled;
 
     let activeItemIndex = null;
     let items = initialItems || [];
