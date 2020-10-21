@@ -102,10 +102,9 @@ export const pupUniDriver = (
     };
 
     const clearValue = async() => {
-        const { element, page } = await elem();
-        await page.evaluate((element) => {
-            element.value = '';
-        }, element);
+        const { element } = await elem();
+        await element.click({clickCount: 3});
+        await element.press('Backspace'); 
     };
 
     return {
