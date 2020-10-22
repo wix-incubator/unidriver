@@ -7,8 +7,6 @@ export type TodoItemProps = {
 	item: TodoItem;
 	isActive: boolean;
 	onToggle: () => void;
-	onHover: () => void;
-	onBlur: () => void;
 };
 
 
@@ -62,30 +60,17 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 		this.setState({items: [...items, {label: this.state.newItem, completed: false}], newItem: ''});
 	};
 
-	// onKeyDown = (e: React.KeyboardEvent) => {
-	// 	e.preventDefault();
-	// 	if (e.key === 'Enter') {
-	// 		this.onAdd();
-	// 	}
-	// };
-
-	onHover = (idx: number) => () => {
-		this.setState({activeItem: idx});
-	};
-
-	onBlur = () => this.setState({activeItem: -1});
-
 	render () {
 		const {items, activeItem} = this.state;
 		const itemsComp = items.map((item, idx) => {
 			const isActive = idx === activeItem;
 			return (
-				<TodoAppItem key={idx} item={item} isActive={isActive} onToggle={this.onToggle(idx)} onHover={this.onHover(idx)} onBlur={this.onBlur}/>
+				<TodoAppItem key={idx} item={item} isActive={isActive} onToggle={this.onToggle(idx)} />
 			);
 		});
 
 		return (
-		<View testID='todo-app'>
+			<View testID='todo-app'>
 				<View>
 					<TextInput value={this.state.newItem} onChangeText={this.onChange} placeholder={"this is a placeholder"}/>
 					<Button title='Add' testID='add' onPress={this.onAdd} />
@@ -99,6 +84,7 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 					<Text>Items count: </Text>
           <Text testID='count'>{items.length}</Text>
 				</View>
-			</View>);
+			</View>
+		);
 	}
 }
