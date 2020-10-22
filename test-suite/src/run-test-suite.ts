@@ -82,12 +82,14 @@ export const runTestSuite = (params: TestSuiteParams) => {
             });
             it('waits between keypresses when delay option is passed', async() => {
                 await runTest({items: [], initialText: ''}, async (driver) => {
-                    driver.$('header input').enterValue('hey there', { delay: 200 });
-                    await sleep(500);
-                    const value = await driver.$('header input').value();
-                    // Wrote some of the input in 500 milliseconds but not all of it
-                    assert.isAbove(value.length, 0);
-                    assert.isBelow(value.length, 'hey there'.length);
+                    sleep(500).then(async () => {
+                        const value = await driver.$('header input').value();
+                        // Wrote some of the input in 500 milliseconds but not all of it
+                        assert.isAbove(value.length, 0);
+                        assert.isBelow(value.length, 'hey there'.length);
+                    });
+                    await driver.$('header input').enterValue('hey there', { delay: 200 });
+                    assert.equal(await driver.$('header input').value(), 'hey there');
                 });
             });
         });

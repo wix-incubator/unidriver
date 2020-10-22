@@ -37,7 +37,7 @@ export type UniDriver<T = any> = {
 	hover: () => Promise<void>;
 	pressKey: (key: KeyDefinitionType) => Promise<void>
 	value: () => Promise<string>;
-	enterValue: (value: string, config?: EnterValueOptions) => Promise<void>;
+	enterValue: (value: string, options?: EnterValueOptions) => Promise<void>;
 	attr: (name: string) => Promise<string | null>;
 	hasClass: (name: string) => Promise<boolean>;
 	exists: () => Promise<boolean>;

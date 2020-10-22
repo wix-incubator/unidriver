@@ -1,6 +1,6 @@
-import {browser, ElementFinder} from 'protractor';
+import {browser, element, ElementFinder} from 'protractor';
 import {Key as SeleniumKey} from 'selenium-webdriver';
-import {Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError} from '@unidriver/core';
+import {Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions} from '@unidriver/core';
 
 type TsSafeElementFinder = Omit<ElementFinder, 'then'>;
 
@@ -90,6 +90,13 @@ export const protractorUniDriver = (
 	}
 };
 
+const slowType = async (element: TsSafeElementFinder, value: string, delay: number) => {
+  for (let i = 0; i < value.length; i++) {
+    await element.sendKeys(value[i]);
+    await browser.sleep(delay);
+  }
+};
+
 const adapter: UniDriver<TsSafeElementFinder> = {
     // done
     $: (newLoc: Locator) => {
@@ -136,7 +143,7 @@ const adapter: UniDriver<TsSafeElementFinder> = {
       const cm = await (await safeElem()).getAttribute('class');
       return cm.split(' ').includes(className);
     },
-    enterValue: async (value: string) => {
+    enterValue: async (value: string, options?: EnterValueOptions) => {
       const e = await safeElem();
       const disabled = await e.getAttribute("disabled");
 			// Don't do anything if element is disabled
@@ -144,7 +151,11 @@ const adapter: UniDriver<TsSafeElementFinder> = {
 				return;
 			}
       await e.clear();
-      await e.sendKeys(value);
+      if (options?.delay) {
+        await slowType(element, value, options.delay);
+      } else {
+        await e.sendKeys(value);
+      }
     },
     mouse: {
 			press: async() => {

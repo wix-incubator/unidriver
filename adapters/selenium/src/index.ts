@@ -1,4 +1,4 @@
-import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError } from '@unidriver/core';
+import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions } from '@unidriver/core';
 import { By, WebElement, Key as SeleniumKey } from 'selenium-webdriver';
 
 export type WebElementGetter = () => Promise<WebElement>;
@@ -88,6 +88,15 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
     return el.getDriver().executeScript(`arguments[0].value = '';`, el);
   };
 
+
+  const slowType = async (element: WebElement, value: string, delay: number) => {
+    const driver = await element.getDriver();
+    for (let i = 0; i < value.length; i++) {
+      await element.sendKeys(value[i]);
+      await driver.sleep(delay);
+    }
+  };
+
   return {
     $: (selector: Locator) => seleniumUniDriver(async () => {
 		const els = await (await elem()).findElements(By.css(selector));
@@ -137,7 +146,7 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
       const cl = await el.getAttribute('class');
       return cl.split(' ').includes(className);
     },
-    enterValue: async (value: string) => {
+    enterValue: async (value: string, options?: EnterValueOptions) => {
       const el = await elem();
       const disabled = await el.getAttribute('disabled');
 			// Don't do anything if element is disabled
@@ -145,7 +154,11 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 				return;
 			}
       await clearValue();
-      el.sendKeys(value);
+      if (options?.delay) {
+        await slowType(el, value, options.delay);
+      } else {
+        await el.sendKeys(value);
+      }
     },
     exists,
     isDisplayed: async () => {
