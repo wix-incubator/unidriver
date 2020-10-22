@@ -161,8 +161,8 @@ export const pupUniDriver = (
 			if (disabled) {
 				return;
 			}
-            await clearValue();
             await element.focus();
+            await clearValue();
             await element.type(value, {
                 delay: options?.delay ?? 0,
             });
