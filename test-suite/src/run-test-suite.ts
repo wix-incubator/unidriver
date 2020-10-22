@@ -1,7 +1,7 @@
 import {assert} from 'chai';
 import {UniDriver, getAllNonTextKeyTypes, getDefinitionForKeyType, isMultipleElementsWithLocatorError, isNoElementWithLocatorError} from '@unidriver/core';
 import { TestSuiteParams } from '.';
-import { itemCreator } from './utils';
+import { itemCreator, sleep } from './utils';
 import { TestAppProps } from './types';
 
 export const runTestSuite = (params: TestSuiteParams) => {
@@ -78,6 +78,18 @@ export const runTestSuite = (params: TestSuiteParams) => {
                 await runTest({items: [], initialText: 'other text', inputDisabled: true}, async (driver) => {
                     await driver.$('header input').enterValue('hey there');
                     assert.equal(await driver.$('header input').value(), 'other text');
+                });
+            });
+            it('waits between keypresses when delay option is passed', async() => {
+                await runTest({items: [], initialText: ''}, async (driver) => {
+                    sleep(500).then(async () => {
+                        const value = await driver.$('header input').value();
+                        // Wrote some of the input in 500 milliseconds but not all of it
+                        assert.isAbove(value.length, 0);
+                        assert.isBelow(value.length, 'hey there'.length);
+                    });
+                    await driver.$('header input').enterValue('hey there', { delay: 200 });
+                    assert.equal(await driver.$('header input').value(), 'hey there');
                 });
             });
         });

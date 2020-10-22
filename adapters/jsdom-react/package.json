@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/jsdom-react",
-	"version": "1.5.10",
+	"version": "1.6.0",
 	"description": "JSDom React adapter for UniDriver",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -11,14 +11,14 @@
 	"author": "Wix.com",
 	"license": "MIT",
 	"dependencies": {
-		"@unidriver/core": "^1.1.7"
+		"@unidriver/core": "^1.2.0"
 	},
 	"devDependencies": {
 		"@types/chai": "^4.1.7",
 		"@types/react": "^16.0.0",
 		"@types/react-dom": "^16.0.0",
 		"@types/sinon": "^7.0.10",
-		"@unidriver/test-suite": "^1.1.12",
+		"@unidriver/test-suite": "^1.2.0",
 		"chai": "^4.2.0",
 		"jsdom": "15.1.1",
 		"jsdom-global": "^3.0.2",
