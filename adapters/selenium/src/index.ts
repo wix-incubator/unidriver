@@ -83,11 +83,6 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 	}
 };
 
-  const clearValue = async () => {
-    const el = await elem();
-    return el.getDriver().executeScript(`arguments[0].value = '';`, el);
-  };
-
 
   const slowType = async (element: WebElement, value: string, delay: number) => {
     const driver = await element.getDriver();
@@ -153,7 +148,7 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 			if (disabled) {
 				return;
 			}
-      await clearValue();
+      await el.clear();
       if (options?.delay) {
         await slowType(el, value, options.delay);
       } else {
