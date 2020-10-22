@@ -153,7 +153,10 @@ export const pupUniDriver = (
             const cm = await (await element.getProperty('classList')).jsonValue();
             return Object.keys(cm).map(key => cm[key]).includes(className);
         },
-        enterValue: async (value: string, options?: EnterValueOptions) => {
+        enterValue: async (
+            value: string,
+            { delay = 0, shouldClear = true }: EnterValueOptions = {}
+          ) => {
             const { element } = await elem();
             const disabled = await (await element.getProperty('disabled')).jsonValue();
 			// Don't do anything if element is disabled
@@ -161,9 +164,11 @@ export const pupUniDriver = (
 				return;
 			}
             await element.focus();
-            await clearValue();
+            if (shouldClear) {
+                await clearValue();
+            }
             await element.type(value, {
-                delay: options?.delay ?? 0,
+                delay,
             });
         },
         pressKey: async (key) => {
