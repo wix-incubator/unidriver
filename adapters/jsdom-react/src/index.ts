@@ -1,7 +1,16 @@
-import { UniDriverList, Locator, UniDriver, waitFor, getDefinitionForKeyType } from '@unidriver/core';
+import {
+	UniDriverList,
+	Locator,
+	UniDriver,
+	waitFor,
+	getDefinitionForKeyType,
+	delay as sleep,
+	EnterValueOptions,
+	NoElementWithLocatorError,
+	isMultipleElementsWithLocatorError,
+	MultipleElementsWithLocatorError,
+} from "@unidriver/core";
 import { Simulate } from 'react-dom/test-utils';
-import { NoElementWithLocatorError } from '@unidriver/core';
-import { isMultipleElementsWithLocatorError, MultipleElementsWithLocatorError } from '@unidriver/core';
 
 type ElementOrElementFinder = (() => Element) | Element | (() => Promise<Element>);
 type ElementsOrElementsFinder = (() => Element[]) | Element[] | (() => Promise<Element[]>);
@@ -70,6 +79,18 @@ const isCheckable = (el: Element): boolean => {
     ((el as HTMLInputElement).type == 'checkbox' ||
       (el as HTMLInputElement).type == 'radio')
   );
+};
+
+const slowType = async (element: JSX.IntrinsicElements['input'], value: string, delay: number) => {
+	const { name, type } = element;
+    let currentValue = "";
+    for (let i = 0; i < value.length; i++) {
+        currentValue += value[i];
+		Simulate.change(element as Element, {
+			target: { name, type, value: currentValue } as HTMLInputElement
+		});
+		await sleep(delay);
+	}
 };
 
 export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver<Element> => {
@@ -204,7 +225,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			Simulate.keyUp(el, def);
 		},
 		hasClass: async (className: string) => (await elem()).classList.contains(className),
-		enterValue: async (value: string) => {
+		enterValue: async (value: string, options?: EnterValueOptions) => {
 			const el = (await elem()) as JSX.IntrinsicElements['input'];
 
 			// Don't do anything if element is disabled
@@ -216,6 +237,9 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			// Set native value for uncontrolled component
 			if (!onChange) {
 			  el.value = value;
+			}
+			if (options?.delay) {
+				await slowType(el, value, options.delay);
 			}
 			Simulate.change(el as Element, {
 				target: { name, type, value } as HTMLInputElement

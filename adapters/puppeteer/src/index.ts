@@ -1,4 +1,4 @@
-import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError } from '@unidriver/core';
+import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions } from '@unidriver/core';
 import { ElementHandle, Page, Frame } from 'puppeteer';
 
 type BaseElementContainer = { page: Page | Frame; selector: string };
@@ -154,7 +154,7 @@ export const pupUniDriver = (
             const cm = await (await element.getProperty('classList')).jsonValue();
             return Object.keys(cm).map(key => cm[key]).includes(className);
         },
-        enterValue: async (value: string) => {
+        enterValue: async (value: string, options?: EnterValueOptions) => {
             const { element } = await elem();
             const disabled = await (await element.getProperty('disabled')).jsonValue();
 			// Don't do anything if element is disabled
@@ -163,7 +163,9 @@ export const pupUniDriver = (
 			}
             await element.focus();
             await clearValue();
-            await element.type(value);
+            await element.type(value, {
+                delay: options?.delay ?? 0,
+            });
         },
         pressKey: async (key) => {
             const { element } = await elem();

@@ -4,7 +4,9 @@ import {
     Locator,
     MultipleElementsWithLocatorError,
     NoElementWithLocatorError,
-    UniDriver, UniDriverList, waitFor
+    UniDriver, UniDriverList, waitFor,
+    delay as sleep,
+    EnterValueOptions
 } from "@unidriver/core";
 
 import {fireEvent} from '@testing-library/svelte';
@@ -33,6 +35,18 @@ const isCheckable = (el: Element): boolean => {
         ((el as HTMLInputElement).type == 'checkbox' ||
             (el as HTMLInputElement).type == 'radio')
     );
+};
+
+const slowType = async (element: HTMLInputElement, value: string, delay: number) => {
+    const { name, type } = element;
+    let currentValue = "";
+    for (let i = 0; i < value.length; i++) {
+        currentValue += value[i];
+		await fireEvent.change(element, {
+            target: { name, type, value: currentValue }
+        });
+		await sleep(delay);
+	}
 };
 
 
@@ -145,16 +159,20 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
             await fireEvent.keyUp(el, def);
         },
         hasClass: async (className: string) => (await elem()).classList.contains(className),
-        enterValue: async (value: string) => {
+        enterValue: async (value: string, options?: EnterValueOptions) => {
             const el = (await elem()) as HTMLInputElement;
             const { name, type, disabled } = el;
 			// Don't do anything if element is disabled
 			if (disabled) {
 				return;
-			}
-            await fireEvent.change(el, {
-                target: { name, type, value }
-            });
+            }
+            if (options?.delay) {
+                await slowType(el, value, options.delay);
+            } else {
+                await fireEvent.change(el, {
+                    target: { name, type, value }
+                });
+            }
         },
         attr: async (name: string) => {
             const el = await elem();
