@@ -25,6 +25,10 @@ export type UniDriverList<T = any> = {
 	filter: (predicate: PredicateFn) => UniDriverList
 };
 
+export type EnterValueOptions = {
+	delay?: number; // Time to wait between key presses in milliseconds.
+}
+
 export type UniDriver<T = any> = {
 	$: (selector: Locator) => UniDriver<T>;
 	$$: (selector: Locator) => UniDriverList<T>;
@@ -33,7 +37,7 @@ export type UniDriver<T = any> = {
 	hover: () => Promise<void>;
 	pressKey: (key: KeyDefinitionType) => Promise<void>
 	value: () => Promise<string>;
-	enterValue: (value: string) => Promise<void>;
+	enterValue: (value: string, config?: EnterValueOptions) => Promise<void>;
 	attr: (name: string) => Promise<string | null>;
 	hasClass: (name: string) => Promise<boolean>;
 	exists: () => Promise<boolean>;
