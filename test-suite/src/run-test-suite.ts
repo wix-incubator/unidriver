@@ -92,12 +92,6 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await driver.$('header input').value(), 'hey there');
                 });
             });
-            it(`doesn't attempt to clear value when shouldClear is false`, async() => {
-                await runTest({items: [], initialText: 'hello'}, async (driver) => {
-                    await driver.$('header input').enterValue(' world!', { shouldClear: false });
-                    assert.equal(await driver.$('header input').value(), 'hello world!');
-                });
-            });
         });
 
         describe('click()', () => {
