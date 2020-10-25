@@ -23,8 +23,6 @@ const beforeFn = async () => {
   browser = await puppeteer.launch({
     headless,
     args,
-    executablePath:
-      '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
   });
   page = await browser.newPage();
 };
