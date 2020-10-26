@@ -27,6 +27,7 @@ export type UniDriverList<T = any> = {
 
 export type EnterValueOptions = {
 	delay?: number; // Time to wait between key presses in milliseconds.
+	shouldClear?: boolean; // Whether to try and clear input value before entering text. (default: true)
 }
 
 export type UniDriver<T = any> = {

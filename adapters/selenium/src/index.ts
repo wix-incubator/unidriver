@@ -83,11 +83,6 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
 	}
 };
 
-  const clearValue = async () => {
-    const el = await elem();
-    return el.getDriver().executeScript(`arguments[0].value = '';`, el);
-  };
-
 
   const slowType = async (element: WebElement, value: string, delay: number) => {
     const driver = await element.getDriver();
@@ -146,16 +141,21 @@ export const seleniumUniDriver = (wep: WebElementGetter): UniDriver<WebElement> 
       const cl = await el.getAttribute('class');
       return cl.split(' ').includes(className);
     },
-    enterValue: async (value: string, options?: EnterValueOptions) => {
+    enterValue: async (
+      value: string,
+      { delay, shouldClear = true }: EnterValueOptions = {}
+    ) => {
       const el = await elem();
       const disabled = await el.getAttribute('disabled');
 			// Don't do anything if element is disabled
 			if (disabled) {
 				return;
-			}
-      await clearValue();
-      if (options?.delay) {
-        await slowType(el, value, options.delay);
+      }
+      if (shouldClear) {
+        await el.clear();
+      }
+      if (delay) {
+        await slowType(el, value, delay);
       } else {
         await el.sendKeys(value);
       }

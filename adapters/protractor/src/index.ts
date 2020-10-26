@@ -143,16 +143,21 @@ const adapter: UniDriver<TsSafeElementFinder> = {
       const cm = await (await safeElem()).getAttribute('class');
       return cm.split(' ').includes(className);
     },
-    enterValue: async (value: string, options?: EnterValueOptions) => {
+    enterValue: async (
+      value: string,
+      { delay, shouldClear = true }: EnterValueOptions = {}
+    ) => {
       const e = await safeElem();
       const disabled = await e.getAttribute("disabled");
 			// Don't do anything if element is disabled
 			if (disabled) {
 				return;
-			}
-      await e.clear();
-      if (options?.delay) {
-        await slowType(element, value, options.delay);
+      }
+      if (shouldClear) {
+        await e.clear();
+      }
+      if (delay) {
+        await slowType(element, value, delay);
       } else {
         await e.sendKeys(value);
       }
