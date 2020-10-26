@@ -103,6 +103,7 @@ export const pupUniDriver = (
 
     const clearValue = async() => {
         const { element } = await elem();
+        // Select all input text
         await element.click({clickCount: 3});
         await element.press('Backspace'); 
     };
