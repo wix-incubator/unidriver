@@ -84,7 +84,7 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
     $: (loc: Locator) => {
 			const getElement = async () => {
 				const container = await elem();
-
+	
 				const elements = container.findAllByProps({ testID: loc }, {deep: false});
 				if (!elements.length) {
 					throw new NoElementWithLocatorError(loc);
@@ -132,7 +132,13 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
 		},
 		scroll: async () => {
 			const el = await elem();
-			act(() => el.props.onScroll());
+			act(() => {
+				el.props.onScroll && el.props.onScroll();
+				el.props.onScrollBeginDrag && el.props.onScrollBeginDrag();
+				el.props.onScrollEndDrag && el.props.onScrollEndDrag();
+				el.props.onMomentumScrollBegin && el.props.onMomentumScrollBegin();
+				el.props.onMomentumScrollEnd && el.props.onMomentumScrollEnd();
+			});
 		},
 		isDisplayed: async () => true,
 		scrollIntoView: async () => { return {} },

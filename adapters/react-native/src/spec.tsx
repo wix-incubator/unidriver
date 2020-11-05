@@ -19,16 +19,23 @@ const renderApp = () => {
     const [value, setValue] = React.useState('Value');
     return (
       <View>
-        <Button testID="button" title="Hello" onPress={mockOnPress} />
-        <TextInput value="Value" testID="input" onFocus={mockOnFocus} onTouchStart={mockOnPress} onChangeText={mockOnChange} />
+        <Button testID='button' title='Hello' onPress={mockOnPress} />
+        <TextInput value='Value' testID='input' onFocus={mockOnFocus} onTouchStart={mockOnPress} onChangeText={mockOnChange} />
         <TextInput value={value} testID='editable' onChangeText={(text) => setValue(text)} />
-        <ScrollView testID="scroll" onScroll={mockOnScroll} />
-        <TouchableOpacity testID="opacity" onLongPress={mockLongPress}>
+        <ScrollView
+          testID='scroll'
+          onMomentumScrollBegin={mockOnScroll}
+          onMomentumScrollEnd={mockOnScroll}
+          onScrollBeginDrag={mockOnScroll}
+          onScrollEndDrag={mockOnScroll}
+          onScroll={mockOnScroll}
+        />
+        <TouchableOpacity testID='opacity' onLongPress={mockLongPress}>
           <Text>Hello</Text>
           <Text>There</Text>
         </TouchableOpacity>
-        <View testID="view" />
-        <View testID="view" />
+        <View testID='view' />
+        <View testID='view' />
       </View>
     );
   }
@@ -42,61 +49,84 @@ const renderAppAndCreateDriver = () => {
 };
 
 describe('React Native Driver', () => {
-  it('Presses', async () => {
-    const driver = renderAppAndCreateDriver();
-    await driver.$('button').press();
 
-    assert(mockOnPress.called);
+  describe('$', () => {
+    it('retrives a single element', async () => {
+      const driver = renderAppAndCreateDriver();
+      const element = driver.$('button');
+
+      assert.isTrue(await element.exists());
+    });
   });
 
-  it('Long presses', async () => {
-    const driver = renderAppAndCreateDriver();
-    await driver.$('opacity').longPress();
+  describe('$$', () => {
+    it('retrieves multiple elements', async () => {
+      const driver = renderAppAndCreateDriver();
+      const numberOfElements = await driver.$$('view').count();
 
-    assert(mockLongPress.called);
+      assert.equal(numberOfElements, 2);
+    });
   });
 
-  it('Retrieves text', async () => {
-    const driver = renderAppAndCreateDriver();
-    const textValue = await driver.$('opacity').text();
-
-    assert.equal(textValue, "Hello There");
+  describe('press', () => {
+    it('triggers onPress event', async () => {
+      const driver = renderAppAndCreateDriver();
+      await driver.$('button').press();
+  
+      assert(mockOnPress.called);
+    });
   });
 
-  it('Types', async () => {
-    const driver = renderAppAndCreateDriver();
-    const input = driver.$('input');
-    
-    await input.press();
-    await input.enterValue('value');
+  describe('longPress', () => {
+    it('triggers lonPress event', async () => {
+      const driver = renderAppAndCreateDriver();
+      await driver.$('opacity').longPress();
 
-    assert(mockOnPress.called);
-    assert(mockOnFocus.called);
-    assert(mockOnChange.calledWith('value'));
+      assert(mockLongPress.called);
+    });
   });
 
-  it('Retrieves input value', async () => {
-    const driver = renderAppAndCreateDriver();
-    const input = driver.$('editable');
-
-    assert.equal(await input.value(), 'Value');
-
-    await input.enterValue('newValue');
-
-    assert.equal(await input.value(), 'newValue');
+  describe('text', () => {
+    it('retrieves text value', async () => {
+      const driver = renderAppAndCreateDriver();
+      const textValue = await driver.$('opacity').text();
+  
+      assert.equal(textValue, 'Hello There');
+    });
   });
 
-  it('Scrolls', async () => {
-    const driver = renderAppAndCreateDriver();
-    await driver.$('scroll').scroll();
 
-    assert(mockOnScroll.called);
+  describe('enterValue', () => {
+    it('triggers onChangeText event', async () => {
+      const driver = renderAppAndCreateDriver();
+      const input = driver.$('input');
+      
+      await input.press();
+      await input.enterValue('value');
+  
+      assert(mockOnPress.called);
+      assert(mockOnFocus.called);
+      assert(mockOnChange.calledWith('value'));
+    });
+
+    it('works with controlled input', async () => {
+      const driver = renderAppAndCreateDriver();
+      const input = driver.$('editable');
+  
+      assert.equal(await input.value(), 'Value');
+  
+      await input.enterValue('newValue');
+  
+      assert.equal(await input.value(), 'newValue');
+    });
   });
 
-  it('Retrieves multiple elements', async () => {
-    const driver = renderAppAndCreateDriver();
-    const numberOfElements = await driver.$$('view').count();
-
-    assert.equal(numberOfElements, 2);
+  describe('scroll', () => {
+    it('triggers onScroll event', async () => {
+      const driver = renderAppAndCreateDriver();
+      await driver.$('scroll').scroll();
+  
+      assert.equal(mockOnScroll.getCalls().length, 5);
+    });
   });
 });
