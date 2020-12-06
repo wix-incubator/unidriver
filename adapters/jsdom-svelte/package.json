@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/jsdom-svelte",
-	"version": "1.1.2-alpha.0",
+	"version": "1.1.2",
 	"description": "JSDom Svelte adapter for Unidriver",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -11,13 +11,13 @@
 	"author": "Wix.com",
 	"license": "MIT",
 	"dependencies": {
-		"@unidriver/core": "^1.2.2-alpha.0"
+		"@unidriver/core": "^1.2.2"
 	},
 	"devDependencies": {
 		"@testing-library/svelte": "^1.11.0",
 		"@types/chai": "^4.1.7",
 		"@types/sinon": "^7.0.10",
-		"@unidriver/test-suite": "^1.2.2-alpha.0",
+		"@unidriver/test-suite": "^1.2.2",
 		"chai": "^4.2.0",
 		"jsdom": "15.1.1",
 		"jsdom-global": "^3.0.2",
