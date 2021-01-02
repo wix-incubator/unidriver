@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, View, TextInput, ScrollView, TouchableOpacity, Text } from 'react-native';
-import { create as render } from 'react-test-renderer';
+import { create as render, act, ReactTestRenderer } from 'react-test-renderer';
 import { reactNativeUniDriver } from '.';
 import * as sinon from 'sinon';
 import { assert } from 'chai';
@@ -14,9 +14,14 @@ const mockOnFocus = spy();
 const mockLongPress = spy();
 
 
-const renderApp = () => {
+const renderApp = async () => {
   const Comp = () => {
     const [value, setValue] = React.useState('Value');
+
+    React.useEffect(() => {
+      Promise.resolve().then(() => setValue('Value'));
+    }, []);
+
     return (
       <View>
         <Button testID='button' title='Hello' onPress={mockOnPress} />
@@ -39,11 +44,15 @@ const renderApp = () => {
       </View>
     );
   }
-  return render(<Comp />).root;
+  let component: ReactTestRenderer;
+  await act(async () => {
+    component = render(<Comp />);
+  });
+  return component!.root;
 }
 
-const renderAppAndCreateDriver = () => {
-  const component = renderApp();
+const renderAppAndCreateDriver = async () => {
+  const component = await renderApp();
   const driver = reactNativeUniDriver(component);
   return driver;
 };
@@ -52,7 +61,7 @@ describe('React Native Driver', () => {
 
   describe('$', () => {
     it('retrives a single element', async () => {
-      const driver = renderAppAndCreateDriver();
+      const driver = await renderAppAndCreateDriver();
       const element = driver.$('button');
 
       assert.isTrue(await element.exists());
@@ -61,7 +70,7 @@ describe('React Native Driver', () => {
 
   describe('$$', () => {
     it('retrieves multiple elements', async () => {
-      const driver = renderAppAndCreateDriver();
+      const driver = await renderAppAndCreateDriver();
       const numberOfElements = await driver.$$('view').count();
 
       assert.equal(numberOfElements, 2);
@@ -70,7 +79,7 @@ describe('React Native Driver', () => {
 
   describe('press', () => {
     it('triggers onPress event', async () => {
-      const driver = renderAppAndCreateDriver();
+      const driver = await renderAppAndCreateDriver();
       await driver.$('button').press();
   
       assert(mockOnPress.called);
@@ -79,7 +88,7 @@ describe('React Native Driver', () => {
 
   describe('longPress', () => {
     it('triggers lonPress event', async () => {
-      const driver = renderAppAndCreateDriver();
+      const driver = await renderAppAndCreateDriver();
       await driver.$('opacity').longPress();
 
       assert(mockLongPress.called);
@@ -88,7 +97,7 @@ describe('React Native Driver', () => {
 
   describe('text', () => {
     it('retrieves text value', async () => {
-      const driver = renderAppAndCreateDriver();
+      const driver = await renderAppAndCreateDriver();
       const textValue = await driver.$('opacity').text();
   
       assert.equal(textValue, 'Hello There');
@@ -98,7 +107,7 @@ describe('React Native Driver', () => {
 
   describe('enterValue', () => {
     it('triggers onChangeText event', async () => {
-      const driver = renderAppAndCreateDriver();
+      const driver = await renderAppAndCreateDriver();
       const input = driver.$('input');
       
       await input.press();
@@ -110,7 +119,7 @@ describe('React Native Driver', () => {
     });
 
     it('works with controlled input', async () => {
-      const driver = renderAppAndCreateDriver();
+      const driver = await renderAppAndCreateDriver();
       const input = driver.$('editable');
   
       assert.equal(await input.value(), 'Value');
@@ -123,7 +132,7 @@ describe('React Native Driver', () => {
 
   describe('scroll', () => {
     it('triggers onScroll event', async () => {
-      const driver = renderAppAndCreateDriver();
+      const driver = await renderAppAndCreateDriver();
       await driver.$('scroll').scroll();
   
       assert.equal(mockOnScroll.getCalls().length, 5);

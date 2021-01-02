@@ -9,6 +9,7 @@ import {
 	MobileUniDriverList
 } from '@unidriver/core';
 import { ReactTestInstance, act } from 'react-test-renderer';
+import { fireEvent } from '@testing-library/react-native';
 
 type ElementOrElementFinder = (() => ReactTestInstance) | ReactTestInstance | (() => Promise<ReactTestInstance>);
 type ElementsOrElementsFinder = (() => ReactTestInstance[]) | ReactTestInstance[] | (() => Promise<ReactTestInstance[]>);
@@ -110,21 +111,23 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
 		},
     press: async () => {
       const e = await elem();
-      act(() => {
-				e.props.onPress && e.props.onPress();
-				e.props.onTouchStart && e.props.onTouchStart();
-				e.props.onFocus && e.props.onFocus();
+      await act(async () => {
+				await e.props.onPress && fireEvent.press(e);
+				await e.props.onTouchStart && fireEvent(e, 'onTouchStart');
+				await e.props.onFocus && fireEvent(e, 'onFocus');
 			});
 		},
 		longPress: async () => {
 			const e = await elem();
-			act(() => {
-				e.props.onLongPress && e.props.onLongPress();
+			await act(async () => {
+				await e.props.onLongPress && fireEvent(e, 'onLongPress');
 			});
 		},
 		enterValue: async (value: string) => {
 			const el = await elem();
-			act(() => el.props.onChangeText(value));
+			await act(async () => {
+				await fireEvent.changeText(el, value);
+			});
 		},
 		value: async () => {
 			const e = await elem();
@@ -132,12 +135,12 @@ export const reactNativeUniDriver = (containerOrFn: ElementOrElementFinder): Mob
 		},
 		scroll: async () => {
 			const el = await elem();
-			act(() => {
-				el.props.onScroll && el.props.onScroll();
-				el.props.onScrollBeginDrag && el.props.onScrollBeginDrag();
-				el.props.onScrollEndDrag && el.props.onScrollEndDrag();
-				el.props.onMomentumScrollBegin && el.props.onMomentumScrollBegin();
-				el.props.onMomentumScrollEnd && el.props.onMomentumScrollEnd();
+			await act(async () => {
+				await el.props.onScroll && fireEvent.scroll(el);
+				await el.props.onScrollBeginDrag && fireEvent(el, 'onScrollBeginDrag');
+				await el.props.onScrollEndDrag && fireEvent(el, 'onScrollEndDrag');
+				await el.props.onMomentumScrollBegin && fireEvent(el, 'onMomentumScrollBegin');
+				await el.props.onMomentumScrollEnd && fireEvent(el, 'onMomentumScrollEnd');				
 			});
 		},
 		isDisplayed: async () => true,

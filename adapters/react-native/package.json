@@ -8,7 +8,7 @@
     "test": "mocha --require react-native-mock-render/mock ./dist/spec.js"
   },
   "dependencies": {
-    "@unidriver/core": "^1.1.6"
+    "@unidriver/core": "^1.2.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
@@ -24,14 +24,15 @@
     "react": "^16.0.0",
     "react-native": "0.61.0",
     "react-native-mock-render": "^0.1.9",
+    "react-native-testing-library": "^2.1.0",
     "react-test-renderer": "^16.13.1",
     "sinon": "^9.0.3"
   },
   "peerDependencies": {
     "@types/react": "^16.0.0",
-    "@types/react-native": "0.61.0",
+    "@types/react-native": "^0.61.0",
     "react": "^16.0.0",
-    "react-native": "0.61.0"
+    "react-native": "^0.61.0"
   },
   "jest": {
     "preset": "react-native",
