@@ -30,10 +30,10 @@ jobs:
           pkg-manager: yarn 
       - run:
           name: Run Build
-          command: npm build
+          command: npm run build
       - run:
           name: Run tests
-          command: npm test
+          command: npm run test
 
 workflows:
   # Below is the definition of your workflow.
