@@ -15,7 +15,7 @@ import { Simulate } from 'react-dom/test-utils';
 type ElementOrElementFinder = (() => Element) | Element | (() => Promise<Element>);
 type ElementsOrElementsFinder = (() => Element[]) | Element[] | (() => Promise<Element[]>);
 
-const isPromise = (a: Promise<any> | any ): a is Promise<any> => {
+const isPromise = (a: Promise<any> | any): a is Promise<any> => {
 	return !!((a as any).then);
 };
 
@@ -74,18 +74,18 @@ const elementIsFocusable = (el: Element): el is HTMLFocusableElement => {
 }
 
 const isCheckable = (el: Element): boolean => {
-  return (
-    el.tagName === 'INPUT' &&
-    ((el as HTMLInputElement).type == 'checkbox' ||
-      (el as HTMLInputElement).type == 'radio')
-  );
+	return (
+		el.tagName === 'INPUT' &&
+		((el as HTMLInputElement).type == 'checkbox' ||
+			(el as HTMLInputElement).type == 'radio')
+	);
 };
 
 const slowType = async (element: JSX.IntrinsicElements['input'], value: string, delay: number) => {
 	const { name, type } = element;
-    let currentValue = "";
-    for (let i = 0; i < value.length; i++) {
-        currentValue += value[i];
+	let currentValue = "";
+	for (let i = 0; i < value.length; i++) {
+		currentValue += value[i];
 		Simulate.change(element as Element, {
 			target: { name, type, value: currentValue } as HTMLInputElement
 		});
@@ -176,7 +176,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			}
 		},
 		mouse: {
-			press: async() => {
+			press: async () => {
 				const el = await elem();
 
 				Simulate.mouseDown(el);
@@ -188,9 +188,9 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			},
 			moveTo: async (to) => {
 				const el = await elem();
-				const {left, top} = (await to.getNative()).getBoundingClientRect();
+				const { left, top } = (await to.getNative()).getBoundingClientRect();
 
-				Simulate.mouseMove(el, {clientX: left, clientY: top});
+				Simulate.mouseMove(el, { clientX: left, clientY: top });
 			}
 		},
 		hover: async () => {
@@ -211,10 +211,10 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			// 	const keyup = new KeyboardEvent('keyup', {...def});
 
 
- 			// 	keydown.initEvent(keydown.type, true, false);
+				// 	keydown.initEvent(keydown.type, true, false);
 			// 	el.dispatchEvent(keydown);
 			// 	await (Promise.resolve());
- 			// 	keyup.initEvent(keyup.type, true, false);
+				// 	keyup.initEvent(keyup.type, true, false);
 			// 	el.dispatchEvent(keyup)
 
 			// } else {
@@ -236,7 +236,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			const { name, type, onChange } = el;
 			// Set native value for uncontrolled component
 			if (!onChange) {
-			  el.value = value;
+				el.value = value;
 			}
 			if (options?.delay) {
 				await slowType(el, value, options.delay);
@@ -251,7 +251,13 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 		},
 		exists,
 		isDisplayed: async () => {
-			return true;
+			const el = await elem();
+			const styles = window.getComputedStyle(el);
+			const { display, visibility, opacity } = styles;
+			return display !== 'none'
+				&& visibility !== 'hidden'
+				&& visibility !== 'collapse'
+				&& opacity !== '0';
 		},
 		wait: async (timeout?: number) => {
 			return waitFor(exists, timeout);
