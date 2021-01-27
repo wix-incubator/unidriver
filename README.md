@@ -165,7 +165,14 @@ export const createMyCoolDriver = (wrapper: UniDriver, theOuterWorld: UniDriver)
 ```
 
 
-## Test Suite
+
+## Developing
+This project is uses yarn workspaces to manage the internal dependencies
+
+1. Set up the monorepo -  `yarn`
+2. Build the project - `npm run build` 
+3. Run tests - `npm run test`
+### Test Suite
 A standard test-suite on each adapter to ensure proper behavior of the API on each adapter. It is given a working todo-app, and by testing it's features and assuming that it is working well, we can test the adapters functionality. 
 Check out [the code](test-suite/src/run-test-suite.ts) for more details
 
@@ -174,10 +181,10 @@ Check out [the code](test-suite/src/run-test-suite.ts) for more details
 - ~Choose name + rename (runner up - "UniDriver")~
 - ~Add standard test suite for the base driver~
 - ~add tests to current adapters~
+- branding, documentation, more examples
 - add driver examples to complex ui components, such as Google material date picker
 - add enzyme adapter
 - drag and drop support
 - add some FAQ (modals, popovers, enzyme?)
 - experiment mobile testing
-- branding, documentation, more examples
 - move to github.com/wix
