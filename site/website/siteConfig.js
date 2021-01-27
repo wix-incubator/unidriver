@@ -24,10 +24,10 @@ const siteConfig = {
   title: 'UniDriver', // Title for your website.
   tagline: 'Universal API to control your UI components that work in all test levels',
   url: 'https://your-docusaurus-test-site.com', // Your website URL
-  baseUrl: '/', // Base URL for your project */
+  // baseUrl: '/unidriver/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
-  //   url: 'https://facebook.github.io',
-  //   baseUrl: '/test-site/',
+  url: 'https://wix-incubator.github.io',
+  baseUrl: '/unidriver/',
 
   // Used for publishing and more
   projectName: 'unidriver',
