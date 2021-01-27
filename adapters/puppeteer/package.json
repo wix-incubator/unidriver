@@ -15,14 +15,14 @@
 		"@unidriver/core": "^1.2.2"
 	},
 	"devDependencies": {
-		"@types/puppeteer": "^5.5.1",
+		"@types/puppeteer": "^5.4.0",
 		"@unidriver/test-suite": "^1.2.2",
 		"find-free-port-sync": "^1.0.0",
 		"mocha": "^6.0.0",
 		"puppeteer": "^5.5.0"
 	},
 	"peerDependencies": {
-		"@types/puppeteer": "^5.5.0",
+		"@types/puppeteer": "^5.4.0",
 		"puppeteer": "^5.5.0"
 	},
 	"gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
