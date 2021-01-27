@@ -1,9 +1,6 @@
 {
   "name": "unidriver-monorepo",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wix-incubator/unidriver"
-  },
+  "repository": "https://github.com/wix-incubator/unidriver",
   "scripts": {
     "bootstrap": "lerna bootstrap --hoist",
     "build": "lerna run --stream build",
@@ -11,7 +8,7 @@
     "test-no-bail": "lerna run --stream --no-bail test",
     "clean": "lerna clean -y",
     "release": "lerna publish",
-    "start": "npm run bootstrap && npm run build && npm run test",
+    "start": "npm run build && npm run test",
     "prerelease": "npm run build && npm run test"
   },
   "author": "Wix.com",
@@ -22,10 +19,19 @@
     "*.d.ts",
     "*.js"
   ],
+  "private": true,
   "devDependencies": {
     "@types/mocha": "^2.2.37",
     "@types/node": "^7.0.0",
     "lerna": "^3.11.1",
     "typescript": "^3.8.0"
-  }
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "workspaces": [
+    "core",
+    "test-suite",
+    "examples",
+    "adapters/*"
+  ]
 }
