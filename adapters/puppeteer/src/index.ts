@@ -1,4 +1,4 @@
-import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions } from '@unidriver/core';
+import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions, DriverContext, contextToWaitError } from '@unidriver/core';
 import { ElementHandle, Page, Frame } from 'puppeteer';
 
 type BaseElementContainer = { page: Page | Frame; selector: string };
@@ -9,12 +9,15 @@ type ElementGetter = () => Promise<ElementContainer>;
 type ElementsGetter = () => Promise<ElementsContainer>;
 
 export const pupUniDriverList = (
-    elems: ElementsGetter
+    elems: ElementsGetter,
+    context: DriverContext = {selector: 'Root Puppeteer list driver'}
 ): UniDriverList<ElementContainer> => {
     const map = async <T> (fn: MapFn<T>) => {
         const { elements, ...rest } = await elems();
         const promises = elements.map((element, i) => {
-            const bd = pupUniDriver(() => Promise.resolve({ element, ...rest }));
+            const bd = pupUniDriver(() => Promise.resolve({ element, ...rest }), {
+                parent: context, idx: i, selector: context.selector
+            });
             return fn(bd, i);
         });
         return Promise.all(promises);
@@ -29,7 +32,7 @@ export const pupUniDriverList = (
                     ...rest
                 };
             };
-            return pupUniDriver(elem);
+            return pupUniDriver(elem, {parent: context, selector: context.selector, idx});
         },
         text: async () => {
             return map((d) => d.text());
@@ -50,7 +53,7 @@ export const pupUniDriverList = (
                     elements: filteredElements,
                     ...rest
                 };
-            });
+            }, context);
         }
     };
 };
@@ -62,7 +65,8 @@ const isBaseContainer = (
 };
 
 export const pupUniDriver = (
-    el: ElementGetter | BaseElementContainer
+    el: ElementGetter | BaseElementContainer,
+    context: DriverContext = {selector: 'Root Puppeteer driver'}
 ): UniDriver<ElementContainer> => {
     const elem = async () => {
         if (isBaseContainer(el)) {
@@ -126,7 +130,7 @@ export const pupUniDriver = (
 						selector: `${selector} ${newLoc}`
 					};
 				}
-            });
+            }, { parent: context, selector: newLoc });
         },
         $$: (newLoc: Locator) =>
             pupUniDriverList(async () => {
@@ -136,7 +140,7 @@ export const pupUniDriver = (
                     elements: await element.$$(newLoc),
                     selector: `${selector} ${newLoc}`
                 };
-            }),
+            }, { parent: context, selector: newLoc }),
         text: async () => {
             const { element } = await elem();
             const textHandle = await element.getProperty('textContent');
@@ -244,7 +248,7 @@ export const pupUniDriver = (
             }
         },
         wait: async (timeout?: number) => {
-            return waitFor(exists, timeout);
+            return waitFor(exists, timeout, 30, contextToWaitError(context));
         },
         type: 'puppeteer',
         scrollIntoView: async () => {

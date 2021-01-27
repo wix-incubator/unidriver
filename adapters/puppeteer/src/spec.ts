@@ -18,7 +18,7 @@ let page: Page;
 
 const beforeFn = async () => {
   const args = process.env.CI ? ['--no-sandbox'] : [];
-  const headless = !!process.env.CI;
+  const headless = !!process.env.CI || undefined;
   server = await startTestAppServer(port);
   browser = await puppeteer.launch({
     headless,
