@@ -4,7 +4,8 @@ Making BDD fun in the modular UI area.
 
 
 [![NPM Version](https://img.shields.io/npm/v/unidriver.svg?style=flat)](https://www.npmjs.com/package/unidriver)
-[![Build Status](https://travis-ci.org/wix-incubator/unidriver.svg?branch=master)](https://travis-ci.org/wix-incubator/unidriver)
+[![Build Status](https://circleci.com/gh/wix-incubator/unidriver.svg?style=shield)](https://circleci.com/gh/wix-incubator/unidriver)
+
 
 UniDriver makes it saner to write UI testing. It enables creating component drivers that will work on all platforms, from jsdom to puppeteer and selenium.
 
