@@ -33,7 +33,7 @@ describe('react base driver specific tests', () => {
 	const spy = sinon.spy;
 
 	describe('click', () => {
-		it('sends event data properly on simulated events when element is attached to body', async () => {
+		it('sends event data properly on simulated events when element is not attached to body', async () => {
 			const cleanJsdom = require('jsdom-global')();
 			const s = spy();
 			const elem = document.createElement('div');
