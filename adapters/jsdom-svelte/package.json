@@ -23,7 +23,7 @@
 		"jsdom-global": "^3.0.2",
 		"mocha": "^6.0.0",
 		"sinon": "^7.3.0",
-		"svelte": "^3.0.0"
+		"svelte": "~3.27.0"
 	},
 	"peerDependencies": {
 		"svelte": "^3.0.0"
