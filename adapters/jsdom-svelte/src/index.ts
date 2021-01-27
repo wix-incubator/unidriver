@@ -6,7 +6,9 @@ import {
     NoElementWithLocatorError,
     UniDriver, UniDriverList, waitFor,
     delay as sleep,
-    EnterValueOptions
+    EnterValueOptions,
+    DriverContext,
+    contextToWaitError,
 } from "@unidriver/core";
 
 import {fireEvent} from '@testing-library/svelte';
@@ -50,7 +52,7 @@ const slowType = async (element: HTMLInputElement, value: string, delay: number)
 };
 
 
-export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver<Element> => {
+export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder, context: DriverContext = {selector: 'Root Svelte driver'}): UniDriver<Element> => {
 
     const elem = async () => {
         const container = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
@@ -91,12 +93,12 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
                 }
                 return elements[0];
             };
-            return jsdomSvelteUniDriver(getElement);
+            return jsdomSvelteUniDriver(getElement, {parent: context, selector: loc});
         },
         $$: (selector: Locator) => jsdomSvelteUniDriverList(async () => {
             const e = await elem();
             return Array.from(e.querySelectorAll(selector));
-        }),
+        }, {parent: context, selector}),
         text: async () => elem().then((e) => e.textContent || ''),
         value: async () => {
             const e = (await elem()) as HTMLInputElement;
@@ -183,7 +185,7 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
             return true;
         },
         wait: async (timeout?: number) => {
-            return waitFor(exists, timeout);
+            return waitFor(exists, timeout, 30, contextToWaitError(context));
         },
         type: 'svelte',
         scrollIntoView: async () => { return {} },
@@ -195,7 +197,7 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder): Uni
     };
 };
 
-export const jsdomSvelteUniDriverList = (containerOrFn: ElementsOrElementsFinder): UniDriverList<Element> => {
+export const jsdomSvelteUniDriverList = (containerOrFn: ElementsOrElementsFinder, context: DriverContext = {selector: 'Root Svelte list driver'}): UniDriverList<Element> => {
     const elem = async () => {
         const elements = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
         return isPromise(elements) ? await elements : elements;
@@ -211,13 +213,13 @@ export const jsdomSvelteUniDriverList = (containerOrFn: ElementsOrElementsFinder
                     return elem;
                 }
             });
-        }),
+        }, {parent: context, idx, selector: context.selector}),
         text: async () => (await elem()).map((e) => e.textContent || ''),
         count: async () => (await elem()).length,
         map: async (fn) => {
             const children = Array.from(await elem());
             return Promise.all(children.map((e, idx) => {
-                return fn(jsdomSvelteUniDriver(e), idx);
+                return fn(jsdomSvelteUniDriver(e, {parent: context, selector: context.selector, idx}), idx);
             }));
         },
         filter: (fn) => {
@@ -225,14 +227,14 @@ export const jsdomSvelteUniDriverList = (containerOrFn: ElementsOrElementsFinder
                 const elems = await elem();
 
                 const results = await Promise.all(elems.map((e, i) => {
-                    const bd = jsdomSvelteUniDriver(e);
+                    const bd = jsdomSvelteUniDriver(e, {parent: context, idx: i, selector: context.selector});
                     return fn(bd, i);
                 }));
 
                 return elems.filter((_, i) => {
                     return results[i];
                 });
-            });
+            }, {parent: context, selector: context.selector});
         }
     };
 };

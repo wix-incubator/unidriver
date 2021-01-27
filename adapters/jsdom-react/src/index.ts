@@ -1,14 +1,16 @@
 import {
-	UniDriverList,
-	Locator,
-	UniDriver,
-	waitFor,
-	getDefinitionForKeyType,
-	delay as sleep,
-	EnterValueOptions,
-	NoElementWithLocatorError,
-	isMultipleElementsWithLocatorError,
-	MultipleElementsWithLocatorError,
+  UniDriverList,
+  Locator,
+  UniDriver,
+  waitFor,
+  getDefinitionForKeyType,
+  delay as sleep,
+  EnterValueOptions,
+  NoElementWithLocatorError,
+  isMultipleElementsWithLocatorError,
+  MultipleElementsWithLocatorError,
+  DriverContext,
+  contextToWaitError,
 } from "@unidriver/core";
 import { Simulate } from 'react-dom/test-utils';
 
@@ -19,46 +21,58 @@ const isPromise = (a: Promise<any> | any ): a is Promise<any> => {
 	return !!((a as any).then);
 };
 
-export const jsdomReactUniDriverList = (containerOrFn: ElementsOrElementsFinder): UniDriverList<Element> => {
+export const jsdomReactUniDriverList = (containerOrFn: ElementsOrElementsFinder, context: DriverContext = {selector: 'Root React list driver'}): UniDriverList<Element> => {
 	const elem = async () => {
 		const elements = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
 		return isPromise(elements) ? await elements : elements;
 	};
 
 	return {
-		get: (idx: number) => jsdomReactUniDriver(() => {
-			return elem().then((cont) => {
-				const elem = cont[idx];
-				if (!elem) {
-					throw new Error('React base driver - element was not found');
-				} else {
-					return elem;
-				}
-			});
-		}),
-		text: async () => (await elem()).map((e) => e.textContent || ''),
-		count: async () => (await elem()).length,
-		map: async (fn) => {
-			const children = Array.from(await elem());
-			return Promise.all(children.map((e, idx) => {
-				return fn(jsdomReactUniDriver(e), idx);
-			}));
-		},
-		filter: (fn) => {
-			return jsdomReactUniDriverList(async () => {
-				const elems = await elem();
+    get: (idx: number) =>
+      jsdomReactUniDriver(() => {
+        return elem().then((cont) => {
+          const elem = cont[idx];
+          if (!elem) {
+            throw new Error("React base driver - element was not found");
+          } else {
+            return elem;
+          }
+        });
+	  }, { ...context, idx }),
+    text: async () => (await elem()).map((e) => e.textContent || ""),
+    count: async () => (await elem()).length,
+    map: async (fn) => {
+      const children = Array.from(await elem());
+      return Promise.all(
+        children.map((e, idx) => {
+          return fn(
+            jsdomReactUniDriver(e, {
+              parent: context,
+              idx,
+              selector: context.selector,
+            }),
+            idx
+          );
+        })
+      );
+    },
+    filter: (fn) => {
+      return jsdomReactUniDriverList(async () => {
+        const elems = await elem();
 
-				const results = await Promise.all(elems.map((e, i) => {
-					const bd = jsdomReactUniDriver(e);
-					return fn(bd, i);
-				}));
+        const results = await Promise.all(
+          elems.map((e, i) => {
+            const bd = jsdomReactUniDriver(e, { parent: context, idx: i, selector: context.selector });
+            return fn(bd, i);
+          })
+        );
 
-				return elems.filter((_, i) => {
-					return results[i];
-				});
-			});
-		}
-	};
+        return elems.filter((_, i) => {
+          return results[i];
+        });
+      }, context);
+    },
+  };
 };
 
 type HTMLFocusableElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement;
@@ -93,7 +107,7 @@ const slowType = async (element: JSX.IntrinsicElements['input'], value: string, 
 	}
 };
 
-export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniDriver<Element> => {
+export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, context: DriverContext = {selector: 'Root React driver'}): UniDriver<Element> => {
 
 	const elem = async () => {
 		const container = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
@@ -134,12 +148,12 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 				}
 				return elements[0];
 			};
-			return jsdomReactUniDriver(getElement);
+			return jsdomReactUniDriver(getElement, { parent: context, selector: loc });
 		},
 		$$: (selector: Locator) => jsdomReactUniDriverList(async () => {
 			const e = await elem();
 			return Array.from(e.querySelectorAll(selector));
-		}),
+		}, { parent: context, selector}),
 		text: async () => elem().then((e) => e.textContent || ''),
 		value: async () => {
 			const e = (await elem()) as HTMLInputElement;
@@ -254,7 +268,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 			return true;
 		},
 		wait: async (timeout?: number) => {
-			return waitFor(exists, timeout);
+			return waitFor(exists, timeout, 30, contextToWaitError(context));
 		},
 		type: 'react',
 		scrollIntoView: async () => { return {} },

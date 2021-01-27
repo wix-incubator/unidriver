@@ -433,4 +433,60 @@ export const runTestSuite = (params: TestSuiteParams) => {
             });
         })
     });
+
+    describe('wait()', () => {
+        it('works for an element which already exists', async () => {
+            await runTest({ items: [itemCreator({ label: 'Bob', completed: true })] }, async (driver) => {
+                await driver.$('.todo-item').wait();
+            });
+        });
+
+        it(`throws an error containing the element's selector when an element does not exist`, async () => {
+            await runTest({ items: [] }, async (driver) => {
+                try {
+                    await driver.$('.todo-item').wait(10)
+                    assert.equal('should not', 'get here');
+                } catch (e) {
+                    assert.include(e.message, '.todo-item');
+                }
+            })
+        })
+
+        it(`throws an error containing the element's selector and index when it does not exist in a list`, async () => {
+            await runTest({ items: [] }, async (driver) => {
+                try {
+                    await driver.$$('.todo-item').get(7).wait(10)
+                    assert.equal('should not', 'get here');
+                } catch (e) {
+                    assert.include(e.message, '.todo-item');
+                    assert.include(e.message, '7');
+                }
+            })
+        })
+
+        it(`throws an error containing the element's parents selectors when it does not exist`, async () => {
+            await runTest({ items: [] }, async (driver) => {
+                try {
+                    await driver.$('.todo-app').$('.todo-item').wait(10);
+                    assert.equal('should not', 'get here');
+                } catch (e) {
+                    assert.include(e.message, '.todo-app');
+                    assert.include(e.message, '.todo-item');
+                }
+            })
+        })
+
+        it(`throws an error containing the element's parents selectors and index when it does not exist in a list`, async () => {
+          await runTest({ items: [] }, async (driver) => {
+            try {
+              await driver.$('.todo-app').$$(".todo-item").get(7).wait(10);
+              assert.equal("should not", "get here");
+            } catch (e) {
+              assert.include(e.message, ".todo-item");
+              assert.include(e.message, ".todo-app");
+              assert.include(e.message, "7");
+            }
+          });
+        });
+    });
 };

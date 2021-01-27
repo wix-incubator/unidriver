@@ -75,6 +75,31 @@ export class MultipleElementsWithLocatorError extends Error {
 	}
 }
 
+export type DriverContext = {
+  parent?: DriverContext;
+  selector?: string;
+  idx?: number;
+};
+
+export const rootDriver: DriverContext = {
+	selector: ''
+}
+
+export const contextToSelectorString = (context: DriverContext): string => {
+	const maybeIndexDescription =
+    typeof context.idx === "number" && context.idx >= 0
+      	? ` at index #${context.idx}`
+		: "";
+	const maybeParentDescription = context.parent
+		? `${contextToSelectorString(context.parent)} => `
+		: "";
+  	return `${maybeParentDescription}${context.selector}${maybeIndexDescription}`;
+};
+
+export const contextToWaitError = (context: DriverContext): string => {
+	return `Timeout waiting for element: ${contextToSelectorString(context)}`;
+}
+
 export const isNoElementWithLocatorError = (e: Error): e is NoElementWithLocatorError => {
 	const type = (e as NoElementWithLocatorError).type || '';
 	return type === ErrorTypes.NO_ELEMENTS_WITH_SELECTOR;
