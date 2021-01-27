@@ -140,7 +140,7 @@ export const pupUniDriver = (
         text: async () => {
             const { element } = await elem();
             const textHandle = await element.getProperty('textContent');
-            const text = await textHandle.jsonValue();
+            const text = await textHandle.jsonValue() as string;
             return text || '';
         },
         click: async () => {
@@ -151,7 +151,7 @@ export const pupUniDriver = (
         },
         hasClass: async (className: string) => {
             const { element } = await elem();
-            const cm = await (await element.getProperty('classList')).jsonValue();
+            const cm = await (await element.getProperty('classList')).jsonValue() as Record<string, string>;
             return Object.keys(cm).map(key => cm[key]).includes(className);
         },
         enterValue: async (
@@ -185,7 +185,7 @@ export const pupUniDriver = (
             const { element } = await elem();
 
             const valueHandle = await element.getProperty('value');
-            const value = await valueHandle.jsonValue();
+            const value = await valueHandle.jsonValue() as string;
             return value || '';
         },
         attr: async name => {
