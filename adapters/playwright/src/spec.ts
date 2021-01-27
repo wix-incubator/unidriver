@@ -49,7 +49,7 @@ for (const browserType of [chromium, webkit, firefox]) {
     runTestSuite({ setup, before: () => beforeFn(browserType), after: afterFn });
   });
 
-  describe(`playwright specific tests - ${browserType}`, () => {
+  describe(`playwright specific tests - ${browserType.name}`, () => {
     before(() => beforeFn(browserType));
     after(afterFn);
     describe('enterValue', () => {
