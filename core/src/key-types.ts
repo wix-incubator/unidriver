@@ -3,7 +3,7 @@ import {keyDefinitions, PuppeteerEventDefinition} from './puppeteer-us-keyboard-
 export type KeyDefinitionType = keyof typeof keyDefinitions;
 
 const nonTextKeyTypes: KeyDefinitionType[] = [
-    'Backspace', 'Tab', 'Clear', 'Enter', 'Pause', 'Escape', 'PageUp', 'PageDown', 'End', 'Home',
+    'Backspace', 'Tab', 'Enter', 'Pause', 'Escape', 'PageUp', 'PageDown', 'End', 'Home',
     'ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown', 'Insert', 'Delete', 'Semicolon', 'Space',
     // 'Numpad0', 'Numpad1', 'Numpad2', 'Numpad3', 'Numpad4', 'Numpad5', 'Numpad6', 'Numpad7', 'Numpad8', 'Numpad9',
     'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'Shift', 'Control', 'Alt', 'Meta'

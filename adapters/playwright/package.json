@@ -1,0 +1,27 @@
+{
+	"name": "@unidriver/playwright",
+	"version": "1.2.2",
+	"description": "",
+	"main": "dist/index.js",
+	"typings": "dist/index.d.ts",
+	"scripts": {
+		"build": "rm -rf dist && tsc -p .",
+		"test": "mocha --timeout 10000 dist/**/spec.js"
+	},
+	"keywords": [],
+	"author": "Wix.com",
+	"license": "MIT",
+	"dependencies": {
+		"@unidriver/core": "^1.2.2"
+	},
+	"devDependencies": {
+		"@unidriver/test-suite": "^1.2.2",
+		"find-free-port-sync": "^1.0.0",
+		"mocha": "^6.0.0",
+		"playwright": "^1.8.0"
+	},
+	"peerDependencies": {
+		"playwright": "^1.8.0"
+	},
+	"gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
+}
