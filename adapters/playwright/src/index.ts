@@ -1,4 +1,4 @@
-import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions } from '@unidriver/core';
+import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions, DriverContext, contextToSelectorString } from '@unidriver/core';
 import { ElementHandle, Page, Frame } from 'playwright';
 
 type BaseElementContainer = { page: Page | Frame; selector: string };
@@ -9,12 +9,13 @@ type ElementGetter = () => Promise<ElementContainer>;
 type ElementsGetter = () => Promise<ElementsContainer>;
 
 export const playwrightUniDriverList = (
-    elems: ElementsGetter
+    elems: ElementsGetter,
+    context: DriverContext = {selector: 'Root Playwright list driver'}
 ): UniDriverList<ElementContainer> => {
     const map = async <T> (fn: MapFn<T>) => {
         const { elements, ...rest } = await elems();
         const promises = elements.map((element, i) => {
-            const bd = playwrightUniDriver(() => Promise.resolve({ element, ...rest }));
+            const bd = playwrightUniDriver(() => Promise.resolve({ element, ...rest }), {parent: context, idx: i, selector: context.selector});
             return fn(bd, i);
         });
         return Promise.all(promises);
@@ -29,7 +30,7 @@ export const playwrightUniDriverList = (
                     ...rest
                 };
             };
-            return playwrightUniDriver(elem);
+            return playwrightUniDriver(elem, {parent: context, selector: context.selector, idx});
         },
         text: async () => {
             return map((d) => d.text());
@@ -50,7 +51,7 @@ export const playwrightUniDriverList = (
                     elements: filteredElements,
                     ...rest
                 };
-            });
+            }, {parent: context, selector: context.selector});
         }
     };
 };
@@ -62,7 +63,8 @@ const isBaseContainer = (
 };
 
 export const playwrightUniDriver = (
-    el: ElementGetter | BaseElementContainer
+    el: ElementGetter | BaseElementContainer,
+    context: DriverContext = {selector: 'Root Playwright driver'}
 ): UniDriver<ElementContainer> => {
     const elem = async () => {
         if (isBaseContainer(el)) {
@@ -139,7 +141,7 @@ export const playwrightUniDriver = (
 						selector: `${selector} ${newLoc}`
 					};
 				}
-            });
+            }, {parent: context, selector: newLoc});
         },
         $$: (newLoc: Locator) =>
             playwrightUniDriverList(async () => {
@@ -149,7 +151,7 @@ export const playwrightUniDriver = (
                     elements: await element.$$(newLoc),
                     selector: `${selector} ${newLoc}`
                 };
-            }),
+            }, {parent: context, selector: newLoc}),
         text: async () => {
             const { element } = await elem();
             const textHandle = await element.getProperty('textContent');
@@ -256,7 +258,7 @@ export const playwrightUniDriver = (
             }
         },
         wait: async (timeout?: number) => {
-            return waitFor(exists, timeout);
+            return waitFor(exists, timeout, 30, contextToSelectorString(context));
         },
         type: 'playwright',
         scrollIntoView: async () => {
