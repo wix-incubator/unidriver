@@ -8,9 +8,12 @@ export type EventsAppState = {
 
 const keyboardEventComp = (event: React.KeyboardEvent, idx: number) => {
 	 // `whiteSpace: pre` is needed for tests that run in browsers + Space key
+
+    // accounts for bug with firefox & playwright adapter -> https://stackoverflow.com/questions/39292111/can-firefox-detect-metakey. Pressing Meta key works but emits "OS" in the UI, which is an app developer concern, not unidriver
+    const key = event.key === 'OS' ? 'Meta' : event.key;
     return (
         <div key={idx} className='keyboard-event-data'>
-            <span className='event-key' style={{whiteSpace: 'pre'}}>{event.key}</span>
+            <span className='event-key' style={{whiteSpace: 'pre'}}>{key}</span>
             <span className='event-keycode'>{event.keyCode}</span>
         </div>
     );
