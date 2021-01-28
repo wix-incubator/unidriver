@@ -5,7 +5,7 @@ import * as sinon from 'sinon';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { assert } from 'chai';
+import {assert} from 'chai';
 
 const setup: SetupFn = async (params) => {
 	const cleanJsdom = require('jsdom-global')();
@@ -20,7 +20,7 @@ const setup: SetupFn = async (params) => {
 		return Promise.resolve();
 	};
 
-	return { driver, tearDown };
+	return {driver, tearDown};
 };
 
 describe('react base driver - test suite', () => {
@@ -77,7 +77,7 @@ describe('react base driver specific tests', () => {
 					onClick={click}>
 					bob
 				</button>
-			);
+				);
 			ReactDOM.render(btn, elem);
 
 			const driver = jsdomReactUniDriver(elem);
@@ -85,7 +85,7 @@ describe('react base driver specific tests', () => {
 			await driver.$('button').click();
 			cleanJsdom();
 
-			sinon.assert.callOrder(mouseDown, mouseUp, click);
+			sinon.assert.callOrder(mouseDown,mouseUp,click);
 			const DEFAULT_BUTTON_ID = '0'
 			assert.equal(mouseDown.lastCall.args[0].button, DEFAULT_BUTTON_ID);
 			assert.equal(mouseUp.lastCall.args[0].button, DEFAULT_BUTTON_ID);
@@ -100,7 +100,7 @@ describe('react base driver specific tests', () => {
 				<button onFocus={focus}>
 					bob
 				</button>
-			);
+				);
 			ReactDOM.render(btn, elem);
 
 			const driver = jsdomReactUniDriver(elem);
@@ -124,7 +124,7 @@ describe('react base driver specific tests', () => {
 				<button onMouseDown={mousedown} onFocus={focus} onMouseUp={mouseup} onClick={click}>
 					bob
 				</button>
-			);
+				);
 			ReactDOM.render(btn, elem);
 
 			const driver = jsdomReactUniDriver(elem);
@@ -150,15 +150,15 @@ describe('react base driver specific tests', () => {
 			const change = spy();
 			const elem = document.createElement('div');
 			const checkbox = (
-				<input
-					type="checkbox"
-					onMouseDown={mousedown}
-					onFocus={focus}
-					onMouseUp={mouseup}
-					onClick={click}
-					onInput={input}
-					onChange={change}
-				/>
+        <input
+          type="checkbox"
+          onMouseDown={mousedown}
+          onFocus={focus}
+          onMouseUp={mouseup}
+          onClick={click}
+          onInput={input}
+          onChange={change}
+        />
 			);
 
 			ReactDOM.render(checkbox, elem);
@@ -180,9 +180,9 @@ describe('react base driver specific tests', () => {
 
 		it('should trigger [focusA, blurA, focusB] when clicking two buttons', async () => {
 			const cleanJsdom = require('jsdom-global')();
-			const focusA = spy(function focusA () { });
-			const focusB = spy(function focusB () { });
-			const blurA = spy(function blurA () { });
+			const focusA = spy(function focusA() {});
+			const focusB = spy(function focusB() {});
+			const blurA = spy(function blurA() {});
 			const elem = document.createElement('div');
 			const btn = (
 				<div>
@@ -193,7 +193,7 @@ describe('react base driver specific tests', () => {
 						button B
 					</button>
 				</div>
-			);
+				);
 			ReactDOM.render(btn, elem);
 
 			const driver = jsdomReactUniDriver(elem);
@@ -224,7 +224,7 @@ describe('react base driver specific tests', () => {
 						button B
 					</button>
 				</div>
-			);
+				);
 			ReactDOM.render(btn, elem);
 
 			const driver = jsdomReactUniDriver(elem);
@@ -253,7 +253,7 @@ describe('react base driver specific tests', () => {
 						<circle cx="50" cy="50" r="40" />
 					</svg>
 				</div>
-			);
+				);
 			ReactDOM.render(testApp, elem);
 
 			const driver = jsdomReactUniDriver(elem);
@@ -293,7 +293,7 @@ describe('react base driver specific tests', () => {
 
 			cleanJsdom();
 		});
-
+		
 		it('works with uncontrolled inputs', async () => {
 			const cleanJsdom = require('jsdom-global')();
 			const elem = document.createElement('div');
@@ -316,7 +316,7 @@ describe('react base driver specific tests', () => {
 			cleanJsdom();
 		});
 	})
-
+	
 	describe('isDisplayed', () => {
 		it('Should indicate if an element is not displayed', async () => {
 			const cleanJsdom = require('jsdom-global')();
@@ -342,6 +342,16 @@ describe('react base driver specific tests', () => {
 				/>
 			);
 
+			const btnInsideTransparentContainer = (
+				<div
+					style={{ opacity: 0 }}
+				>
+					<button
+						className='button-inside-transparent-container'
+					/>
+				</div>
+			);
+
 			const btn = (
 				<button
 					className='button'
@@ -353,6 +363,7 @@ describe('react base driver specific tests', () => {
 					{noneDisplayedBtn}
 					{notVisibleBtn}
 					{transparentBtn}
+					{btnInsideTransparentContainer}
 					{btn}
 				</div>
 			);
@@ -364,6 +375,7 @@ describe('react base driver specific tests', () => {
 			assert.equal(await driver.$('.hidden-button').isDisplayed(), false);
 			assert.equal(await driver.$('.not-visible-button').isDisplayed(), false);
 			assert.equal(await driver.$('.transparent-button').isDisplayed(), false);
+			assert.equal(await driver.$('.button-inside-transparent-container').isDisplayed(), false);
 			assert.equal(await driver.$('.button').isDisplayed(), true);
 
 			cleanJsdom();
