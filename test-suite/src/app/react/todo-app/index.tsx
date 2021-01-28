@@ -35,13 +35,15 @@ type TodoAppState = {
 	newItem: string;
 	items: TodoItem[];
 	activeItem: number;
+	isListHidden: boolean;
 };
 
 export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 	state = {
 		newItem: this.props.initialText || '',
 		items: this.props.items,
-		activeItem: -1
+		activeItem: -1,
+		isListHidden: false,
 	};
 
 	onToggle = (idx: number) => () => {
@@ -73,8 +75,10 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 
 	onBlur = () => this.setState({activeItem: -1});
 
+	toggleHideList = () => this.setState(previousState => ({ isListHidden: !previousState.isListHidden }));
+
 	render () {
-		const {items, activeItem} = this.state;
+		const {items, activeItem, isListHidden} = this.state;
 		const itemsComp = items.map((item, idx) => {
 			const isActive = idx === activeItem;
 			return (
@@ -82,13 +86,16 @@ export class TodoApp extends React.Component<TodoAppProps, TodoAppState> {
 			);
 		});
 
+		const maybeHiddenStyle = isListHidden ? { display: 'none' } : undefined;
+
 		return (
 		<div className='todo-app'>
 				<header>
 					<input disabled={this.props.inputDisabled} value={this.state.newItem} onChange={this.onChange} placeholder={"this is a placeholder"}/>
 					<button className='add' onClick={this.onAdd} onKeyDown={this.onKeyDown}>Add</button>
+					<button className='hide-list' onClick={this.toggleHideList}>Hide List</button>
 				</header>
-				<main>
+				<main style={maybeHiddenStyle}>
 					{itemsComp}
 				</main>
 				<footer>

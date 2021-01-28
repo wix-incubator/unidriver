@@ -252,7 +252,6 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder): UniD
 		exists,
 		isDisplayed: async () => {
 			const el = await elem();
-			console.log(el.tagName);
 			const styles = window.getComputedStyle(el);
 			const { display, visibility, opacity } = styles;
 
