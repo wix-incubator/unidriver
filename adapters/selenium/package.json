@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc -p .",
-    "test": "mocha --timeout 10000 dist/**/spec.js"
+    "test": "mocha --timeout 20000 dist/**/spec.js"
   },
   "dependencies": {
     "@unidriver/core": "^1.2.2",
