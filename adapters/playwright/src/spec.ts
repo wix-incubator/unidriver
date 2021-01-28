@@ -44,7 +44,13 @@ const setup: SetupFn = async (params) => {
   return { driver, tearDown };
 };
 
-for (const browserType of [chromium, webkit, firefox]) {
+const browserTypes = [chromium, firefox];
+if (!process.env.CI) {
+  // https://circleci.com/developer/orbs/orb/circleci/browser-tools doesn't seem to support webkit
+  browserTypes.push(webkit);
+}
+
+for (const browserType of browserTypes) {
   describe(`playwright - ${browserType.name()}`, () => {
     runTestSuite({ setup, before: () => beforeFn(browserType), after: afterFn });
   });
