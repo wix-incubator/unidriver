@@ -45,11 +45,11 @@ const setup: SetupFn = async (params) => {
 };
 
 for (const browserType of [chromium, webkit, firefox]) {
-  describe(`playwright - ${browserType}`, () => {
+  describe(`playwright - ${browserType.name()}`, () => {
     runTestSuite({ setup, before: () => beforeFn(browserType), after: afterFn });
   });
 
-  describe(`playwright specific tests - ${browserType.name}`, () => {
+  describe(`playwright specific tests - ${browserType.name()}`, () => {
     before(() => beforeFn(browserType));
     after(afterFn);
     describe('enterValue', () => {
