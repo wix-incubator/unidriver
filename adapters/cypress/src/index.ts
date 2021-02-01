@@ -102,9 +102,7 @@ export const cypressUniDriver = (
 
     const clearValue = async() => {
         const { element } = await elem();
-        // Select all input text
-        await element.click({clickCount: 3});
-        await element.press('Backspace'); 
+        element.clear();
     };
 
     return {
@@ -138,9 +136,7 @@ export const cypressUniDriver = (
             }),
         text: async () => {
             const { element } = await elem();
-            const textHandle = await element.getProperty('textContent');
-            const text = await textHandle.jsonValue();
-            return text || '';
+            return element.its('textContent').toString();
         },
         click: async () => {
             return (await elem()).element.click();
