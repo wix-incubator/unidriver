@@ -7,7 +7,7 @@ export type EventsAppState = {
 }
 
 const keyboardEventComp = (event: React.KeyboardEvent, idx: number) => {
-    const normalizedKey = event.key === 'OS' ? 'Meta' : 'OS'; // on FF Meta key press ends up named "OS", so we normalize it (https://stackoverflow.com/questions/39292111/can-firefox-detect-metakey)
+    const normalizedKey = event.key === 'OS' ? 'Meta' : event.key; // on FF Meta key press ends up named "OS", so we normalize it (https://stackoverflow.com/questions/39292111/can-firefox-detect-metakey)
     // `whiteSpace: pre` is needed for tests that run in browsers + Space key
     return (
         <div key={idx} className='keyboard-event-data'>
