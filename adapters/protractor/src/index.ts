@@ -150,11 +150,6 @@ const adapter: UniDriver<TsSafeElementFinder> = {
       // .mouseDown(e)
       // .mouseUp(e)
       .perform();
-
-    return await e.browser_
-      .actions()
-      .move({ origin: await e.getWebElement() })
-      .perform();
   },
   pressKey: async (key) => {
     const el = await safeElem();

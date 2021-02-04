@@ -5,13 +5,18 @@ import { startTestAppServer } from '@unidriver/test-suite';
 export const port = require('find-free-port-sync')();
 let server: Server;
 
+const args = process.env.CI ? ['--no-sandbox'] : [];
+
 exports.config = {
   framework: 'jasmine',
   onPrepare: async () => {
     await browser.waitForAngularEnabled(false);
   },
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    'chromeOptions': {
+      'args': args
+    }
   },
   directConnect: true,
   specs: ['./**/spec.js'],
