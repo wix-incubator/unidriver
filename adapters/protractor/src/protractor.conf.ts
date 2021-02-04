@@ -4,8 +4,11 @@ import { startTestAppServer } from '@unidriver/test-suite';
 
 export const port = require('find-free-port-sync')();
 let server: Server;
-
-const args = process.env.CI ? ['--no-sandbox'] : [];
+const args = process.env.CI ? [
+  '--no-sandbox',
+  '--headless',
+  '--disable-dev-shm-usage'
+] : [];
 
 exports.config = {
   framework: 'jasmine',
