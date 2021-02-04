@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/protractor",
-	"version": "2.1.2",
+	"version": "3.0.0",
 	"description": "",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -17,10 +17,10 @@
 		"selenium-webdriver": "^3.6.0"
 	},
 	"peerDependencies": {
-		"protractor": "^6.0.0"
+		"protractor": "^5.0.0"
 	},
 	"devDependencies": {
 		"@unidriver/test-suite": "^1.2.2",
-		"protractor": "^6.0.0"
+		"protractor": "^5.0.0"
 	}
 }

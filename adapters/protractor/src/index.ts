@@ -1,4 +1,4 @@
-import {browser, element, ElementFinder} from 'protractor';
+import {browser, ElementFinder} from 'protractor';
 import {Key as SeleniumKey} from 'selenium-webdriver';
 import {Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions, DriverContext, contextToWaitError} from '@unidriver/core';
 
@@ -35,7 +35,7 @@ export const protractorUniDriverList = (
   return {
     get: (idx: number) => {
       const elem = async () => {
-        const els = await elems();
+        const els: any = await elems(); // any due to element finder also having a "then" property, causing TS1058
         return els[idx];
       };
       return protractorUniDriver(elem, {parent: context, idx, selector: context.selector});
@@ -145,6 +145,12 @@ const adapter: UniDriver<TsSafeElementFinder> = {
   hover: async () => {
     const e = await safeElem();
 
+    return browser.actions()
+      .mouseMove(e as ElementFinder)
+      // .mouseDown(e)
+      // .mouseUp(e)
+      .perform();
+
     return await e.browser_
       .actions()
       .move({ origin: await e.getWebElement() })
@@ -180,35 +186,35 @@ const adapter: UniDriver<TsSafeElementFinder> = {
       await e.clear();
     }
     if (delay) {
-      await slowType(element, value, delay);
+      await slowType(e, value, delay);
     } else {
       await e.sendKeys(value);
     }
   },
   mouse: {
     press: async () => {
-      const e = await safeElem();
-      return await e.browser_
-        .actions()
-        .move({ origin: await e.getWebElement() })
-        .press()
-        .perform();
+      
+      const e = await safeElem() as ElementFinder;
+      return browser.actions()
+    .mouseMove(e)
+    .mouseDown(e)
+    .perform();
+
     },
     release: async () => {
-      const e = await safeElem();
-      return await e.browser_
-        .actions()
-        .move({ origin: await e.getWebElement() })
-        .release()
-        .perform();
+      const e = await safeElem() as ElementFinder;
+
+      return browser.actions()
+      .mouseMove(e)
+      .mouseUp(e)
+      .perform();
     },
     moveTo: async (to) => {
-      const e = await safeElem();
-      const nativeElem = await to.getNative();
-      await await e.browser_
-        .actions()
-        .move({ origin: await nativeElem.getWebElement() })
-        .perform();
+      const nativeElem = await to.getNative() as ElementFinder;
+
+      return browser.actions()
+      .mouseMove(nativeElem)
+      .perform();
     },
   },
   exists,
