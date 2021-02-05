@@ -9,8 +9,8 @@
     "build-ts": "tsc -p .",
     "build-rest": "cp src/index.ejs dist/index.ejs && browserify dist/client.js > dist/bundle.js",
     "build": "npm run build-ts && npm run build-rest",
-    "test-jsdom": "mocha -r jsdom-global/register dist/**/*.spec.js --exit",
-    "test-e2e": "mocha dist/**/*.e2e.js --exit",
+    "test-jsdom": "mocha -r jsdom-global/register dist/**/*.spec.js --exit --timeout 20000",
+    "test-e2e": "mocha dist/**/*.e2e.js --exit --timeout 20000",
     "test": "npm run test-jsdom && npm run test-e2e"
   },
   "author": "",
