@@ -8,6 +8,7 @@ export type TodoAppProps = {
     items: TodoItem[];
     initialText?: string;
     inputDisabled?: boolean;
+    inputReadOnly?: boolean;
 };
 
 

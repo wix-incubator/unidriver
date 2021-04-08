@@ -173,8 +173,9 @@ const adapter: UniDriver<TsSafeElementFinder> = {
   ) => {
     const e = await safeElem();
     const disabled = await e.getAttribute("disabled");
-    // Don't do anything if element is disabled
-    if (disabled) {
+    const readOnly = await e.getAttribute("readOnly");
+    // Don't do anything if element is disabled or readOnly
+    if (disabled || readOnly) {
       return;
     }
     if (shouldClear) {

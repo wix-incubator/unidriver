@@ -5,9 +5,10 @@
 	export let initialText = undefined;
 	export let initialItems = undefined;
 	export let inputDisabled = undefined;
+	export let inputReadOnly = undefined;
 </script>
 
 <main>
-	<Todo initialText={initialText} initialItems={initialItems} inputDisabled={inputDisabled} />
+	<Todo initialText={initialText} initialItems={initialItems} inputDisabled={inputDisabled} inputReadOnly={inputReadOnly} />
 	<Events />
 </main>
