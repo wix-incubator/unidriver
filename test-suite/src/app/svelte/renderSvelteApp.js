@@ -7,6 +7,7 @@ export const renderSvelteApp = (element, params = {}) => {
       initialItems: params.items,
       initialText: params.initialText,
       inputDisabled: params.inputDisabled,
+      inputReadOnly: params.inputReadOnly,
     },
   });
 

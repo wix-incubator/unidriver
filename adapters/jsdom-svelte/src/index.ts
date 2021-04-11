@@ -163,9 +163,9 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder, cont
         hasClass: async (className: string) => (await elem()).classList.contains(className),
         enterValue: async (value: string, options?: EnterValueOptions) => {
             const el = (await elem()) as HTMLInputElement;
-            const { name, type, disabled } = el;
-			// Don't do anything if element is disabled
-			if (disabled) {
+            const { name, type, disabled, readOnly } = el;
+			// Don't do anything if element is disabled or readOnly
+			if (disabled || readOnly) {
 				return;
             }
             if (options?.delay) {

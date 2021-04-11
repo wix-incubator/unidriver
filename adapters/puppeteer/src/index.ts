@@ -164,8 +164,9 @@ export const pupUniDriver = (
           ) => {
             const { element } = await elem();
             const disabled = await (await element.getProperty('disabled')).jsonValue();
-			// Don't do anything if element is disabled
-			if (disabled) {
+            const readOnly = await (await element.getProperty('readOnly')).jsonValue();
+			// Don't do anything if element is disabled or readOnly
+			if (disabled || readOnly) {
 				return;
 			}
             await element.focus();

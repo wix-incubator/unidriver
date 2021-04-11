@@ -242,8 +242,8 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
 		enterValue: async (value: string, options?: EnterValueOptions) => {
 			const el = (await elem()) as JSX.IntrinsicElements['input'];
 
-			// Don't do anything if element is disabled
-			if (el.disabled) {
+			// Don't do anything if element is disabled or readOnly
+			if (el.disabled || el.readOnly) {
 				return;
 			}
 

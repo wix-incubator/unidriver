@@ -167,8 +167,9 @@ export const seleniumUniDriver = (wep: WebElementGetter, context: DriverContext 
     ) => {
       const el = await elem();
       const disabled = await el.getAttribute("disabled");
-      // Don't do anything if element is disabled
-      if (disabled) {
+      const readOnly = await el.getAttribute("readOnly");
+      // Don't do anything if element is disabled or readOnly
+      if (disabled || readOnly) {
         return;
       }
       if (shouldClear) {

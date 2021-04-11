@@ -80,6 +80,12 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await driver.$('header input').value(), 'other text');
                 });
             });
+            it('does nothing when input is readOnly', async () => {
+                await runTest({items: [], initialText: 'other text', inputReadOnly: true}, async (driver) => {
+                    await driver.$('header input').enterValue('hey there');
+                    assert.equal(await driver.$('header input').value(), 'other text');
+                });
+            });
             it('waits between keypresses when delay option is passed', async() => {
                 await runTest({items: [], initialText: ''}, async (driver) => {
                     sleep(500).then(async () => {
