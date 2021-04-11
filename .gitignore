@@ -1,7 +1,7 @@
 node_modules
 dist
 npm-debug.log
-package-lock.json
+# package-lock.json
 /*.js
 /*.d.ts
 !wallaby.js
