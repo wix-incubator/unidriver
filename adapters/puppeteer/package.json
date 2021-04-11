@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/puppeteer",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -12,11 +12,11 @@
 	"author": "Wix.com",
 	"license": "MIT",
 	"dependencies": {
-		"@unidriver/core": "^1.2.2"
+		"@unidriver/core": "^1.2.3"
 	},
 	"devDependencies": {
 		"@types/puppeteer": "^5.4.0",
-		"@unidriver/test-suite": "^1.2.2",
+		"@unidriver/test-suite": "^1.2.3",
 		"find-free-port-sync": "^1.0.0",
 		"mocha": "^6.0.0",
 		"puppeteer": "^5.5.0"
