@@ -122,6 +122,22 @@ export const runTestSuite = (params: TestSuiteParams) => {
             });
         });
 
+        describe('isDisplayed()', () => {
+            it('works', async () => {
+					await runTest({items: [itemCreator({label: 'Bob'})]}, async (driver) => {
+                        if (driver.type !== 'svelte') {
+                            const todoItem = await driver.$$('.todo-item').get(0);
+                            const hideListBtn = await driver.$('.hide-list');
+
+                            assert.equal(await todoItem.isDisplayed(), true);
+                            await hideListBtn.click();
+                            assert.equal(await todoItem.isDisplayed(), false, 'todo item is displayed');
+                        }
+                        assert.isTrue(true);
+                });
+            });
+        });
+
         describe('exists()', () => {
 
             it('returns true when an element exists', async () => {

@@ -265,7 +265,23 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
 		},
 		exists,
 		isDisplayed: async () => {
-			return true;
+			const el = await elem();
+			const styles = window.getComputedStyle(el);
+			const { display, visibility, opacity } = styles;
+
+			const isParentElementDisplayed = async () => {
+				if (el.parentElement) {
+					const parentDriver = jsdomReactUniDriver(el.parentElement);
+					return await parentDriver.isDisplayed();
+				}
+				return true;
+			}
+
+			return display !== 'none'
+				&& visibility !== 'hidden'
+				&& visibility !== 'collapse'
+				&& opacity !== '0'
+				&& await isParentElementDisplayed();
 		},
 		wait: async (timeout?: number) => {
 			return waitFor(exists, timeout, 30, contextToWaitError(context));

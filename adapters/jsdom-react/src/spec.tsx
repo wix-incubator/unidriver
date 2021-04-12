@@ -316,5 +316,70 @@ describe('react base driver specific tests', () => {
 			cleanJsdom();
 		});
 	})
+	
+	describe('isDisplayed', () => {
+		it('Should indicate if an element is not displayed', async () => {
+			const cleanJsdom = require('jsdom-global')();
+			const elem = document.createElement('div');
+			const noneDisplayedBtn = (
+				<button
+					className='hidden-button'
+					style={{ display: 'none' }}
+				/>
+			);
+
+			const notVisibleBtn = (
+				<button
+					className='not-visible-button'
+					style={{ display: 'none' }}
+				/>
+			);
+
+			const transparentBtn = (
+				<button
+					className='transparent-button'
+					style={{ opacity: 0 }}
+				/>
+			);
+
+			const btnInsideTransparentContainer = (
+				<div
+					style={{ opacity: 0 }}
+				>
+					<button
+						className='button-inside-transparent-container'
+					/>
+				</div>
+			);
+
+			const btn = (
+				<button
+					className='button'
+				/>
+			);
+
+			const content = (
+				<div>
+					{noneDisplayedBtn}
+					{notVisibleBtn}
+					{transparentBtn}
+					{btnInsideTransparentContainer}
+					{btn}
+				</div>
+			);
+
+			ReactDOM.render(content, elem);
+
+			const driver = jsdomReactUniDriver(elem);
+
+			assert.equal(await driver.$('.hidden-button').isDisplayed(), false);
+			assert.equal(await driver.$('.not-visible-button').isDisplayed(), false);
+			assert.equal(await driver.$('.transparent-button').isDisplayed(), false);
+			assert.equal(await driver.$('.button-inside-transparent-container').isDisplayed(), false);
+			assert.equal(await driver.$('.button').isDisplayed(), true);
+
+			cleanJsdom();
+		});
+	})
 
 });
