@@ -138,11 +138,13 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
 
 	return {
 		$: (loc: Locator) => {
+			const noElementWithLocatorError = new NoElementWithLocatorError(loc);
+
 			const getElement = async () => {
 				const container = await elem();
 				const elements = container.querySelectorAll(loc);
 				if (!elements.length) {
-					throw new NoElementWithLocatorError(loc);
+					throw noElementWithLocatorError;
 				} else if (elements.length > 1) {
 					throw new MultipleElementsWithLocatorError(elements.length, loc);
 				}
