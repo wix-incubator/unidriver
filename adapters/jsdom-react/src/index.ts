@@ -1,18 +1,18 @@
 import {
-  UniDriverList,
-  Locator,
-  UniDriver,
-  waitFor,
-  getDefinitionForKeyType,
-  delay as sleep,
-  EnterValueOptions,
-  NoElementWithLocatorError,
-  isMultipleElementsWithLocatorError,
-  MultipleElementsWithLocatorError,
-  DriverContext,
-  contextToWaitError,
+	contextToWaitError,
+	delay as sleep,
+	DriverContext,
+	EnterValueOptions,
+	getDefinitionForKeyType,
+	isMultipleElementsWithLocatorError,
+	Locator,
+	MultipleElementsWithLocatorError,
+	NoElementWithLocatorError,
+	UniDriver,
+	UniDriverList,
+	waitFor,
 } from "@unidriver/core";
-import { Simulate } from 'react-dom/test-utils';
+import {Simulate} from 'react-dom/test-utils';
 
 type ElementOrElementFinder = (() => Element) | Element | (() => Promise<Element>);
 type ElementsOrElementsFinder = (() => Element[]) | Element[] | (() => Promise<Element[]>);
@@ -110,11 +110,15 @@ const slowType = async (element: JSX.IntrinsicElements['input'], value: string, 
 export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, context: DriverContext = {selector: 'Root React driver'}): UniDriver<Element> => {
 
 	const elem = async () => {
-		const container = await (typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn);
-		if (!container) {
-			throw new Error('React base driver - element was not found');
+		try {
+			const container = await (typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn);
+			if (!container) {
+				throw new Error('React base driver - element was not found');
+			}
+			return container;
+		} catch (e) {
+			throw e;
 		}
-		return container;
 	};
 
 	const exists = async () => {
