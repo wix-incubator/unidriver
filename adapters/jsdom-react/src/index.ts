@@ -110,7 +110,7 @@ const slowType = async (element: JSX.IntrinsicElements['input'], value: string, 
 export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, context: DriverContext = {selector: 'Root React driver'}): UniDriver<Element> => {
 
 	const elem = async () => {
-		const container = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
+		const container = await (typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn);
 		if (!container) {
 			throw new Error('React base driver - element was not found');
 		}
@@ -138,13 +138,11 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
 
 	return {
 		$: (loc: Locator) => {
-			const noElementWithLocatorError = new NoElementWithLocatorError(loc);
-
 			const getElement = async () => {
 				const container = await elem();
 				const elements = container.querySelectorAll(loc);
 				if (!elements.length) {
-					throw noElementWithLocatorError;
+					throw new NoElementWithLocatorError(loc);
 				} else if (elements.length > 1) {
 					throw new MultipleElementsWithLocatorError(elements.length, loc);
 				}
