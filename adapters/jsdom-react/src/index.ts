@@ -1,23 +1,23 @@
 import {
-    contextToWaitError,
-    delay as sleep,
-    DriverContext,
-    EnterValueOptions,
-    getDefinitionForKeyType,
-    isMultipleElementsWithLocatorError,
-    Locator,
-    MultipleElementsWithLocatorError,
-    NoElementWithLocatorError,
-    UniDriver,
     UniDriverList,
+    Locator,
+    UniDriver,
     waitFor,
+    getDefinitionForKeyType,
+    delay as sleep,
+    EnterValueOptions,
+    NoElementWithLocatorError,
+    isMultipleElementsWithLocatorError,
+    MultipleElementsWithLocatorError,
+    DriverContext,
+    contextToWaitError,
 } from "@unidriver/core";
-import {Simulate} from 'react-dom/test-utils';
+import { Simulate } from 'react-dom/test-utils';
 
 type ElementOrElementFinder = (() => Element) | Element | (() => Promise<Element>);
 type ElementsOrElementsFinder = (() => Element[]) | Element[] | (() => Promise<Element[]>);
 
-const isPromise = (a: Promise<any> | any): a is Promise<any> => {
+const isPromise = (a: Promise<any> | any ): a is Promise<any> => {
     return !!((a as any).then);
 };
 
@@ -38,7 +38,7 @@ export const jsdomReactUniDriverList = (containerOrFn: ElementsOrElementsFinder,
                       return elem;
                   }
               });
-          }, {...context, idx}),
+          }, { ...context, idx }),
         text: async () => (await elem()).map((e) => e.textContent || ""),
         count: async () => (await elem()).length,
         map: async (fn) => {
@@ -62,7 +62,7 @@ export const jsdomReactUniDriverList = (containerOrFn: ElementsOrElementsFinder,
 
                 const results = await Promise.all(
                   elems.map((e, i) => {
-                      const bd = jsdomReactUniDriver(e, {parent: context, idx: i, selector: context.selector});
+                      const bd = jsdomReactUniDriver(e, { parent: context, idx: i, selector: context.selector });
                       return fn(bd, i);
                   })
                 );
@@ -96,12 +96,12 @@ const isCheckable = (el: Element): boolean => {
 };
 
 const slowType = async (element: JSX.IntrinsicElements['input'], value: string, delay: number) => {
-    const {name, type} = element;
+    const { name, type } = element;
     let currentValue = "";
     for (let i = 0; i < value.length; i++) {
         currentValue += value[i];
         Simulate.change(element as Element, {
-            target: {name, type, value: currentValue} as HTMLInputElement
+            target: { name, type, value: currentValue } as HTMLInputElement
         });
         await sleep(delay);
     }
@@ -148,12 +148,12 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
                 }
                 return elements[0];
             };
-            return jsdomReactUniDriver(getElement, {parent: context, selector: loc});
+            return jsdomReactUniDriver(getElement, { parent: context, selector: loc });
         },
         $$: (selector: Locator) => jsdomReactUniDriverList(async () => {
             const e = await elem();
             return Array.from(e.querySelectorAll(selector));
-        }, {parent: context, selector}),
+        }, { parent: context, selector}),
         text: async () => elem().then((e) => e.textContent || ''),
         value: async () => {
             const e = (await elem()) as HTMLInputElement;
@@ -161,7 +161,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
         },
         click: async () => {
             const el = await elem();
-            const eventData = {button: 0}; // 0 - Main Button (Left)
+            const eventData = { button: 0 }; // 0 - Main Button (Left)
             // setting button 0 is now needed in React 16+ as it's not set by react anymore
             // 15 - https://github.com/facebook/react/blob/v15.6.1/src/renderers/dom/client/syntheticEvents/SyntheticMouseEvent.js#L45
             // 16 - https://github.com/facebook/react/blob/master/packages/react-dom/src/events/SyntheticMouseEvent.js#L33
@@ -190,7 +190,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
             }
         },
         mouse: {
-            press: async () => {
+            press: async() => {
                 const el = await elem();
 
                 Simulate.mouseDown(el);
@@ -247,7 +247,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
                 return;
             }
 
-            const {name, type, onChange} = el;
+            const { name, type, onChange } = el;
             // Set native value for uncontrolled component
             if (!onChange) {
                 el.value = value;
@@ -256,7 +256,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
                 await slowType(el, value, options.delay);
             }
             Simulate.change(el as Element, {
-                target: {name, type, value} as HTMLInputElement
+                target: { name, type, value } as HTMLInputElement
             });
         },
         attr: async (name: string) => {
@@ -271,9 +271,7 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
             return waitFor(exists, timeout, 30, contextToWaitError(context));
         },
         type: 'react',
-        scrollIntoView: async () => {
-            return {}
-        },
+        scrollIntoView: async () => { return {} },
         getNative: () => elem(),
         _prop: async (name: string) => {
             const el = await elem();
