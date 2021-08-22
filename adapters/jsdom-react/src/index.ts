@@ -60,39 +60,39 @@ export const jsdomReactUniDriverList = (containerOrFn: ElementsOrElementsFinder,
       return jsdomReactUniDriverList(async () => {
         const elems = await elem();
 
-                const results = await Promise.all(
-                  elems.map((e, i) => {
-                      const bd = jsdomReactUniDriver(e, { parent: context, idx: i, selector: context.selector });
-                      return fn(bd, i);
-                  })
-                );
+        const results = await Promise.all(
+          elems.map((e, i) => {
+            const bd = jsdomReactUniDriver(e, { parent: context, idx: i, selector: context.selector });
+            return fn(bd, i);
+          })
+        );
 
-                return elems.filter((_, i) => {
-                    return results[i];
-                });
-            }, context);
-        },
-    };
+        return elems.filter((_, i) => {
+          return results[i];
+        });
+      }, context);
+    },
+  };
 };
 
 type HTMLFocusableElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement;
 
 const elementIsFocusable = (el: Element): el is HTMLFocusableElement => {
-    return (
-      el.tagName === 'INPUT' ||
-      el.tagName === 'SELECT' ||
-      el.tagName === 'TEXTAREA' ||
-      el.tagName === 'BUTTON' ||
-      el.tagName === 'svg'
-    )
+	return (
+		el.tagName === 'INPUT' ||
+		el.tagName === 'SELECT' ||
+		el.tagName === 'TEXTAREA' ||
+		el.tagName === 'BUTTON' ||
+		el.tagName === 'svg'
+	)
 }
 
 const isCheckable = (el: Element): boolean => {
-    return (
-      el.tagName === 'INPUT' &&
-      ((el as HTMLInputElement).type == 'checkbox' ||
-        (el as HTMLInputElement).type == 'radio')
-    );
+  return (
+    el.tagName === 'INPUT' &&
+    ((el as HTMLInputElement).type == 'checkbox' ||
+      (el as HTMLInputElement).type == 'radio')
+  );
 };
 
 const slowType = async (element: JSX.IntrinsicElements['input'], value: string, delay: number) => {
