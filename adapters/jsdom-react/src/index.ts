@@ -12,7 +12,7 @@ import {
   UniDriverList,
   waitFor,
 } from "@unidriver/core";
-import {Simulate} from 'react-dom/test-utils';
+import { Simulate } from 'react-dom/test-utils';
 
 type ElementOrElementFinder = (() => Element) | Element | (() => Promise<Element>);
 type ElementsOrElementsFinder = (() => Element[]) | Element[] | (() => Promise<Element[]>);
