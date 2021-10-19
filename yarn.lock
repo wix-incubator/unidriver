@@ -3159,8 +3159,8 @@ chromedriver@^88.0.0:
 
 chromedriver@^94.0.0:
   version "94.0.0"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/chromedriver/-/chromedriver-94.0.0.tgz#f6a3533976ba72413a01672954040c3544ea9d30"
-  integrity sha1-9qNTOXa6ckE6AWcpVAQMNUTqnTA=
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-94.0.0.tgz#f6a3533976ba72413a01672954040c3544ea9d30"
+  integrity sha512-x4hK7R7iOyAhdLHJEcOyGBW/oa2kno6AqpHVLd+n3G7c2Vk9XcAXMz84XhNItqykJvTc6E3z/JRIT1eHYH//Eg==
   dependencies:
     "@testim/chrome-version" "^1.0.7"
     axios "^0.21.2"
