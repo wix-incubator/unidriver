@@ -1,5 +1,5 @@
 import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions, DriverContext, contextToWaitError } from '@unidriver/core';
-import { ElementHandle, Page, Frame } from './pptrVersionSelector';
+import { ElementHandle, Page, Frame, pptrCorePage, KeyInput } from './pptrVersionSelector';
 
 type BaseElementContainer = { page: Page | Frame; selector: string };
 type ElementContainer = BaseElementContainer & { element: ElementHandle | null };
@@ -71,8 +71,7 @@ export const pupUniDriver = (
     const elem = async () => {
         if (isBaseContainer(el)) {
             const { page, selector } = el;
-            //@ts-ignore
-            const element = await page.$(selector);
+            const element = await (page as pptrCorePage).$(selector);
             if (!element) {
                 throw new Error(`Cannot find element`);
             }
@@ -144,12 +143,12 @@ export const pupUniDriver = (
             }, { parent: context, selector: newLoc }),
         text: async () => {
             const { element } = await elem();
-            const textHandle = await element.getProperty('textContent');
-            if (!textHandle) {
-                throw new Error('property textContent of element was not found')
+            const textHandle = await element.getProperty('textContent');            
+            if (!textHandle) {                
+                return '';
             }
 
-            const text = await textHandle.jsonValue() as string;
+            const text = await textHandle.jsonValue() as string;            
             return text || '';
         },
         click: async () => {
@@ -163,7 +162,7 @@ export const pupUniDriver = (
             const classList = await element.getProperty('classList');
 
             if (!classList) {
-                throw new Error('element class list was not found');
+                return false;
             }
 
             const cm = await (classList).jsonValue() as Record<string, string>;
@@ -194,7 +193,7 @@ export const pupUniDriver = (
         },
         pressKey: async (key) => {
             const { element } = await elem();
-            return element.press(`${key}`);
+            return element.press(`${key}` as KeyInput);
         },
         exists,
         isDisplayed: async () => {
@@ -210,8 +209,8 @@ export const pupUniDriver = (
         },
         attr: async name => {
             const { page, element } = await elem();
-            //@ts-ignore
-            return page.evaluate(
+                        
+            return (page as pptrCorePage).evaluate(
                 (elem: any, n: any) => {
                     return elem.getAttribute(n);
                 },
@@ -223,8 +222,7 @@ export const pupUniDriver = (
             press: async () => {
                 const { page, selector } = await elem();
 
-                //@ts-ignore
-                return page.$eval(
+                return (page as pptrCorePage).$eval(
                     selector,
                     (elem: any) => {
                         const mousedown = new MouseEvent('mousedown');
@@ -236,8 +234,7 @@ export const pupUniDriver = (
             release: async () => {
                 const { page, selector } = await elem();
 
-                //@ts-ignore
-                return page.$eval(
+                return (page as pptrCorePage).$eval(
                     selector,
                     (elem: any) => {
                         const mouseup = new MouseEvent('mouseup');
@@ -252,8 +249,8 @@ export const pupUniDriver = (
                 const boundingBox = native.element && await native.element.boundingBox();
 
                 if (!!boundingBox) {
-                    //@ts-ignore
-                    return page.$eval(
+                    
+                    return (page as pptrCorePage).$eval(
                         selector,
                         (elem: any, boundingBox: any) => {
                             const mousemove = new MouseEvent('mousemove', { clientX: boundingBox.x, clientY: boundingBox.y });
@@ -280,8 +277,8 @@ export const pupUniDriver = (
         getNative: elem,
         _prop: async (name: string) => {
             const { page, element } = await elem();
-            //@ts-ignore
-            return page.evaluate(
+
+            return (page as pptrCorePage).evaluate(
                 (elem: any, n: any) => {
                     return elem[n];
                 },

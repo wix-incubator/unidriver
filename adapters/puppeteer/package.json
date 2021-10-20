@@ -12,11 +12,10 @@
 	"author": "Wix.com",
 	"license": "MIT",
 	"dependencies": {
-		"@unidriver/core": "^1.2.3",
-		"@types/puppeteer-core": "^5.4.0",
-		"@types/puppeteer": "^5.4.0"
+		"@unidriver/core": "^1.2.3"		
 	},
 	"devDependencies": {
+		"@types/puppeteer-core": "^5.4.0",
 		"@types/puppeteer": "^5.4.0",
 		"@unidriver/test-suite": "^1.2.3",
 		"find-free-port-sync": "^1.0.0",
