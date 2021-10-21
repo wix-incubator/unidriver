@@ -4334,6 +4334,11 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
+es6-promise@^2.0.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-2.3.0.tgz#96edb9f2fdb01995822b263dd8aadab6748181bc"
+  integrity sha1-lu258v2wGZWCKyY92KratnSBgbw=
+
 es6-promise@^4.0.3:
   version "4.2.8"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
@@ -6338,6 +6343,15 @@ load-json-file@^5.3.0:
     pify "^4.0.1"
     strip-bom "^3.0.0"
     type-fest "^0.3.0"
+
+locate-chrome@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/locate-chrome/-/locate-chrome-0.1.1.tgz#5f20d1d6ec8e4092603bc77db10fd99686faeb5e"
+  integrity sha1-XyDR1uyOQJJgO8d9sQ/Zlob6614=
+  dependencies:
+    es6-promise "^2.0.0"
+    queue-async "^1.0.0"
+    userhome "^1.0.0"
 
 locate-path@^2.0.0:
   version "2.0.0"
@@ -8623,6 +8637,11 @@ querystring@0.2.0:
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
+queue-async@^1.0.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/queue-async/-/queue-async-1.2.1.tgz#0582e01dae253258cf576fc2a35db96fca847f6f"
+  integrity sha1-BYLgHa4lMljPV2/Co125b8qEf28=
+
 quick-lru@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
@@ -10406,6 +10425,11 @@ use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
+
+userhome@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/userhome/-/userhome-1.0.0.tgz#b6491ff12d21a5e72671df9ccc8717e1c6688c0b"
+  integrity sha1-tkkf8S0hpecmcd+czIcX4cZojAs=
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"

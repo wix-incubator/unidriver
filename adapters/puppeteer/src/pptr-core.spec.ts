@@ -12,6 +12,7 @@ import { Server } from 'http';
 import { assert } from 'chai';
 
 const port = require('find-free-port-sync')();
+const locateChrome = require('locate-chrome');
 
 let server: Server;
 let browser: Browser;
@@ -20,8 +21,10 @@ let page: Page;
 const beforeFn = async () => {
   const args = process.env.CI ? ['--no-sandbox'] : [];
   const headless = !!process.env.CI || undefined;
+  const pathToChrome = await locateChrome();
   server = await startTestAppServer(port);
   browser = await puppeteer.launch({
+    executablePath:pathToChrome,
     headless,
     args,
   });
@@ -34,7 +37,7 @@ const afterFn = async () => {
   await browser.close();
 };
 
-const setup: SetupFn = async (params) => {  
+const setup: SetupFn = async (params) => {
   await page.goto(`http://localhost:${port}${getTestAppUrl(params)}`);
   const driver = pupUniDriver({
     page,
@@ -75,7 +78,7 @@ describe('puppeteer-core specific tests', () => {
     });
     it(`checking text return value when the component doesn't have textContent property`, async () => {
       const { driver } = await setup({ items: [], initialText: 'hello' });
-      
+
       let textThatDoesNotExists = await driver.$('header input').text();
       assert.equal(textThatDoesNotExists, '');
     });
