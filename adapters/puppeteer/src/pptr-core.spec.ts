@@ -1,5 +1,5 @@
-import * as puppeteer from 'puppeteer';
-import { Browser, Page } from 'puppeteer';
+import * as puppeteer from 'puppeteer-core';
+import { Browser, Page } from 'puppeteer-core';
 import {
   getTestAppUrl,
   startTestAppServer,
@@ -7,7 +7,7 @@ import {
   itemCreator,
   runTestSuite
 } from '@unidriver/test-suite';
-import { pupUniDriver } from './';
+import { pupUniDriver } from '.';
 import { Server } from 'http';
 import { assert } from 'chai';
 
@@ -46,11 +46,11 @@ const setup: SetupFn = async (params) => {
   return { driver, tearDown };
 };
 
-describe('puppeteer', () => {
+describe('puppeteer-core', () => {
   runTestSuite({ setup, before: beforeFn, after: afterFn });
 });
 
-describe('puppeteer specific tests', () => {
+describe('puppeteer-core specific tests', () => {
   before(beforeFn);
   after(afterFn);
   describe('enterValue', () => {
