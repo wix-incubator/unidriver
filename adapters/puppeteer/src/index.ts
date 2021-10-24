@@ -1,4 +1,5 @@
 import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions, DriverContext, contextToWaitError } from '@unidriver/core';
+import { BoundingBox } from 'puppeteer';
 import { ElementHandle, Page, Frame, pptrCorePage, KeyInput } from './pptrVersionSelector';
 
 type BaseElementContainer = { page: Page | Frame; selector: string };
@@ -143,12 +144,12 @@ export const pupUniDriver = (
             }, { parent: context, selector: newLoc }),
         text: async () => {
             const { element } = await elem();
-            const textHandle = await element.getProperty('textContent');            
-            if (!textHandle) {                
+            const textHandle = await element.getProperty('textContent');
+            if (!textHandle) {
                 return '';
             }
 
-            const text = await textHandle.jsonValue() as string;            
+            const text = await textHandle.jsonValue() as string;
             return text || '';
         },
         click: async () => {
@@ -209,9 +210,9 @@ export const pupUniDriver = (
         },
         attr: async name => {
             const { page, element } = await elem();
-                        
+
             return (page as pptrCorePage).evaluate(
-                (elem: any, n: any) => {
+                (elem, n) => {
                     return elem.getAttribute(n);
                 },
                 element,
@@ -224,7 +225,7 @@ export const pupUniDriver = (
 
                 return (page as pptrCorePage).$eval(
                     selector,
-                    (elem: any) => {
+                    (elem) => {
                         const mousedown = new MouseEvent('mousedown');
                         mousedown.initEvent(mousedown.type, true, false);
                         elem.dispatchEvent(mousedown);
@@ -236,7 +237,7 @@ export const pupUniDriver = (
 
                 return (page as pptrCorePage).$eval(
                     selector,
-                    (elem: any) => {
+                    (elem) => {
                         const mouseup = new MouseEvent('mouseup');
                         mouseup.initEvent(mouseup.type, true, false);
                         elem.dispatchEvent(mouseup);
@@ -249,11 +250,12 @@ export const pupUniDriver = (
                 const boundingBox = native.element && await native.element.boundingBox();
 
                 if (!!boundingBox) {
-                    
+
                     return (page as pptrCorePage).$eval(
                         selector,
-                        (elem: any, boundingBox: any) => {
-                            const mousemove = new MouseEvent('mousemove', { clientX: boundingBox.x, clientY: boundingBox.y });
+                        (elem, boundingBox) => {
+                            const { x, y } = boundingBox as BoundingBox;
+                            const mousemove = new MouseEvent('mousemove', { clientX: x, clientY: y });
                             mousemove.initEvent(mousemove.type, true, false);
                             elem.dispatchEvent(mousemove);
                         },
@@ -279,7 +281,7 @@ export const pupUniDriver = (
             const { page, element } = await elem();
 
             return (page as pptrCorePage).evaluate(
-                (elem: any, n: any) => {
+                (elem, n) => {
                     return elem[n];
                 },
                 element, name

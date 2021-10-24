@@ -22,7 +22,6 @@ const beforeFn = async () => {
   const args = process.env.CI ? ['--no-sandbox'] : [];
   const headless = !!process.env.CI || undefined;
   const pathToChrome = await locateChrome();
-  console.log(`pathToChrome: ${pathToChrome}`);
   server = await startTestAppServer(port);
   browser = await puppeteer.launch({
     executablePath:pathToChrome,
