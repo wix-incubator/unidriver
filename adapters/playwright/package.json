@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/playwright",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -15,7 +15,7 @@
 		"@unidriver/core": "^1.2.3"
 	},
 	"devDependencies": {
-		"@unidriver/test-suite": "^1.2.3",
+		"@unidriver/test-suite": "^1.2.4",
 		"find-free-port-sync": "^1.0.0",
 		"mocha": "^6.0.0",
 		"playwright": "^1.8.0"
