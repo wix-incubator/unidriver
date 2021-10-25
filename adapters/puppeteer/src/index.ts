@@ -1,5 +1,6 @@
 import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions, DriverContext, contextToWaitError } from '@unidriver/core';
-import { ElementHandle, Page, Frame } from 'puppeteer';
+import { BoundingBox } from 'puppeteer';
+import { ElementHandle, Page, Frame, pptrCorePage, KeyInput } from './pptrVersionSelector';
 
 type BaseElementContainer = { page: Page | Frame; selector: string };
 type ElementContainer = BaseElementContainer & { element: ElementHandle | null };
@@ -10,9 +11,9 @@ type ElementsGetter = () => Promise<ElementsContainer>;
 
 export const pupUniDriverList = (
     elems: ElementsGetter,
-    context: DriverContext = {selector: 'Root Puppeteer list driver'}
+    context: DriverContext = { selector: 'Root Puppeteer list driver' }
 ): UniDriverList<ElementContainer> => {
-    const map = async <T> (fn: MapFn<T>) => {
+    const map = async <T>(fn: MapFn<T>) => {
         const { elements, ...rest } = await elems();
         const promises = elements.map((element, i) => {
             const bd = pupUniDriver(() => Promise.resolve({ element, ...rest }), {
@@ -32,7 +33,7 @@ export const pupUniDriverList = (
                     ...rest
                 };
             };
-            return pupUniDriver(elem, {parent: context, selector: context.selector, idx});
+            return pupUniDriver(elem, { parent: context, selector: context.selector, idx });
         },
         text: async () => {
             return map((d) => d.text());
@@ -66,12 +67,12 @@ const isBaseContainer = (
 
 export const pupUniDriver = (
     el: ElementGetter | BaseElementContainer,
-    context: DriverContext = {selector: 'Root Puppeteer driver'}
+    context: DriverContext = { selector: 'Root Puppeteer driver' }
 ): UniDriver<ElementContainer> => {
     const elem = async () => {
         if (isBaseContainer(el)) {
             const { page, selector } = el;
-            const element = await page.$(selector);
+            const element = await (page as pptrCorePage).$(selector);
             if (!element) {
                 throw new Error(`Cannot find element`);
             }
@@ -93,43 +94,43 @@ export const pupUniDriver = (
     };
 
     const exists = async () => {
-		try {
-			await elem();
-			return true;
-		} catch (e) {
-			if (isMultipleElementsWithLocatorError(e)) {
-				throw e;
-			} else {
-				return false;
-			}
-		}
+        try {
+            await elem();
+            return true;
+        } catch (e) {
+            if (isMultipleElementsWithLocatorError(e as Error)) {
+                throw e;
+            } else {
+                return false;
+            }
+        }
     };
 
-    const clearValue = async() => {
+    const clearValue = async () => {
         const { element } = await elem();
         // Select all input text
-        await element.click({clickCount: 3});
-        await element.press('Backspace'); 
+        await element.click({ clickCount: 3 });
+        await element.press('Backspace');
     };
 
     return {
         $: (newLoc: Locator) => {
             return pupUniDriver(async () => {
-				const { element, selector, ...rest } = await elem();
-				
-				const elHandles = await element.$$(newLoc);
+                const { element, selector, ...rest } = await elem();
 
-				if (elHandles.length === 0) {
-					throw new NoElementWithLocatorError(newLoc);
-				} else if (elHandles.length > 1) {
-					throw new MultipleElementsWithLocatorError(elHandles.length, newLoc);
-				} else {
-					return {
-						...rest,
-						element: elHandles[0],
-						selector: `${selector} ${newLoc}`
-					};
-				}
+                const elHandles = await element.$$(newLoc);
+
+                if (elHandles.length === 0) {
+                    throw new NoElementWithLocatorError(newLoc);
+                } else if (elHandles.length > 1) {
+                    throw new MultipleElementsWithLocatorError(elHandles.length, newLoc);
+                } else {
+                    return {
+                        ...rest,
+                        element: elHandles[0],
+                        selector: `${selector} ${newLoc}`
+                    };
+                }
             }, { parent: context, selector: newLoc });
         },
         $$: (newLoc: Locator) =>
@@ -144,6 +145,10 @@ export const pupUniDriver = (
         text: async () => {
             const { element } = await elem();
             const textHandle = await element.getProperty('textContent');
+            if (!textHandle) {
+                return '';
+            }
+
             const text = await textHandle.jsonValue() as string;
             return text || '';
         },
@@ -155,20 +160,30 @@ export const pupUniDriver = (
         },
         hasClass: async (className: string) => {
             const { element } = await elem();
-            const cm = await (await element.getProperty('classList')).jsonValue() as Record<string, string>;
+            const classList = await element.getProperty('classList');
+
+            if (!classList) {
+                return false;
+            }
+
+            const cm = await (classList).jsonValue() as Record<string, string>;
             return Object.keys(cm).map(key => cm[key]).includes(className);
         },
         enterValue: async (
             value: string,
             { delay = 0, shouldClear = true }: EnterValueOptions = {}
-          ) => {
+        ) => {
             const { element } = await elem();
-            const disabled = await (await element.getProperty('disabled')).jsonValue();
-            const readOnly = await (await element.getProperty('readOnly')).jsonValue();
-			// Don't do anything if element is disabled or readOnly
-			if (disabled || readOnly) {
-				return;
-			}
+
+            const disabledProp = await element.getProperty('disabled');
+            const readOnlyProd = await element.getProperty('readOnly');
+
+            const disabled = disabledProp ? await (disabledProp).jsonValue() : undefined;
+            const readOnly = readOnlyProd ? await (readOnlyProd).jsonValue() : undefined;
+            // Don't do anything if element is disabled or readOnly
+            if (disabled || readOnly) {
+                return;
+            }
             await element.focus();
             if (shouldClear) {
                 await clearValue();
@@ -179,7 +194,7 @@ export const pupUniDriver = (
         },
         pressKey: async (key) => {
             const { element } = await elem();
-            return element.press(`${key}`);
+            return element.press(`${key}` as KeyInput);
         },
         exists,
         isDisplayed: async () => {
@@ -190,13 +205,14 @@ export const pupUniDriver = (
             const { element } = await elem();
 
             const valueHandle = await element.getProperty('value');
-            const value = await valueHandle.jsonValue() as string;
+            const value = valueHandle ? await valueHandle.jsonValue() as string : undefined;
             return value || '';
         },
         attr: async name => {
             const { page, element } = await elem();
-            return page.evaluate(
-                (elem:any, n) => {
+
+            return (page as pptrCorePage).evaluate(
+                (elem, n) => {
                     return elem.getAttribute(n);
                 },
                 element,
@@ -207,7 +223,7 @@ export const pupUniDriver = (
             press: async () => {
                 const { page, selector } = await elem();
 
-                return page.$eval(
+                return (page as pptrCorePage).$eval(
                     selector,
                     (elem) => {
                         const mousedown = new MouseEvent('mousedown');
@@ -219,7 +235,7 @@ export const pupUniDriver = (
             release: async () => {
                 const { page, selector } = await elem();
 
-                return page.$eval(
+                return (page as pptrCorePage).$eval(
                     selector,
                     (elem) => {
                         const mouseup = new MouseEvent('mouseup');
@@ -232,12 +248,14 @@ export const pupUniDriver = (
                 const { page, selector } = await elem();
                 const native = (await to.getNative());
                 const boundingBox = native.element && await native.element.boundingBox();
-                
+
                 if (!!boundingBox) {
-                    return page.$eval(
+
+                    return (page as pptrCorePage).$eval(
                         selector,
                         (elem, boundingBox) => {
-                            const mousemove = new MouseEvent('mousemove', { clientX: boundingBox.x, clientY: boundingBox.y });
+                            const { x, y } = boundingBox as BoundingBox;
+                            const mousemove = new MouseEvent('mousemove', { clientX: x, clientY: y });
                             mousemove.initEvent(mousemove.type, true, false);
                             elem.dispatchEvent(mousemove);
                         },
@@ -261,11 +279,12 @@ export const pupUniDriver = (
         getNative: elem,
         _prop: async (name: string) => {
             const { page, element } = await elem();
-            return page.evaluate(
-              (elem: any, n) => {
-                  return elem[n];
-              },
-              element, name
+
+            return (page as pptrCorePage).evaluate(
+                (elem, n) => {
+                    return elem[n];
+                },
+                element, name
             );
         },
     };

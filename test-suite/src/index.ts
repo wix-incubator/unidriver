@@ -2,7 +2,7 @@ import { UniDriver } from '@unidriver/core';
 
 import { TestAppProps } from "./types";
 
-export type SetupFn = (data: TestAppProps) => Promise<{driver: UniDriver, tearDown: () => Promise<void>}>;
+export type SetupFn = (data: TestAppProps) => Promise<{ driver: UniDriver, tearDown: () => Promise<void> }>;
 
 export type TestSuiteParams = {
 	setup: SetupFn;
@@ -11,9 +11,10 @@ export type TestSuiteParams = {
 };
 
 
-export {renderTestApp} from './app/react';
-export {renderSvelteApp} from './app/svelte/renderSvelteApp';
+export { renderTestApp } from './app/react';
+export { renderSvelteApp } from './app/svelte/renderSvelteApp';
 
-export {startServer as startTestAppServer, getTestAppUrl} from './server';
+export { startServer as startTestAppServer, getTestAppUrl } from './server';
 
-export {runTestSuite} from './run-test-suite';
+export { runTestSuite } from './run-test-suite';
+export { itemCreator } from './utils';

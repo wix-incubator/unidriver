@@ -4,9 +4,10 @@ import {
   getTestAppUrl,
   startTestAppServer,
   SetupFn,
-  runTestSuite,
+  itemCreator,
+  runTestSuite
 } from '@unidriver/test-suite';
-import { pupUniDriver } from './';
+import { pupUniDriver } from '.';
 import { Server } from 'http';
 import { assert } from 'chai';
 
@@ -33,14 +34,14 @@ const afterFn = async () => {
   await browser.close();
 };
 
-const setup: SetupFn = async (params) => {
+const setup: SetupFn = async (params) => {  
   await page.goto(`http://localhost:${port}${getTestAppUrl(params)}`);
   const driver = pupUniDriver({
     page,
     selector: 'body',
   });
 
-  const tearDown = async () => {};
+  const tearDown = async () => { };
 
   return { driver, tearDown };
 };
@@ -59,6 +60,24 @@ describe('puppeteer specific tests', () => {
         .$('header input')
         .enterValue(' world!', { shouldClear: false });
       assert.equal(await driver.$('header input').value(), 'hello world!');
+    });
+  });
+  describe('text', () => {
+    it(`checking text return value when the text is empty`, async () => {
+      const { driver } = await setup({ items: [itemCreator({ label: '' })], initialText: '' });
+      const labelText = await driver.$$('.label').text();
+      assert.equal(labelText[0], "");
+    });
+    it(`checking text return value when the text is not empty`, async () => {
+      const { driver } = await setup({ items: [itemCreator({ label: 'hello' })], initialText: '' });
+      const labelText = await driver.$$('.label').text();
+      assert.equal(labelText[0], "hello");
+    });
+    it(`checking text return value when the component doesn't have textContent property`, async () => {
+      const { driver } = await setup({ items: [], initialText: 'hello' });
+      
+      let textThatDoesNotExists = await driver.$('header input').text();
+      assert.equal(textThatDoesNotExists, '');
     });
   });
 });
