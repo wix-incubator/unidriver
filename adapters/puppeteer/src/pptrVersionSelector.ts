@@ -1,7 +1,7 @@
 import { ElementHandle as pptrElementHandle, Page as pptrPage, Frame as pptrFrame } from 'puppeteer';
-import { ElementHandle as pptrCoreElementHandle, Page as pptrCorePage, Frame as pptrCoreFrame, KeyInput } from 'puppeteer-core';
+import { ElementHandle as pptrCoreElementHandle, Page as pptrCorePage, Frame as pptrCoreFrame } from 'puppeteer-core';
 
-export { pptrPage, pptrCorePage, KeyInput};
+export { pptrPage, pptrCorePage};
 
 export type ElementHandle = pptrCoreElementHandle | pptrElementHandle;
 export type Page = pptrCorePage | pptrPage;
