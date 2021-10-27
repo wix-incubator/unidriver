@@ -1,6 +1,6 @@
 import { Locator, UniDriverList, UniDriver, MapFn, waitFor, NoElementWithLocatorError, MultipleElementsWithLocatorError, isMultipleElementsWithLocatorError, EnterValueOptions, DriverContext, contextToWaitError } from '@unidriver/core';
 import { BoundingBox } from 'puppeteer';
-import { ElementHandle, Page, Frame, pptrCorePage, KeyInput } from './pptrVersionSelector';
+import { ElementHandle, Page, Frame, pptrCorePage } from './pptrVersionSelector';
 
 type BaseElementContainer = { page: Page | Frame; selector: string };
 type ElementContainer = BaseElementContainer & { element: ElementHandle | null };
@@ -194,7 +194,7 @@ export const pupUniDriver = (
         },
         pressKey: async (key) => {
             const { element } = await elem();
-            return element.press(`${key}` as KeyInput);
+            return element.press(`${key}` as any);
         },
         exists,
         isDisplayed: async () => {
