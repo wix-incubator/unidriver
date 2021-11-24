@@ -145,6 +145,11 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder, cont
                 const {left, top} = (await to.getNative()).getBoundingClientRect();
 
                 await fireEvent.mouseMove(el, {clientX: left, clientY: top});
+            },
+            leave: async () => {
+                const el = await elem();
+
+                await fireEvent.mouseLeave(el);
             }
         },
         hover: async () => {

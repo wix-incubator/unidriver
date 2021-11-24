@@ -107,7 +107,7 @@ export const playwrightUniDriver = (
         const { element } = await elem();
         // Select all input text
         await element.click({clickCount: 3});
-        await element.press('Backspace'); 
+        await element.press('Backspace');
     };
 
     const isElementInViewport = (selector: string) => {
@@ -127,7 +127,7 @@ export const playwrightUniDriver = (
         $: (newLoc: Locator) => {
             return playwrightUniDriver(async () => {
 				const { element, selector, ...rest } = await elem();
-				
+
 				const elHandles = await element.$$(newLoc);
 
 				if (elHandles.length === 0) {
@@ -241,7 +241,7 @@ export const playwrightUniDriver = (
                 const { page, selector } = await elem();
                 const native = (await to.getNative());
                 const boundingBox = native.element && await native.element.boundingBox();
-                
+
                 if (!!boundingBox) {
                     return page.$eval(
                         selector,
@@ -255,6 +255,18 @@ export const playwrightUniDriver = (
                 } else {
                     throw new Error(`Cannot find target element`);
                 }
+            },
+            leave: async () => {
+                const { page, selector } = await elem();
+
+                return page.$eval(
+                    selector,
+                    (elem) => {
+                        const mouseleave = new MouseEvent('mouseleave');
+                        mouseleave.initEvent(mouseleave.type, true, false);
+                        elem.dispatchEvent(mouseleave);
+                    }
+                );
             }
         },
         wait: async (timeout?: number) => {

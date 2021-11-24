@@ -189,7 +189,7 @@ const adapter: UniDriver<TsSafeElementFinder> = {
   },
   mouse: {
     press: async () => {
-      
+
       const e = await safeElem() as ElementFinder;
       return browser.actions()
     .mouseMove(e)
@@ -210,6 +210,16 @@ const adapter: UniDriver<TsSafeElementFinder> = {
 
       return browser.actions()
       .mouseMove(nativeElem)
+      .perform();
+    },
+    leave: async () => {
+      const e = await safeElem() as ElementFinder;
+      await browser.actions()
+          .mouseMove(e)
+          .perform();
+
+      return browser.actions()
+      .mouseMove({ x: -999, y: -999 })
       .perform();
     },
   },
