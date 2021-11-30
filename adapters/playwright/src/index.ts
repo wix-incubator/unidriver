@@ -262,7 +262,7 @@ export const playwrightUniDriver = (
                 return page.$eval(
                     selector,
                     (elem) => {
-                        const mouseleave = new MouseEvent('mouseleave');
+                        const mouseleave = new MouseEvent('mouseout');
                         mouseleave.initEvent(mouseleave.type, true, false);
                         elem.dispatchEvent(mouseleave);
                     }
