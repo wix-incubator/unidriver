@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {UniDriver, getAllNonTextKeyTypes, getDefinitionForKeyType, isMultipleElementsWithLocatorError, isNoElementWithLocatorError} from '@unidriver/core';
+import { UniDriver, getAllNonTextKeyTypes, getDefinitionForKeyType, isMultipleElementsWithLocatorError, isNoElementWithLocatorError } from '@unidriver/core';
 import { TestSuiteParams } from '.';
 import { itemCreator, sleep } from './utils';
 import { TestAppProps } from './types';
