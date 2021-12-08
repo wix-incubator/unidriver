@@ -24,7 +24,7 @@
 <div class='events-container'>
     <div class='mouse-events'>
         <button class="button" on:mousedown={handleMouseEvent} on:mouseup={handleMouseEvent}
-                on:mousemove={handleMouseEvent}>
+                on:mousemove={handleMouseEvent} on:mouseleave={handleMouseEvent}>
             Mouse Events
         </button>
         {#each mouseEvents as event}

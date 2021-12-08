@@ -15,6 +15,7 @@ export type MouseUniDriver<T> = {
 	moveTo: (to: UniDriver<T>) => Promise<void>;
 	press: () => Promise<void>;
 	release: () => Promise<void>;
+	leave: () => Promise<void>;
 }
 
 export type UniDriverList<T = any> = {
@@ -60,7 +61,7 @@ export enum ErrorTypes {
 export class NoElementWithLocatorError extends Error {
 
 	type = ErrorTypes.NO_ELEMENTS_WITH_SELECTOR;
-	
+
 	constructor(locator: string) {
 		super(`Cannot find element with locator: ${locator}`)
 	}

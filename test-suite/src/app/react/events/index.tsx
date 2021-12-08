@@ -50,7 +50,7 @@ export class EventsApp extends React.Component<EventsAppProps, EventsAppState> {
         return (
             <div className='events-container'>
                 <div className='mouse-events'>
-                    <button style={{height: 100, width: 100}} onMouseDown={this.onMouseEvent} onMouseUp={this.onMouseEvent} onMouseMove={this.onMouseEvent}>
+                    <button style={{height: 100, width: 100}} onMouseDown={this.onMouseEvent} onMouseUp={this.onMouseEvent} onMouseMove={this.onMouseEvent} onMouseLeave={this.onMouseEvent}>
                         Mouse Events
                     </button>
                     <div>{state.mouseEvents.map(mouseEventComp)}</div>

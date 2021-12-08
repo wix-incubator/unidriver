@@ -222,6 +222,13 @@ export const seleniumUniDriver = (wep: WebElementGetter, context: DriverContext 
         const native = await to.getNative();
         await actions.mouseMove(native).perform();
       },
+      leave: async () => {
+        const el = await elem();
+        const driver = await el.getDriver();
+        const actions = await driver.actions();
+        await actions.mouseMove(el).perform();
+        await actions.mouseMove({x: -999, y: -999}).perform();
+      },
     },
     wait: async (timeout?: number) => {
       return waitFor(exists, timeout, 30, contextToWaitError(context));

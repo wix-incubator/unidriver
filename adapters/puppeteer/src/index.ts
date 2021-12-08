@@ -264,7 +264,19 @@ export const pupUniDriver = (
                 } else {
                     throw new Error(`Cannot find target element`);
                 }
-            }
+            },
+            leave: async () => {
+                const { page, selector } = await elem();
+
+                return (page as pptrCorePage).$eval(
+                    selector,
+                    (elem) => {
+                        const mouseleave = new MouseEvent('mouseout');
+                        mouseleave.initEvent(mouseleave.type, true, false);
+                        elem.dispatchEvent(mouseleave);
+                    },
+                );
+            },
         },
         wait: async (timeout?: number) => {
             return waitFor(exists, timeout, 30, contextToWaitError(context));

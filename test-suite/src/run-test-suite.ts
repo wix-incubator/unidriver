@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {UniDriver, getAllNonTextKeyTypes, getDefinitionForKeyType, isMultipleElementsWithLocatorError, isNoElementWithLocatorError} from '@unidriver/core';
+import { UniDriver, getAllNonTextKeyTypes, getDefinitionForKeyType, isMultipleElementsWithLocatorError, isNoElementWithLocatorError } from '@unidriver/core';
 import { TestSuiteParams } from '.';
 import { itemCreator, sleep } from './utils';
 import { TestAppProps } from './types';
@@ -234,7 +234,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
               await runTest({items: [itemCreator({ label: 'Bob' })]}, async (driver) => {
 
                   const item = await driver.$('.todo-item');
-          
+
                   assert.equal(await item.$('button').hasClass('toggle'), true);
                   assert.equal(await item.$('button').attr('class'), 'toggle');
               });
@@ -438,6 +438,14 @@ export const runTestSuite = (params: TestSuiteParams) => {
                 assert.equal(await driver.$('.mouse-event-data .event-type').text(), 'mousemove');
             });
         })
+
+        it('leave works', async () => {
+            await runTest({items: []}, async (driver) => {
+                const eventsComp = await driver.$('.mouse-events').$('button');
+                await eventsComp.mouse.leave();
+                assert.include(await driver.$$('.mouse-event-data .event-type').text(), 'mouseleave');
+            });
+        });
     });
 
     describe('wait()', () => {

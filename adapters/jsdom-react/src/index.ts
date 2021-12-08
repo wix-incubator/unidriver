@@ -205,6 +205,11 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
 				const {left, top} = (await to.getNative()).getBoundingClientRect();
 
 				Simulate.mouseMove(el, {clientX: left, clientY: top});
+			},
+			leave: async () => {
+				const el = await elem();
+
+				Simulate.mouseLeave(el);
 			}
 		},
 		hover: async () => {
