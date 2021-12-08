@@ -1,6 +1,6 @@
 {
 	"name": "@unidriver/protractor",
-	"version": "3.0.2",
+	"version": "3.1.0",
 	"description": "",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -12,7 +12,7 @@
 	"author": "Wix.com",
 	"license": "MIT",
 	"dependencies": {
-		"@unidriver/core": "^1.2.3",
+		"@unidriver/core": "^1.3.0",
 		"chromedriver": "^96.0.0",
 		"selenium-webdriver": "^3.6.0"
 	},
@@ -20,7 +20,7 @@
 		"protractor": "^5.0.0"
 	},
 	"devDependencies": {
-		"@unidriver/test-suite": "^1.2.4",
+		"@unidriver/test-suite": "^1.3.0",
 		"protractor": "^5.0.0"
 	}
 }
