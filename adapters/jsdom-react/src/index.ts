@@ -23,7 +23,7 @@ const isPromise = (a: Promise<any> | any ): a is Promise<any> => {
 
 export const jsdomReactUniDriverList = (containerOrFn: ElementsOrElementsFinder, context: DriverContext = {selector: 'Root React list driver'}): UniDriverList<Element> => {
 	const elem = async () => {
-		const elements = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
+		const elements = await (typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn);
 		return isPromise(elements) ? await elements : elements;
 	};
 
@@ -110,7 +110,7 @@ const slowType = async (element: JSX.IntrinsicElements['input'], value: string, 
 export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, context: DriverContext = {selector: 'Root React driver'}): UniDriver<Element> => {
 
 	const elem = async () => {
-		const container = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
+		const container = await (typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn);
 		if (!container) {
 			throw new Error('React base driver - element was not found');
 		}
