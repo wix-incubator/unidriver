@@ -24,7 +24,7 @@
 	},
 	"peerDependencies": {
 		"puppeteer": "^5.5.0",
-		"puppeteer-core": "^14.0.0"
-3	},
+		"puppeteer-core": "^10.1.0 || ^14.0.0"
+	},
 	"gitHead": "c793eb6b7c1d687fe054bf47fb11224028b51f77"
 }
