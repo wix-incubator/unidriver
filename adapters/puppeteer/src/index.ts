@@ -215,7 +215,7 @@ export const pupUniDriver = (
                 (elem, n) => {
                     return elem.getAttribute(n);
                 },
-                element,
+                element as any,
                 name
             );
         },
@@ -259,7 +259,7 @@ export const pupUniDriver = (
                             mousemove.initEvent(mousemove.type, true, false);
                             elem.dispatchEvent(mousemove);
                         },
-                        boundingBox
+                        boundingBox as any
                     );
                 } else {
                     throw new Error(`Cannot find target element`);
@@ -296,7 +296,7 @@ export const pupUniDriver = (
                 (elem, n) => {
                     return elem[n];
                 },
-                element, name
+                element as any, name
             );
         },
     };
