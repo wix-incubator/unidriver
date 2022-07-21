@@ -53,11 +53,11 @@ if (!process.env.CI) {
 }
 
 for (const browserType of browserTypes) {
-  describe(`playwright - ${browserType.name()}`, () => {
+  describe.skip(`playwright - ${browserType.name()}`, () => {
     runTestSuite({ setup, before: () => beforeFn(browserType), after: afterFn });
   });
 
-  describe(`playwright specific tests - ${browserType.name()}`, () => {
+  describe.skip(`playwright specific tests - ${browserType.name()}`, () => {
     before(() => beforeFn(browserType));
     after(afterFn);
     describe('enterValue', () => {
