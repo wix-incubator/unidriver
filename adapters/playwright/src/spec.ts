@@ -44,7 +44,8 @@ const setup: SetupFn = async (params) => {
   return { driver, tearDown };
 };
 
-const browserTypes = [chromium, firefox];
+const browserTypes = [firefox];
+// const browserTypes = [chromium, firefox];
 if (!process.env.CI) {
   // https://circleci.com/developer/orbs/orb/circleci/browser-tools doesn't seem to support webkit
   browserTypes.push(webkit);
