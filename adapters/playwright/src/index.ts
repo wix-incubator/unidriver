@@ -183,7 +183,7 @@ export const playwrightUniDriver = (
             if (shouldClear) {
                 await clearValue();
             }
-            await element.type(value, {
+            await ((await elem()).element).type(value, {
                 delay,
             });
         },
