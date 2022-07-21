@@ -1,4 +1,5 @@
-import { Browser, Page, chromium, webkit, BrowserType, firefox } from 'playwright';
+// import { Browser, Page, chromium, webkit, BrowserType, firefox } from 'playwright';
+import { Browser, Page, webkit, BrowserType, firefox } from 'playwright';
 import {
   getTestAppUrl,
   startTestAppServer,
