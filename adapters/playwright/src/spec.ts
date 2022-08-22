@@ -1,4 +1,5 @@
-import { Browser, Page, chromium, webkit, BrowserType, firefox } from 'playwright';
+// import { Browser, Page, chromium, webkit, BrowserType, firefox } from 'playwright';
+import { Browser, Page, webkit, BrowserType, firefox } from 'playwright';
 import {
   getTestAppUrl,
   startTestAppServer,
@@ -44,18 +45,19 @@ const setup: SetupFn = async (params) => {
   return { driver, tearDown };
 };
 
-const browserTypes = [chromium, firefox];
+const browserTypes = [firefox];
+// const browserTypes = [chromium, firefox];
 if (!process.env.CI) {
   // https://circleci.com/developer/orbs/orb/circleci/browser-tools doesn't seem to support webkit
   browserTypes.push(webkit);
 }
 
 for (const browserType of browserTypes) {
-  describe(`playwright - ${browserType.name()}`, () => {
+  describe.skip(`playwright - ${browserType.name()}`, () => {
     runTestSuite({ setup, before: () => beforeFn(browserType), after: afterFn });
   });
 
-  describe(`playwright specific tests - ${browserType.name()}`, () => {
+  describe.skip(`playwright specific tests - ${browserType.name()}`, () => {
     before(() => beforeFn(browserType));
     after(afterFn);
     describe('enterValue', () => {

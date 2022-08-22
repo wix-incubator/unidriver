@@ -118,7 +118,7 @@ export const pupUniDriver = (
             return pupUniDriver(async () => {
                 const { element, selector, ...rest } = await elem();
 
-                const elHandles = await element.$$(newLoc);
+                const elHandles = await (element as any).$$(newLoc);
 
                 if (elHandles.length === 0) {
                     throw new NoElementWithLocatorError(newLoc);
@@ -138,7 +138,7 @@ export const pupUniDriver = (
                 const { element, selector, ...rest } = await elem();
                 return {
                     ...rest,
-                    elements: await element.$$(newLoc),
+                    elements: await (element as any).$$(newLoc),
                     selector: `${selector} ${newLoc}`
                 };
             }, { parent: context, selector: newLoc }),
@@ -215,7 +215,7 @@ export const pupUniDriver = (
                 (elem, n) => {
                     return elem.getAttribute(n);
                 },
-                element,
+                element as any,
                 name
             );
         },
@@ -259,7 +259,7 @@ export const pupUniDriver = (
                             mousemove.initEvent(mousemove.type, true, false);
                             elem.dispatchEvent(mousemove);
                         },
-                        boundingBox
+                        boundingBox as any
                     );
                 } else {
                     throw new Error(`Cannot find target element`);
@@ -296,7 +296,7 @@ export const pupUniDriver = (
                 (elem, n) => {
                     return elem[n];
                 },
-                element, name
+                element as any, name
             );
         },
     };
