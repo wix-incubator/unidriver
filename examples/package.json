@@ -1,6 +1,6 @@
 {
   "name": "unidriver-examples",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "description": "",
   "main": "index.js",
   "private": true,
@@ -19,7 +19,7 @@
     "@unidriver/core": "^1.3.0",
     "@unidriver/jsdom-react": "^1.7.0",
     "@unidriver/puppeteer": "^1.2.2",
-    "@unidriver/selenium": "^1.3.0",
+    "@unidriver/selenium": "^1.3.2",
     "browserify": "^16.0.0",
     "chromedriver": "^103.0.0",
     "express": "^4.16.0",
@@ -29,9 +29,9 @@
     "mocha": "^6.0.0"
   },
   "devDependencies": {
-    "ts-node": "^7.0.0",
-    "typescript": "^3.7.5",
     "@types/puppeteer": "^5.4.0",
-    "puppeteer": "^14.0.0"
+    "puppeteer": "^14.0.0",
+    "ts-node": "^7.0.0",
+    "typescript": "^3.7.5"
   }
 }
