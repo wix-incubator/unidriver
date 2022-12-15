@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && tsc -p .",
-    "test": "mocha --timeout 20000 dist/**/*.spec.js"
+    "test": "mocha --timeout 30000 dist/**/*.spec.js"
   },
   "keywords": [],
   "author": "Wix.com",
