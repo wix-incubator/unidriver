@@ -174,10 +174,10 @@ export const jsdomReactUniDriver = (containerOrFn: ElementOrElementFinder, conte
 					}
 
 					if (!el.disabled) {
-						el.focus();
-
+						Simulate.focus(el);
+						
 						if(document.activeElement != el) {
-							Simulate.focus(el);
+							el.focus();
 						}
 					}
 				}

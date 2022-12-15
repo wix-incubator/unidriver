@@ -116,9 +116,7 @@ export const jsdomSvelteUniDriver = (containerOrFn: ElementOrElementFinder, cont
 
                     if (!el.disabled) {
                         el.focus();
-                        if(document.activeElement !== el){
-                            await fireEvent.focus(el);
-                        }
+                        await fireEvent.focus(el);
                     }
                 }
             }
