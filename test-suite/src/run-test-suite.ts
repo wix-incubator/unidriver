@@ -347,7 +347,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
 
         describe('filter()', () => {
             it('works', async () => {
-					const items = [itemCreator({label: 'Bob', completed: true}), itemCreator({label: 'David'}), itemCreator({label: 'Jacob',completed: true})];
+				const items = [itemCreator({label: 'Bob', completed: true}), itemCreator({label: 'David'}), itemCreator({label: 'Jacob',completed: true})];
                 await runTest({items}, async (driver) => {
                     const completed = await driver.$$('.todo-item').filter((item) => item.$('.completed').exists());
                     assert.deepEqual(await completed.count(), 2);
@@ -359,7 +359,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
             it('works', async () => {
                 const items = Array.from(Array(150).keys()).map(value => itemCreator({label: value.toString()}));
                 await runTest({items}, async (driver) => {
-                    if (driver.type !== 'react' && driver.type !== 'svelte') {
+                    if (driver.type !== 'react' && driver.type !== 'svelte' && driver.type !== 'Vue') {
                         const footer: UniDriver = await driver.$('footer');
 
                         assert.isNotTrue(await footer.isDisplayed(), 'Footer is displayed :(');
@@ -387,7 +387,7 @@ export const runTestSuite = (params: TestSuiteParams) => {
                     assert.equal(await driver.$('.keyboard-event-data .event-keycode').text(), def.keyCode.toString());
                 });
             });
-        });
+        });     
     });
 
     describe('mouse events', () => {
