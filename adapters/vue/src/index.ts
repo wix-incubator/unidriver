@@ -31,7 +31,7 @@ type WrappersOrWrappersFinder = (() => Wrapper<any>[]) | Wrapper<any>[] | (() =>
 type WrapperOrWrapperFinder = (() => Wrapper<any>) | Wrapper<any> | (() => Promise<Wrapper<any>>);
 export type VueUniDriver = UniDriver<Wrapper<any>>
 
-export const vueTestUtilsUniDriverList = (containerOrFn: WrappersOrWrappersFinder, context: DriverContext = { selector: 'Root list driver' }): UniDriverList<Wrapper<any>> => {
+export const vueUniDriverList = (containerOrFn: WrappersOrWrappersFinder, context: DriverContext = { selector: 'Root list driver' }): UniDriverList<Wrapper<any>> => {
   const getWrapperArray = async(): Promise<Wrapper<any>[]> => {
     const elements = typeof containerOrFn === 'function' ? containerOrFn() : containerOrFn;
     return isPromise(elements) ? await elements : elements;
@@ -39,7 +39,7 @@ export const vueTestUtilsUniDriverList = (containerOrFn: WrappersOrWrappersFinde
 
   return {
     get: (idx: number) =>
-      vueTestUtilsUniDriver(async() => {
+      vueUniDriver(async() => {
         const wrappers = await getWrapperArray();
         const elem = wrappers[idx];
         if (!elem) {
@@ -55,7 +55,7 @@ export const vueTestUtilsUniDriverList = (containerOrFn: WrappersOrWrappersFinde
       return Promise.all(
         children.map((wrapper, idx) => {
           return fn(
-            vueTestUtilsUniDriver(wrapper, {
+            vueUniDriver(wrapper, {
               parent: context,
               idx,
               selector: context.selector,
@@ -66,11 +66,11 @@ export const vueTestUtilsUniDriverList = (containerOrFn: WrappersOrWrappersFinde
       );
     },
     filter: (fn) => {
-      return vueTestUtilsUniDriverList(async() => {
+      return vueUniDriverList(async() => {
         const elems = (await getWrapperArray());
         const results = await Promise.all(
           elems.map((e, i) => {
-            const bd = vueTestUtilsUniDriver(e, { parent: context, idx: i, selector: context.selector });
+            const bd = vueUniDriver(e, { parent: context, idx: i, selector: context.selector });
             return fn(bd, i);
           })
         );
@@ -83,7 +83,7 @@ export const vueTestUtilsUniDriverList = (containerOrFn: WrappersOrWrappersFinde
   };
 };
 
-export const vueTestUtilsUniDriver = (wrapperOrFn: WrapperOrWrapperFinder, context: DriverContext = { selector: 'Root' }): VueUniDriver => {
+export const vueUniDriver = (wrapperOrFn: WrapperOrWrapperFinder, context: DriverContext = { selector: 'Root' }): VueUniDriver => {
   const getWrapper = async() => {
     const wrapper = typeof wrapperOrFn === 'function' ? wrapperOrFn() : wrapperOrFn;
     if (!wrapper) {
@@ -104,7 +104,7 @@ export const vueTestUtilsUniDriver = (wrapperOrFn: WrapperOrWrapperFinder, conte
       return elements.at(0);
     };
 
-    return vueTestUtilsUniDriver(getComponent, { parent: context, selector: selector });
+    return vueUniDriver(getComponent, { parent: context, selector: selector });
   };
 
   const exists = async() => {
@@ -125,7 +125,7 @@ export const vueTestUtilsUniDriver = (wrapperOrFn: WrapperOrWrapperFinder, conte
     $: getBySelector,
 
     $$: (selector: string) => {
-      return vueTestUtilsUniDriverList(async() => {
+      return vueUniDriverList(async() => {
         const wrapper = await getWrapper();
 
         return wrapper.findAll(selector).wrappers;
