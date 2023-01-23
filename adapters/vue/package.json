@@ -1,5 +1,5 @@
 {
-  "name": "@unidriver/vue-test-utils",
+  "name": "@unidriver/vue",
   "version": "1.0.0",
   "description": "Vue adapter for Unidriver",
   "main": "dist/index.js",
